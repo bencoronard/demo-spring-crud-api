@@ -1,0 +1,85 @@
+server:
+  port: "${APP_LISTEN_PORT}"
+
+spring:
+  application:
+    name: crud-api
+  profiles:
+    active: "${APP_ENVIRONMENT}"
+  threads:
+    virtual:
+      enabled: true
+  sql:
+    init:
+      mode: never
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: false
+  datasource:
+    url: "jdbc:postgresql://${DB_POSTGRES_HOST}:${DB_POSTGRES_PORT}/${CRUD_API_DB_PG_NAME}"
+    username: "${CRUD_API_DB_PG_USR}"
+    password: "${CRUD_API_DB_PG_PSW}"
+    hikari:
+      pool-name: CrudApiHikariCP
+      maximum-pool-size: "${CRUD_API_DB_CP_CAP}"
+      minimum-idle: "${CRUD_API_DB_CP_IDLE_MIN}"
+      idle-timeout: "${CRUD_API_DB_CP_IDLE_TIMEOUT}"
+      connection-timeout: "${CRUD_API_DB_CP_CONN_TIMEOUT}"
+      max-lifetime: "${CRUD_API_DB_CP_CONN_TTL}"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - health
+        - info
+        - metrics
+  info:
+    env:
+      enabled: true
+
+internal:
+  api:
+    key: "${CRUD_API_SECRET_KEY}"
+  jwt:
+    verify-key-path: "${APP_PUBLIC_KEY_PATH}"
+  http:
+    client:
+      timeout:
+        connect-in-sec: 5
+        read-in-sec: 20
+        conn-req-in-sec: 300
+
+---
+# Environment: LOCAL
+spring:
+  config:
+    activate:
+      on-profile: local
+  jpa:
+    show-sql: true
+
+logging:
+  level:
+    root: debug
+
+management:
+  otlp:
+    metrics:
+      export:
+        enabled: false
+
+---
+# Environment: TEST
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:h2:mem:localdb
+    username: sa
+    password:
