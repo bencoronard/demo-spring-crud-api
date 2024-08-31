@@ -7,7 +7,7 @@ spring:
   jpa:
     open-in-view: false
   # quartz:
-  #   job-store-type: "JDBC"
+  #   job-store-type: "jdbc"
 ---
 # Development environment
 spring:
