@@ -6,6 +6,7 @@ import lombok.Data;
 public class GlobalResponseBody<T> {
 
   private OperationCode operCode;
+  private String desc;
   private T data;
 
 }
