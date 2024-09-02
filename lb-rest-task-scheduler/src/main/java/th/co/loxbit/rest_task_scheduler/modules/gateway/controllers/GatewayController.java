@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import th.co.loxbit.rest_task_scheduler.modules.common.entities.http.GlobalResponseBody;
+import th.co.loxbit.rest_task_scheduler.modules.common.http.entities.GlobalResponseBody;
 
 @RestController
 @RequestMapping("/gateway")

@@ -6,8 +6,8 @@ public interface GatewayService {
 
   GatewayStatus getGatewayStatus();
 
-  GatewayStatus openGateway();
+  void openGateway();
 
-  GatewayStatus closeGateway();
+  void closeGateway();
 
 }

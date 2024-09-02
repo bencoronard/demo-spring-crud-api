@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import th.co.loxbit.rest_task_scheduler.modules.common.entities.http.GlobalResponseBody;
+import th.co.loxbit.rest_task_scheduler.modules.common.http.entities.GlobalResponseBody;
 import th.co.loxbit.rest_task_scheduler.modules.gateway.controllers.GatewayController;
 import th.co.loxbit.rest_task_scheduler.modules.gateway.services.GatewayService;
 

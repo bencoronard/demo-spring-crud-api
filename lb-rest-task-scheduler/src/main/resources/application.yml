@@ -19,13 +19,25 @@ spring:
     driver-class-name: "org.postgresql.Driver"
     username: "user"
     password: ""
+
 logging:
   level:
     root: "WARN"
     "[org.springframework]": "INFO"
     "[org.springframework.security]": "DEBUG"
+
 server:
   port: ${SERVER_PORT:3000}
 
+secret:
+  internal:
+    api:
+      key: "api-key-for-this-service"
+  external:
+    api:
+      gateway:
+        key: "api-key-for-gateway-service"
+      audit:
+        key: "api-key-for-audit-service"
 ---
 # Production environment

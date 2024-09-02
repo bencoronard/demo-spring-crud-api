@@ -1,4 +1,4 @@
-package th.co.loxbit.rest_task_scheduler.modules.common.entities.http;
+package th.co.loxbit.rest_task_scheduler.modules.common.http.entities;
 
 import lombok.Data;
 
