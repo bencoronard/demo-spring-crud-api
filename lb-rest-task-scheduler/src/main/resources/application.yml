@@ -29,15 +29,18 @@ logging:
 server:
   port: ${SERVER_PORT:3000}
 
-secret:
+api:
   internal:
-    api:
+    secret:
       key: "api-key-for-this-service"
   external:
-    api:
-      gateway:
+    gateway:
+      uri: "http://localhost:7777"
+      secret:
         key: "api-key-for-gateway-service"
-      audit:
+    audit:
+      uri: "http://localhost:8888"
+      secret:
         key: "api-key-for-audit-service"
 ---
 # Production environment
