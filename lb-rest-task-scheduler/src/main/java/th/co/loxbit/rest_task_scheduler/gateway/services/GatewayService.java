@@ -8,6 +8,6 @@ public interface GatewayService {
 
   void openGateway();
 
-  void closeGateway();
+  void closeGateway(String message);
 
 }

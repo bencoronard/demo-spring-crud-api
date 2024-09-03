@@ -1,8 +1,10 @@
 package th.co.loxbit.rest_task_scheduler.gateway.dtos.http.requests;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 
-@Data
+@Builder
+@Getter
 public class CloseGatewayRequest {
 
   private String maintenanceMessage;
