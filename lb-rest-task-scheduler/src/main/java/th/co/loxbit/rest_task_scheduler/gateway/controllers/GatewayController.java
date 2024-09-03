@@ -12,8 +12,6 @@ import th.co.loxbit.rest_task_scheduler.http.responses.GlobalResponseBody;
 @RequestMapping("/gateway")
 public interface GatewayController {
 
-  int SERVICE_CODE = 1000;
-
   @GetMapping("/status")
   ResponseEntity<GlobalResponseBody<String>> getGatewayStatus();
 
