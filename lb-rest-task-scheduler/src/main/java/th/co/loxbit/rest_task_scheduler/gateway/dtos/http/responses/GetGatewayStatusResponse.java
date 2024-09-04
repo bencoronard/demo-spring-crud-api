@@ -1,11 +1,13 @@
 package th.co.loxbit.rest_task_scheduler.gateway.dtos.http.responses;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Data
+@Getter
+@RequiredArgsConstructor
 public class GetGatewayStatusResponse {
 
-  private String respCode;
-  private String desc;
+  private final String respCode;
+  private final String desc;
 
 }

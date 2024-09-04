@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class CloseGatewayRequest {
+public class CloseGatewayRequestOutbound {
 
-  private String maintenanceMessage;
+  private final String maintenanceMessage;
 
 }

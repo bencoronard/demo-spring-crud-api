@@ -3,9 +3,12 @@ package th.co.loxbit.rest_task_scheduler.gateway.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+import th.co.loxbit.rest_task_scheduler.gateway.dtos.http.requests.CloseGatewayRequestInbound;
 import th.co.loxbit.rest_task_scheduler.http.responses.GlobalResponseBody;
 
 @RestController
@@ -19,6 +22,6 @@ public interface GatewayController {
   ResponseEntity<GlobalResponseBody<String>> openGateway();
 
   @PostMapping("/close")
-  ResponseEntity<GlobalResponseBody<String>> closeGateway();
+  ResponseEntity<GlobalResponseBody<String>> closeGateway(@Valid @RequestBody CloseGatewayRequestInbound request);
 
 }

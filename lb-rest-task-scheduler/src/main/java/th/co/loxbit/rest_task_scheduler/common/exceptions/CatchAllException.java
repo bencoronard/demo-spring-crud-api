@@ -7,7 +7,13 @@ public class CatchAllException extends BaseException {
   private static final int ERROR_CODE = 0;
 
   @Builder
-  public CatchAllException(int serviceCode, int sectionCode, int errorCode, String message, Throwable cause) {
+  public CatchAllException(
+    int serviceCode,
+    int sectionCode,
+    int errorCode,
+    String message,
+    Throwable cause
+  ) {
     super(serviceCode, sectionCode, ERROR_CODE, message, cause);
   }
 

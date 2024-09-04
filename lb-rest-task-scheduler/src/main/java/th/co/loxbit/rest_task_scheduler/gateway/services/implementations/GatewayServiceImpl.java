@@ -6,7 +6,7 @@ import org.springframework.web.client.RestClientResponseException;
 
 import th.co.loxbit.rest_task_scheduler.common.exceptions.CatchAllException;
 import th.co.loxbit.rest_task_scheduler.common.factories.ConfigurableObjectFactory;
-import th.co.loxbit.rest_task_scheduler.gateway.dtos.http.requests.CloseGatewayRequest;
+import th.co.loxbit.rest_task_scheduler.gateway.dtos.http.requests.CloseGatewayRequestOutbound;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.http.responses.CloseGatewayResponse;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.http.responses.GetGatewayStatusResponse;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.http.responses.OpenGatewayResponse;
@@ -102,7 +102,7 @@ public class GatewayServiceImpl implements GatewayService {
   public void closeGateway(String maintenanceMsg) {
     final int SECTION_CODE = 200;
     try {
-      CloseGatewayRequest requestBody = CloseGatewayRequest.builder()
+      CloseGatewayRequestOutbound requestBody = CloseGatewayRequestOutbound.builder()
         .maintenanceMessage(maintenanceMsg)
         .build();
       restService.post(
