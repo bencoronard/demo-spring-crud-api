@@ -26,9 +26,17 @@ public class RequestInterceptor implements ClientHttpRequestInterceptor {
     @NonNull byte[] body,
     @NonNull ClientHttpRequestExecution execution
   ) throws IOException {
+
+    addApiKeyToHeader(request, apiKey);
+
+    ClientHttpResponse response = execution.execute(request, body);
+
+    return response;
+  }
+
+  private void addApiKeyToHeader(HttpRequest request, String apiKey) {
     HttpHeaders headers = request.getHeaders();
     headers.add("Authorization", "Bearer " + apiKey);
-    return execution.execute(request, body);
   }
 
 }
