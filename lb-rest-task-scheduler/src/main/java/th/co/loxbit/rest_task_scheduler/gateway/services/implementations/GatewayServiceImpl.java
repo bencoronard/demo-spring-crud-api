@@ -46,8 +46,8 @@ public class GatewayServiceImpl implements GatewayService {
     throw ExternalServerErrorException.builder()
                                       .serviceCode(SERVICE_CODE)
                                       .sectionCode(100)
-                                      .errorCode(90)
                                       .message("Hello, world!")
+                                      // .cause(new RuntimeException(" Dayum"))
                                       .build();
     // return GatewayStatus.OPEN;
   }
