@@ -1,4 +1,4 @@
-package th.co.loxbit.rest_task_scheduler.gateway.dtos.http.requests;
+package th.co.loxbit.rest_task_scheduler.gateway.dtos.requests;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

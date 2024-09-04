@@ -1,11 +1,11 @@
-package th.co.loxbit.rest_task_scheduler.gateway.dtos.http.responses;
+package th.co.loxbit.rest_task_scheduler.gateway.dtos.responses;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class CloseGatewayResponse {
+public class OpenGatewayResponse {
 
   private final String respCode;
   private final String desc;

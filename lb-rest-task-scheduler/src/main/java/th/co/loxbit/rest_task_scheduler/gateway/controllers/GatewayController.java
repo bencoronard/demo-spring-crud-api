@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import th.co.loxbit.rest_task_scheduler.gateway.dtos.http.requests.CloseGatewayRequestInbound;
+import th.co.loxbit.rest_task_scheduler.gateway.dtos.requests.CloseGatewayRequestInbound;
 import th.co.loxbit.rest_task_scheduler.http.responses.GlobalResponseBody;
 
 @RestController

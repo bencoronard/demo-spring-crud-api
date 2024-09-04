@@ -6,10 +6,10 @@ import org.springframework.web.client.RestClientResponseException;
 
 import th.co.loxbit.rest_task_scheduler.common.exceptions.CatchAllException;
 import th.co.loxbit.rest_task_scheduler.common.factories.ConfigurableObjectFactory;
-import th.co.loxbit.rest_task_scheduler.gateway.dtos.http.requests.CloseGatewayRequestOutbound;
-import th.co.loxbit.rest_task_scheduler.gateway.dtos.http.responses.CloseGatewayResponse;
-import th.co.loxbit.rest_task_scheduler.gateway.dtos.http.responses.GetGatewayStatusResponse;
-import th.co.loxbit.rest_task_scheduler.gateway.dtos.http.responses.OpenGatewayResponse;
+import th.co.loxbit.rest_task_scheduler.gateway.dtos.requests.CloseGatewayRequestOutbound;
+import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.CloseGatewayResponse;
+import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.GetGatewayStatusResponse;
+import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.OpenGatewayResponse;
 import th.co.loxbit.rest_task_scheduler.gateway.exceptions.InvalidGatewayStatusException;
 import th.co.loxbit.rest_task_scheduler.gateway.services.GatewayService;
 import th.co.loxbit.rest_task_scheduler.gateway.utilities.GatewayStatus;
