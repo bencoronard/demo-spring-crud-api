@@ -14,7 +14,8 @@ import th.co.loxbit.rest_task_scheduler.http.utilities.ResponseUtils;
 public class GlobalExceptionHandler {
 
   @ExceptionHandler(ExternalServiceException.class)
-  public ResponseEntity<GlobalResponseBody<String>> handleExternalServerErrorException(ExternalServiceException exception) {
+  public ResponseEntity<GlobalResponseBody<String>> handleExternalServerErrorException(
+      ExternalServiceException exception) {
     return new ResponseEntity<>(ResponseUtils.createErrorResponseBody(exception), HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
@@ -22,5 +23,5 @@ public class GlobalExceptionHandler {
   public ResponseEntity<GlobalResponseBody<String>> handleCatchAllException(CatchAllException exception) {
     return new ResponseEntity<>(ResponseUtils.createErrorResponseBody(exception), HttpStatus.INTERNAL_SERVER_ERROR);
   }
-  
+
 }

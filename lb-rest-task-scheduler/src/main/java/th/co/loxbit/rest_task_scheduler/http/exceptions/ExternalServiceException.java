@@ -9,14 +9,11 @@ public class ExternalServiceException extends BaseException {
 
   @Builder
   public ExternalServiceException(
-    int serviceCode,
-    int sectionCode,
-    String message,
-    Throwable cause
-  ) {
+      int serviceCode,
+      int sectionCode,
+      String message,
+      Throwable cause) {
     super(serviceCode, sectionCode, ERROR_CODE, message, cause);
   }
 
 }
-
-

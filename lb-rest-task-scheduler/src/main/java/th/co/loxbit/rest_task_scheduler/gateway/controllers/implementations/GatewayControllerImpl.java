@@ -22,33 +22,27 @@ public class GatewayControllerImpl implements GatewayController {
   @Override
   public ResponseEntity<GlobalResponseBody<String>> getGatewayStatus() {
     GatewayStatus data = gatewayService.getGatewayStatus();
-    GlobalResponseBody<String> responseBody =
-      ResponseUtils.createSuccessResponseBody(
+    GlobalResponseBody<String> responseBody = ResponseUtils.createSuccessResponseBody(
         "Gateway status",
-        data.toString()
-      );
+        data.toString());
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
 
   @Override
   public ResponseEntity<GlobalResponseBody<String>> openGateway() {
     gatewayService.openGateway();
-    GlobalResponseBody<String> responseBody =
-      ResponseUtils.createSuccessResponseBody(
+    GlobalResponseBody<String> responseBody = ResponseUtils.createSuccessResponseBody(
         "Result",
-        "OK"
-      );
+        "OK");
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
 
   @Override
   public ResponseEntity<GlobalResponseBody<String>> closeGateway(@Valid CloseGatewayRequestInbound request) {
     gatewayService.closeGateway(request.getMaintenanceMessage());
-    GlobalResponseBody<String> responseBody =
-      ResponseUtils.createSuccessResponseBody(
+    GlobalResponseBody<String> responseBody = ResponseUtils.createSuccessResponseBody(
         "Result",
-        "OK"
-      );                   
+        "OK");
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
 

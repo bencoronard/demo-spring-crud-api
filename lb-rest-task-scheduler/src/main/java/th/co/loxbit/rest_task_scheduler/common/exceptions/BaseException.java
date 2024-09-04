@@ -8,14 +8,13 @@ public class BaseException extends RuntimeException {
   private final int serviceCode;
   private final int sectionCode;
   private final int errorCode;
-  
+
   public BaseException(
-    int serviceCode,
-    int sectionCode,
-    int errorCode,
-    String message,
-    Throwable cause
-  ) {
+      int serviceCode,
+      int sectionCode,
+      int errorCode,
+      String message,
+      Throwable cause) {
     super(message, cause);
     this.serviceCode = serviceCode;
     this.sectionCode = sectionCode;

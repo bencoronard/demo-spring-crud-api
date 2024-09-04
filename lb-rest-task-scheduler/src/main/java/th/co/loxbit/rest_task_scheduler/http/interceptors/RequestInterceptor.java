@@ -22,10 +22,9 @@ public class RequestInterceptor implements ClientHttpRequestInterceptor {
   @Override
   @NonNull
   public ClientHttpResponse intercept(
-    @NonNull HttpRequest request,
-    @NonNull byte[] body,
-    @NonNull ClientHttpRequestExecution execution
-  ) throws IOException {
+      @NonNull HttpRequest request,
+      @NonNull byte[] body,
+      @NonNull ClientHttpRequestExecution execution) throws IOException {
 
     addApiKeyToHeader(request, apiKey);
 

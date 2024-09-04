@@ -1,7 +1,7 @@
 package th.co.loxbit.rest_task_scheduler.gateway.utilities;
 
 public enum GatewayStatus {
-  
+
   OPEN("OPEN"),
   CLOSED("CLOSED");
 

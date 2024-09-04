@@ -7,7 +7,8 @@ import th.co.loxbit.rest_task_scheduler.http.configurers.RequestInterceptorConfi
 import th.co.loxbit.rest_task_scheduler.http.interceptors.RequestInterceptor;
 
 @Component
-public class RequestInterceptorFactory implements ConfigurableObjectFactory<RequestInterceptor, RequestInterceptorConfigurer> {
+public class RequestInterceptorFactory
+    implements ConfigurableObjectFactory<RequestInterceptor, RequestInterceptorConfigurer> {
 
   @Override
   public RequestInterceptor create(RequestInterceptorConfigurer config) {

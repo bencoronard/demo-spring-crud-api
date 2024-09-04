@@ -26,22 +26,19 @@ public class GatewayServiceImpl implements GatewayService {
   private final RestService restService;
 
   public GatewayServiceImpl(
-    ConfigurableObjectFactory<RequestInterceptor, RequestInterceptorConfigurer> interceptorFactory,
-    ConfigurableObjectFactory<RestServiceImpl, RestServiceConfigurer> restServiceFactory,
-    @Value("${api.external.gateway.secret.key}") String apiKey,
-    @Value("${api.external.gateway.uri}") String baseUrl
-  ) {
+      ConfigurableObjectFactory<RequestInterceptor, RequestInterceptorConfigurer> interceptorFactory,
+      ConfigurableObjectFactory<RestServiceImpl, RestServiceConfigurer> restServiceFactory,
+      @Value("${api.external.gateway.secret.key}") String apiKey,
+      @Value("${api.external.gateway.uri}") String baseUrl) {
     RequestInterceptor interceptor = interceptorFactory.create(
-      RequestInterceptorConfigurer.builder()
-        .apiKey(apiKey)
-        .build()
-    );
+        RequestInterceptorConfigurer.builder()
+            .apiKey(apiKey)
+            .build());
     this.restService = restServiceFactory.create(
-      RestServiceConfigurer.builder()
-        .baseUrl(baseUrl)
-        .interceptor(interceptor)
-        .build()
-    );
+        RestServiceConfigurer.builder()
+            .baseUrl(baseUrl)
+            .interceptor(interceptor)
+            .build());
   }
 
   @Override
@@ -49,28 +46,27 @@ public class GatewayServiceImpl implements GatewayService {
     final int SECTION_CODE = 0;
     try {
       GetGatewayStatusResponse response = restService.get(
-        "/status",
-        GetGatewayStatusResponse.class
-      );
+          "/status",
+          GetGatewayStatusResponse.class);
       return GatewayStatus.fromStatus(response.getDesc());
     } catch (RestClientResponseException e) {
       throw ExternalServiceException.builder()
-        .serviceCode(SERVICE_CODE)
-        .sectionCode(SECTION_CODE)
-        .cause(e)
-        .build();
+          .serviceCode(SERVICE_CODE)
+          .sectionCode(SECTION_CODE)
+          .cause(e)
+          .build();
     } catch (IllegalArgumentException e) {
       throw InvalidGatewayStatusException.builder()
-        .serviceCode(SERVICE_CODE)
-        .sectionCode(SECTION_CODE)
-        .cause(e)
-        .build();
+          .serviceCode(SERVICE_CODE)
+          .sectionCode(SECTION_CODE)
+          .cause(e)
+          .build();
     } catch (RuntimeException e) {
       throw CatchAllException.builder()
-        .serviceCode(SERVICE_CODE)
-        .sectionCode(SECTION_CODE)
-        .cause(e)
-        .build();
+          .serviceCode(SERVICE_CODE)
+          .sectionCode(SECTION_CODE)
+          .cause(e)
+          .build();
     }
   }
 
@@ -79,23 +75,22 @@ public class GatewayServiceImpl implements GatewayService {
     final int SECTION_CODE = 100;
     try {
       restService.post(
-        "/open",
-        null,
-        OpenGatewayResponse.class
-      );
+          "/open",
+          null,
+          OpenGatewayResponse.class);
     } catch (RestClientResponseException e) {
       throw ExternalServiceException.builder()
-        .serviceCode(SERVICE_CODE)
-        .sectionCode(SECTION_CODE)
-        .cause(e)
-        .build();
+          .serviceCode(SERVICE_CODE)
+          .sectionCode(SECTION_CODE)
+          .cause(e)
+          .build();
     } catch (RuntimeException e) {
       throw CatchAllException.builder()
-        .serviceCode(SERVICE_CODE)
-        .sectionCode(SECTION_CODE)
-        .cause(e)
-        .build();
-    } 
+          .serviceCode(SERVICE_CODE)
+          .sectionCode(SECTION_CODE)
+          .cause(e)
+          .build();
+    }
   }
 
   @Override
@@ -103,25 +98,24 @@ public class GatewayServiceImpl implements GatewayService {
     final int SECTION_CODE = 200;
     try {
       CloseGatewayRequestOutbound requestBody = CloseGatewayRequestOutbound.builder()
-        .maintenanceMessage(maintenanceMsg)
-        .build();
+          .maintenanceMessage(maintenanceMsg)
+          .build();
       restService.post(
-        "/close",
-        requestBody,
-        CloseGatewayResponse.class
-      );
+          "/close",
+          requestBody,
+          CloseGatewayResponse.class);
     } catch (RestClientResponseException e) {
       throw ExternalServiceException.builder()
-        .serviceCode(SERVICE_CODE)
-        .sectionCode(SECTION_CODE)
-        .cause(e)
-        .build();
+          .serviceCode(SERVICE_CODE)
+          .sectionCode(SECTION_CODE)
+          .cause(e)
+          .build();
     } catch (RuntimeException e) {
       throw CatchAllException.builder()
-        .serviceCode(SERVICE_CODE)
-        .sectionCode(SECTION_CODE)
-        .cause(e)
-        .build();
+          .serviceCode(SERVICE_CODE)
+          .sectionCode(SECTION_CODE)
+          .cause(e)
+          .build();
     }
   }
 

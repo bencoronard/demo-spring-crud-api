@@ -9,11 +9,10 @@ public class InvalidGatewayStatusException extends BaseException {
 
   @Builder
   public InvalidGatewayStatusException(
-    int serviceCode,
-    int sectionCode,
-    String message,
-    Throwable cause
-  ) {
+      int serviceCode,
+      int sectionCode,
+      String message,
+      Throwable cause) {
     super(serviceCode, sectionCode, ERROR_CODE, message, cause);
   }
 

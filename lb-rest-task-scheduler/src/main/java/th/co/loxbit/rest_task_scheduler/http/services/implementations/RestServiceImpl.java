@@ -11,53 +11,52 @@ public class RestServiceImpl implements RestService {
   private final RestClient restClient;
 
   public RestServiceImpl(
-    RestClient.Builder restClientBuilder,
-    RestServiceConfigurer config
-  ) {
+      RestClient.Builder restClientBuilder,
+      RestServiceConfigurer config) {
     this.restClient = restClientBuilder
-      .baseUrl(config.getBaseUrl())
-      .requestInterceptor(config.getInterceptor())
-      .build();
+        .baseUrl(config.getBaseUrl())
+        .requestInterceptor(config.getInterceptor())
+        .build();
   }
 
   @Override
   public <T> T get(String path, Class<T> responseType) {
     return this.restClient
-      .get()
-      .uri(path)
-      .retrieve()
-      .body(responseType);
+        .get()
+        .uri(path)
+        .retrieve()
+        .body(responseType);
   }
 
   @Override
   public <T, R> R post(String path, T requestBody, Class<R> responseType) {
     return this.restClient
-      .post()
-      .uri(path)
-      .contentType(MediaType.APPLICATION_JSON)
-      .body(requestBody)
-      .retrieve()
-      .body(responseType);
+        .post()
+        .uri(path)
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(requestBody)
+        .retrieve()
+        .body(responseType);
   }
 
   @Override
   public <T, R> R put(String path, T requestBody, Class<R> responseType) {
     return this.restClient
-      .put()
-      .uri(path)
-      .contentType(MediaType.APPLICATION_JSON)
-      .body(requestBody)
-      .retrieve()
-      .body(responseType);
+        .put()
+        .uri(path)
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(requestBody)
+        .retrieve()
+        .body(responseType);
   }
 
   @Override
   public <T> T delete(String path, Class<T> responseType) {
     return this.restClient
-      .delete()
-      .uri(path)
-      .retrieve()
-      .body(responseType);
+        .delete()
+        .uri(path)
+        .retrieve()
+        .body(responseType);
   }
 
 }

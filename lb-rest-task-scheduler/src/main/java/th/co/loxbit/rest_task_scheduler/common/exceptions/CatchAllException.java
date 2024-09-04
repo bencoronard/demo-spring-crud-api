@@ -8,12 +8,11 @@ public class CatchAllException extends BaseException {
 
   @Builder
   public CatchAllException(
-    int serviceCode,
-    int sectionCode,
-    int errorCode,
-    String message,
-    Throwable cause
-  ) {
+      int serviceCode,
+      int sectionCode,
+      int errorCode,
+      String message,
+      Throwable cause) {
     super(serviceCode, sectionCode, ERROR_CODE, message, cause);
   }
 

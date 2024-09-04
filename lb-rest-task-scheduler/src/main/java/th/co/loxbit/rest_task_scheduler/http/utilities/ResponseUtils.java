@@ -6,34 +6,33 @@ import th.co.loxbit.rest_task_scheduler.http.responses.GlobalResponseBody;
 public class ResponseUtils {
 
   public static GlobalResponseBody<String> createErrorResponseBody(
-    BaseException exception
-  ) {
+      BaseException exception) {
     Throwable cause = exception.getCause();
+    String causeMessage = cause.getMessage();
     String message = exception.getMessage();
     String payload;
-    if (cause != null) {
-      payload = cause.getMessage();
+    if (cause != null && causeMessage != null) {
+      payload = causeMessage;
     } else if (message != null) {
       payload = message;
     } else {
       payload = null;
     }
     return GlobalResponseBody.<String>builder()
-      .exitCode(exception.getExitCode())
-      .desc("Runtime error")
-      .payload(payload)
-      .build();
+        .exitCode(exception.getExitCode())
+        .desc("Runtime error")
+        .payload(payload)
+        .build();
   }
 
   public static <T> GlobalResponseBody<T> createSuccessResponseBody(
-    String desc,
-    T payload
-  ) {
+      String desc,
+      T payload) {
     return GlobalResponseBody.<T>builder()
-      .exitCode("0000")
-      .desc(desc)
-      .payload(payload)
-      .build();
+        .exitCode("0000")
+        .desc(desc)
+        .payload(payload)
+        .build();
   }
 
 }
