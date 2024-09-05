@@ -21,9 +21,9 @@ public class BaseException extends RuntimeException {
     this.errorCode = errorCode;
   }
 
-  public String getExitCode() {
-    int exitCode = this.serviceCode + this.sectionCode + this.errorCode;
-    return Integer.toString(exitCode);
+  public String getRespCode() {
+    int respCode = this.serviceCode + this.sectionCode + this.errorCode;
+    return Integer.toString(respCode);
   }
 
 }

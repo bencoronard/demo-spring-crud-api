@@ -19,7 +19,7 @@ public class ResponseUtils {
       payload = null;
     }
     return GlobalResponseBody.<String>builder()
-        .respCode(exception.getExitCode())
+        .respCode(exception.getRespCode())
         .desc("Runtime error")
         .payload(payload)
         .build();
