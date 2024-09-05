@@ -1,37 +1,52 @@
 # API Gateway Service
 
+service สำหรับ schedule การ เปิด/ปิด Kong API gateway
+
 ## Global Response Body
 
 `ResponseBody` { exitCode: ..., desc: ..., payload: ... }
 
-HTTP 200 / 4xx / 5xx
+HTTP 200
 
-- `exitCode` (integer):
+- `respCode` (integer):
   - `0` : operation successful
-  - `non-zero` : an error occurred
+  - `non-zero` : business error occurred
 - `desc` (string): payload description
-- `payload` (any) : requested data if exitCode == 0, error message if exitCode != 0
+- `payload` (any) : requested data if respCode == 0, business error message if respCode != 0
+
+HTTP 4xx
+
+- 401 : invalid access token
+- 403 : unauthorized
+- 400 : requested endpoint exists but request body is not valid
+- etc.
+
+HTTP 5xx
+
+- 500 : unhandled errors
+- 503 : server down
+- etc.
 
 ## Endpoints
 
 `Job` { id: string, start: integer (UNIX timestamp), end: integer (UNIX timestamp), owner: string, isRecurrent: boolean }
 
-`GET` **/gateway/status**
+`GET` **/status**
 
 - request body : none
-- desc : status
+- desc : gateway status
 - payload : { isGatewayOpen : boolean }
 
 `GET` **/jobs**
 
 - request body : none
-- desc : jobs
+- desc : scheduled jobs
 - payload : Job[ ]
 
 `POST` **/jobs**
 
 - request body : { start : string, end : string, message : string , isRecurrent : boolean }
-- desc : scheduled job
+- desc : created job
 - payload : Job
 
 `PUT` **/jobs/{id}**
