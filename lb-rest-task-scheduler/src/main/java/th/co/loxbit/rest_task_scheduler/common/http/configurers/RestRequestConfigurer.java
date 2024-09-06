@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class RestRequestConfigurer {
 
-  private final int timesToRetry;
-  private final int waitSecondsToRetry;
+  private final int maxAttempts;
+  private final int backOffInSeconds;
 
 }
