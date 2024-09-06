@@ -1,19 +1,15 @@
 package th.co.loxbit.rest_task_scheduler.gateway.exceptions;
 
 import lombok.Builder;
-import th.co.loxbit.rest_task_scheduler.common.exceptions.BaseException;
+import th.co.loxbit.rest_task_scheduler.common.exceptions.ServiceRuntimeException;
 
-public class InvalidGatewayStatusException extends BaseException {
+public class InvalidGatewayStatusException extends ServiceRuntimeException {
 
   private static final int ERROR_CODE = 10;
 
   @Builder
-  public InvalidGatewayStatusException(
-      int serviceCode,
-      int sectionCode,
-      String message,
-      Throwable cause) {
-    super(serviceCode, sectionCode, ERROR_CODE, message, cause);
+  public InvalidGatewayStatusException(int serviceCode, int sectionCode, String message) {
+    super(serviceCode, sectionCode, ERROR_CODE, message);
   }
 
 }

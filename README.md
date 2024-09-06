@@ -4,7 +4,7 @@ service สำหรับ schedule การ เปิด/ปิด Kong API ga
 
 ## Global Response Body
 
-`ResponseBody` { exitCode: ..., desc: ..., payload: ... }
+`ResponseBody` { respCode: ..., desc: ..., payload: ... }
 
 HTTP 200
 

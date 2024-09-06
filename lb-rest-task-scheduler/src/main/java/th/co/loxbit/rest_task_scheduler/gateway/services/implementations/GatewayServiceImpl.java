@@ -4,21 +4,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientResponseException;
 
-import th.co.loxbit.rest_task_scheduler.common.exceptions.CatchAllException;
+import th.co.loxbit.rest_task_scheduler.common.exceptions.CatchAllServiceException;
 import th.co.loxbit.rest_task_scheduler.common.factories.ConfigurableObjectFactory;
-import th.co.loxbit.rest_task_scheduler.gateway.dtos.requests.CloseGatewayRequestOutbound;
-import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.CloseGatewayResponse;
-import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.GetGatewayStatusResponse;
-import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.OpenGatewayResponse;
+import th.co.loxbit.rest_task_scheduler.common.http.configurers.RequestInterceptorConfigurer;
+import th.co.loxbit.rest_task_scheduler.common.http.configurers.RestServiceConfigurer;
+import th.co.loxbit.rest_task_scheduler.common.http.exceptions.Resp4xxException;
+import th.co.loxbit.rest_task_scheduler.common.http.interceptors.RequestInterceptor;
+import th.co.loxbit.rest_task_scheduler.common.http.services.RestService;
+import th.co.loxbit.rest_task_scheduler.common.http.services.implementations.RestServiceImpl;
+import th.co.loxbit.rest_task_scheduler.gateway.dtos.requests.outbound.CloseGatewayRequestOutbound;
+import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.inbound.CloseGatewayResponseInbound;
+import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.inbound.GetGatewayStatusResponseInbound;
+import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.inbound.OpenGatewayResponseInbound;
+import th.co.loxbit.rest_task_scheduler.gateway.entities.GatewayStatus;
 import th.co.loxbit.rest_task_scheduler.gateway.exceptions.InvalidGatewayStatusException;
 import th.co.loxbit.rest_task_scheduler.gateway.services.GatewayService;
-import th.co.loxbit.rest_task_scheduler.gateway.utilities.GatewayStatus;
-import th.co.loxbit.rest_task_scheduler.http.configurers.RequestInterceptorConfigurer;
-import th.co.loxbit.rest_task_scheduler.http.configurers.RestServiceConfigurer;
-import th.co.loxbit.rest_task_scheduler.http.exceptions.ExternalServiceException;
-import th.co.loxbit.rest_task_scheduler.http.interceptors.RequestInterceptor;
-import th.co.loxbit.rest_task_scheduler.http.services.RestService;
-import th.co.loxbit.rest_task_scheduler.http.services.implementations.RestServiceImpl;
 
 @Service
 public class GatewayServiceImpl implements GatewayService {
@@ -43,29 +43,22 @@ public class GatewayServiceImpl implements GatewayService {
 
   @Override
   public GatewayStatus getGatewayStatus() {
-    final int SECTION_CODE = 0;
     try {
-      GetGatewayStatusResponse response = restService.get(
+      GetGatewayStatusResponseInbound response = restService.get(
           "/status",
-          GetGatewayStatusResponse.class);
+          GetGatewayStatusResponseInbound.class);
       return GatewayStatus.fromStatus(response.getDesc());
     } catch (RestClientResponseException e) {
-      throw ExternalServiceException.builder()
+      throw Resp4xxException.builder()
           .serviceCode(SERVICE_CODE)
-          .sectionCode(SECTION_CODE)
-          .cause(e)
           .build();
     } catch (IllegalArgumentException e) {
       throw InvalidGatewayStatusException.builder()
           .serviceCode(SERVICE_CODE)
-          .sectionCode(SECTION_CODE)
-          .cause(e)
           .build();
     } catch (RuntimeException e) {
-      throw CatchAllException.builder()
+      throw CatchAllServiceException.builder()
           .serviceCode(SERVICE_CODE)
-          .sectionCode(SECTION_CODE)
-          .cause(e)
           .build();
     }
   }
@@ -77,18 +70,16 @@ public class GatewayServiceImpl implements GatewayService {
       restService.post(
           "/open",
           null,
-          OpenGatewayResponse.class);
+          OpenGatewayResponseInbound.class);
     } catch (RestClientResponseException e) {
-      throw ExternalServiceException.builder()
+      throw Resp4xxException.builder()
           .serviceCode(SERVICE_CODE)
           .sectionCode(SECTION_CODE)
-          .cause(e)
           .build();
     } catch (RuntimeException e) {
-      throw CatchAllException.builder()
+      throw CatchAllServiceException.builder()
           .serviceCode(SERVICE_CODE)
           .sectionCode(SECTION_CODE)
-          .cause(e)
           .build();
     }
   }
@@ -98,23 +89,21 @@ public class GatewayServiceImpl implements GatewayService {
     final int SECTION_CODE = 200;
     try {
       CloseGatewayRequestOutbound requestBody = CloseGatewayRequestOutbound.builder()
-          .maintenanceMessage(maintenanceMsg)
+          .message(maintenanceMsg)
           .build();
       restService.post(
           "/close",
           requestBody,
-          CloseGatewayResponse.class);
+          CloseGatewayResponseInbound.class);
     } catch (RestClientResponseException e) {
-      throw ExternalServiceException.builder()
+      throw Resp4xxException.builder()
           .serviceCode(SERVICE_CODE)
           .sectionCode(SECTION_CODE)
-          .cause(e)
           .build();
     } catch (RuntimeException e) {
-      throw CatchAllException.builder()
+      throw CatchAllServiceException.builder()
           .serviceCode(SERVICE_CODE)
           .sectionCode(SECTION_CODE)
-          .cause(e)
           .build();
     }
   }
