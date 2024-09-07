@@ -12,8 +12,14 @@ public class RestServiceImpl implements RestService {
   private final RestClient restClient;
 
   public RestServiceImpl(RestClient.Builder restClientBuilder, RestServiceConfigurer config) {
-    this.restClient = restClientBuilder.baseUrl(config.getBaseUrl()).requestInterceptor(config.getInterceptor())
-        .build();
+
+    RestClient.Builder builder = restClientBuilder.baseUrl(config.getBaseUrl());
+    // this.restClient = restClientBuilder
+    // .baseUrl(config.getBaseUrl())
+    // .requestInterceptor(config.getInterceptor())
+    // .build();
+
+    this.restClient = builder.build();
   }
 
   @Override
