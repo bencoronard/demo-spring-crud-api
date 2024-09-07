@@ -4,23 +4,13 @@ import org.springframework.http.MediaType;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.web.client.RestClient;
 
-import th.co.loxbit.rest_task_scheduler.common.http.configurers.RestServiceConfigurer;
+import lombok.RequiredArgsConstructor;
 import th.co.loxbit.rest_task_scheduler.common.http.services.RestService;
 
+@RequiredArgsConstructor
 public class RestServiceImpl implements RestService {
 
   private final RestClient restClient;
-
-  public RestServiceImpl(RestClient.Builder restClientBuilder, RestServiceConfigurer config) {
-
-    RestClient.Builder builder = restClientBuilder.baseUrl(config.getBaseUrl());
-    // this.restClient = restClientBuilder
-    // .baseUrl(config.getBaseUrl())
-    // .requestInterceptor(config.getInterceptor())
-    // .build();
-
-    this.restClient = builder.build();
-  }
 
   @Override
   public <T> T get(String path, Class<T> responseType) {

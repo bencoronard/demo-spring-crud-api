@@ -9,15 +9,13 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.lang.NonNull;
 
-import th.co.loxbit.rest_task_scheduler.common.http.configurers.RequestInterceptorConfigurer;
+import lombok.RequiredArgsConstructor;
+import th.co.loxbit.rest_task_scheduler.common.http.configurers.RequestInterceptorConfig;
 
+@RequiredArgsConstructor
 public class RequestInterceptor implements ClientHttpRequestInterceptor {
 
-  private final String apiKey;
-
-  public RequestInterceptor(RequestInterceptorConfigurer config) {
-    this.apiKey = config.getApiKey();
-  }
+  private final RequestInterceptorConfig config;
 
   @Override
   @NonNull
@@ -26,11 +24,11 @@ public class RequestInterceptor implements ClientHttpRequestInterceptor {
       @NonNull byte[] body,
       @NonNull ClientHttpRequestExecution execution) throws IOException {
 
-    addApiKeyHeader(request, apiKey);
+    if (config.getApiKey() != null) {
+      addApiKeyHeader(request, config.getApiKey());
+    }
 
-    ClientHttpResponse response = execution.execute(request, body);
-
-    return response;
+    return execution.execute(request, body);
   }
 
   private void addApiKeyHeader(HttpRequest request, String apiKey) {

@@ -6,8 +6,8 @@ import org.springframework.web.client.RestClientResponseException;
 
 import th.co.loxbit.rest_task_scheduler.common.exceptions.CatchAllServiceException;
 import th.co.loxbit.rest_task_scheduler.common.factories.ConfigurableObjectFactory;
-import th.co.loxbit.rest_task_scheduler.common.http.configurers.RequestInterceptorConfigurer;
-import th.co.loxbit.rest_task_scheduler.common.http.configurers.RestServiceConfigurer;
+import th.co.loxbit.rest_task_scheduler.common.http.configurers.RequestInterceptorConfig;
+import th.co.loxbit.rest_task_scheduler.common.http.configurers.RestServiceConfig;
 import th.co.loxbit.rest_task_scheduler.common.http.exceptions.Resp4xxException;
 import th.co.loxbit.rest_task_scheduler.common.http.interceptors.RequestInterceptor;
 import th.co.loxbit.rest_task_scheduler.common.http.services.RestService;
@@ -26,16 +26,16 @@ public class GatewayServiceImpl implements GatewayService {
   private final RestService restService;
 
   public GatewayServiceImpl(
-      ConfigurableObjectFactory<RequestInterceptor, RequestInterceptorConfigurer> interceptorFactory,
-      ConfigurableObjectFactory<RestServiceImpl, RestServiceConfigurer> restServiceFactory,
+      ConfigurableObjectFactory<RequestInterceptor, RequestInterceptorConfig> interceptorFactory,
+      ConfigurableObjectFactory<RestServiceImpl, RestServiceConfig> restServiceFactory,
       @Value("${api.external.gateway.secret.key}") String apiKey,
       @Value("${api.external.gateway.uri}") String baseUrl) {
     RequestInterceptor interceptor = interceptorFactory.create(
-        RequestInterceptorConfigurer.builder()
+        RequestInterceptorConfig.builder()
             .apiKey(apiKey)
             .build());
     this.restService = restServiceFactory.create(
-        RestServiceConfigurer.builder()
+        RestServiceConfig.builder()
             .baseUrl(baseUrl)
             .interceptor(interceptor)
             .build());

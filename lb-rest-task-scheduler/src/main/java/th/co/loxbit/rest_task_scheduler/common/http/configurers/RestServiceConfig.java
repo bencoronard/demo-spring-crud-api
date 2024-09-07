@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class RestServiceConfigurer {
+public class RestServiceConfig {
 
   private final String baseUrl;
   private final ClientHttpRequestInterceptor interceptor;

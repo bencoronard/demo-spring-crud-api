@@ -6,11 +6,7 @@ public class ServiceRuntimeException extends RuntimeException {
   private int sectionCode;
   private int errorCode;
 
-  public ServiceRuntimeException(
-      int serviceCode,
-      int sectionCode,
-      int errorCode,
-      String message) {
+  public ServiceRuntimeException(int serviceCode, int sectionCode, int errorCode, String message) {
     super(message);
     this.serviceCode = serviceCode;
     this.sectionCode = sectionCode;
