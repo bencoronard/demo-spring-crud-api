@@ -47,7 +47,7 @@ public class GatewayServiceImpl implements GatewayService {
       GetGatewayStatusResponseInbound response = restService.get(
           "/status",
           GetGatewayStatusResponseInbound.class);
-      return GatewayStatus.fromStatus(response.getDesc());
+      return GatewayStatus.fromStatus(response.desc());
     } catch (RestClientResponseException e) {
       throw Resp4xxException.builder()
           .serviceCode(SERVICE_CODE)

@@ -1,13 +1,4 @@
 package th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.inbound;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-@Getter
-@RequiredArgsConstructor
-public class OpenGatewayResponseInbound {
-
-  private final String respCode;
-  private final String desc;
-
+public record OpenGatewayResponseInbound(String respCode, String desc) {
 }
