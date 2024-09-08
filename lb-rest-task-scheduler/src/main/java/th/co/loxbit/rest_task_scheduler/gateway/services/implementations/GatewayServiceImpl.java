@@ -1,18 +1,13 @@
 package th.co.loxbit.rest_task_scheduler.gateway.services.implementations;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientResponseException;
 
+import lombok.RequiredArgsConstructor;
 import th.co.loxbit.rest_task_scheduler.common.exceptions.CatchAllServiceException;
-import th.co.loxbit.rest_task_scheduler.common.factories.ConfigurableObjectFactory;
-import th.co.loxbit.rest_task_scheduler.common.factories.implementations.RetryTemplateBuilderFactory;
-import th.co.loxbit.rest_task_scheduler.common.http.configurers.RequestInterceptorConfig;
-import th.co.loxbit.rest_task_scheduler.common.http.configurers.RestServiceConfig;
+import th.co.loxbit.rest_task_scheduler.common.factories.RetryTemplateFactory;
 import th.co.loxbit.rest_task_scheduler.common.http.exceptions.Resp4xxException;
-import th.co.loxbit.rest_task_scheduler.common.http.interceptors.RequestInterceptor;
 import th.co.loxbit.rest_task_scheduler.common.http.services.RestService;
-import th.co.loxbit.rest_task_scheduler.common.http.services.implementations.RestServiceImpl;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.requests.outbound.CloseGatewayRequestOutbound;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.inbound.CloseGatewayResponseInbound;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.inbound.GetGatewayStatusResponseInbound;
@@ -22,27 +17,11 @@ import th.co.loxbit.rest_task_scheduler.gateway.exceptions.InvalidGatewayStatusE
 import th.co.loxbit.rest_task_scheduler.gateway.services.GatewayService;
 
 @Service
+@RequiredArgsConstructor
 public class GatewayServiceImpl implements GatewayService {
 
   private final RestService restService;
-
-  public GatewayServiceImpl(
-      @Value("${api.external.gateway.uri}") String baseUrl,
-      @Value("${api.external.gateway.secret.key}") String apiKey,
-      ConfigurableObjectFactory<RequestInterceptor, RequestInterceptorConfig> interceptorFactory,
-      ConfigurableObjectFactory<RestServiceImpl, RestServiceConfig> restServiceFactory) {
-
-    RequestInterceptor interceptor = interceptorFactory.create(
-        RequestInterceptorConfig.builder()
-            .apiKey(apiKey)
-            .build());
-
-    this.restService = restServiceFactory.create(
-        RestServiceConfig.builder()
-            .baseUrl(baseUrl)
-            .interceptor(interceptor)
-            .build());
-  }
+  private final RetryTemplateFactory retry;
 
   @Override
   public GatewayStatus getGatewayStatus() {
@@ -85,10 +64,7 @@ public class GatewayServiceImpl implements GatewayService {
           "/open",
           null,
           OpenGatewayResponseInbound.class,
-          RetryTemplateBuilderFactory.create()
-              .maxAttempts(3)
-              .fixedBackoff(1000)
-              .build());
+          retry.withExponentialBackOff(3, 1000, 2, 3000));
 
     } catch (RestClientResponseException e) {
 
@@ -118,10 +94,11 @@ public class GatewayServiceImpl implements GatewayService {
           .message(maintenanceMsg)
           .build();
 
-      restService.post(
+      restService.postWithRetry(
           "/close",
           requestBody,
-          CloseGatewayResponseInbound.class);
+          CloseGatewayResponseInbound.class,
+          retry.withFixedBackOff(3, 1000));
 
     } catch (RestClientResponseException e) {
 
