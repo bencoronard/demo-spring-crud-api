@@ -2,12 +2,9 @@ package th.co.loxbit.rest_task_scheduler.gateway.services.implementations;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientResponseException;
-
 import lombok.RequiredArgsConstructor;
 import th.co.loxbit.rest_task_scheduler.common.exceptions.CatchAllServiceException;
 import th.co.loxbit.rest_task_scheduler.common.factories.RetryTemplateFactory;
-import th.co.loxbit.rest_task_scheduler.common.http.exceptions.Resp4xxException;
 import th.co.loxbit.rest_task_scheduler.common.http.services.RestService;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.requests.outbound.CloseGatewayRequestOutbound;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.inbound.CloseGatewayResponseInbound;
@@ -37,12 +34,6 @@ public class GatewayServiceImpl implements GatewayService {
 
       return GatewayStatus.fromStatus(response.desc());
 
-    } catch (RestClientResponseException e) {
-
-      throw Resp4xxException.builder()
-          .serviceCode(SERVICE_CODE)
-          .build();
-
     } catch (RuntimeException e) {
 
       throw CatchAllServiceException.builder()
@@ -70,6 +61,7 @@ public class GatewayServiceImpl implements GatewayService {
       throw CatchAllServiceException.builder()
           .serviceCode(SERVICE_CODE)
           .sectionCode(SECTION_CODE)
+          .message(e.getMessage())
           .build();
 
     }

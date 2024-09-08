@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import th.co.loxbit.rest_task_scheduler.common.factories.ConfigurableObjectFactory;
 import th.co.loxbit.rest_task_scheduler.common.http.configurers.RequestInterceptorConfig;
-import th.co.loxbit.rest_task_scheduler.common.http.entities.RequestInterceptor;
+import th.co.loxbit.rest_task_scheduler.common.http.interceptors.RequestInterceptor;
 
 @Component
 public class RequestInterceptorFactory

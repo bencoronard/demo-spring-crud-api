@@ -1,4 +1,4 @@
-package th.co.loxbit.rest_task_scheduler.common.http.entities;
+package th.co.loxbit.rest_task_scheduler.common.http.interceptors;
 
 import java.io.IOException;
 

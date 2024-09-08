@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import th.co.loxbit.rest_task_scheduler.common.factories.ConfigurableObjectFactory;
 import th.co.loxbit.rest_task_scheduler.common.http.configurers.RequestInterceptorConfig;
 import th.co.loxbit.rest_task_scheduler.common.http.configurers.RestServiceConfig;
-import th.co.loxbit.rest_task_scheduler.common.http.entities.RequestInterceptor;
+import th.co.loxbit.rest_task_scheduler.common.http.interceptors.RequestInterceptor;
 import th.co.loxbit.rest_task_scheduler.common.http.services.RestService;
 import th.co.loxbit.rest_task_scheduler.common.http.services.implementations.RestServiceImpl;
 
