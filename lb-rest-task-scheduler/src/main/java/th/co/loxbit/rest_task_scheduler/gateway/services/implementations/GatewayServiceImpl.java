@@ -1,5 +1,6 @@
 package th.co.loxbit.rest_task_scheduler.gateway.services.implementations;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientResponseException;
 
@@ -13,18 +14,21 @@ import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.inbound.CloseGate
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.inbound.GetGatewayStatusResponseInbound;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.inbound.OpenGatewayResponseInbound;
 import th.co.loxbit.rest_task_scheduler.gateway.entities.GatewayStatus;
-import th.co.loxbit.rest_task_scheduler.gateway.exceptions.InvalidGatewayStatusException;
 import th.co.loxbit.rest_task_scheduler.gateway.services.GatewayService;
 
 @Service
 @RequiredArgsConstructor
 public class GatewayServiceImpl implements GatewayService {
 
+  @Qualifier("gatewayRestService")
   private final RestService restService;
   private final RetryTemplateFactory retry;
 
   @Override
   public GatewayStatus getGatewayStatus() {
+
+    final int SECTION_CODE = 0;
+
     try {
 
       GetGatewayStatusResponseInbound response = restService.get(
@@ -39,16 +43,11 @@ public class GatewayServiceImpl implements GatewayService {
           .serviceCode(SERVICE_CODE)
           .build();
 
-    } catch (IllegalArgumentException e) {
-
-      throw InvalidGatewayStatusException.builder()
-          .serviceCode(SERVICE_CODE)
-          .build();
-
     } catch (RuntimeException e) {
 
       throw CatchAllServiceException.builder()
           .serviceCode(SERVICE_CODE)
+          .sectionCode(SECTION_CODE)
           .build();
     }
   }
@@ -65,13 +64,6 @@ public class GatewayServiceImpl implements GatewayService {
           null,
           OpenGatewayResponseInbound.class,
           retry.withExponentialBackOff(3, 1000, 2, 3000));
-
-    } catch (RestClientResponseException e) {
-
-      throw Resp4xxException.builder()
-          .serviceCode(SERVICE_CODE)
-          .sectionCode(SECTION_CODE)
-          .build();
 
     } catch (RuntimeException e) {
 
@@ -99,13 +91,6 @@ public class GatewayServiceImpl implements GatewayService {
           requestBody,
           CloseGatewayResponseInbound.class,
           retry.withFixedBackOff(3, 1000));
-
-    } catch (RestClientResponseException e) {
-
-      throw Resp4xxException.builder()
-          .serviceCode(SERVICE_CODE)
-          .sectionCode(SECTION_CODE)
-          .build();
 
     } catch (RuntimeException e) {
 
