@@ -8,6 +8,9 @@ spring:
     open-in-view: false
   # quartz:
   #   job-store-type: "jdbc"
+  #   jdbc:
+  #     initialize-schema: "always"
+
 ---
 # Development environment
 spring:
