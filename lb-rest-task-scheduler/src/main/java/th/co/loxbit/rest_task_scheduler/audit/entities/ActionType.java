@@ -4,7 +4,8 @@ public enum ActionType {
 
   CREATE("CREATE"),
   EDIT("EDIT"),
-  DELETE("DELETE");
+  DELETE("DELETE"),
+  OVERRIDE("OVERRIDE");
 
   private final String action;
 

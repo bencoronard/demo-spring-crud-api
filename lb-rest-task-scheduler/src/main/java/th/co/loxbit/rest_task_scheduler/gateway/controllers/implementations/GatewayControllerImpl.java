@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import th.co.loxbit.rest_task_scheduler.common.http.responses.GlobalResponseBody;
 import th.co.loxbit.rest_task_scheduler.common.http.utilities.ResponseBodyUtils;
 import th.co.loxbit.rest_task_scheduler.gateway.controllers.GatewayController;
+import th.co.loxbit.rest_task_scheduler.gateway.dtos.requests.inbound.CloseGatewayRequestInbound;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.outbound.GetGatewayStatusResponseOutbound;
 import th.co.loxbit.rest_task_scheduler.gateway.entities.GatewayStatus;
 import th.co.loxbit.rest_task_scheduler.gateway.services.GatewayService;
@@ -28,6 +29,26 @@ public class GatewayControllerImpl implements GatewayController {
         GetGatewayStatusResponseOutbound.builder()
             .isGatewayOpen(data == GatewayStatus.OPEN ? true : false)
             .build());
+
+    return new ResponseEntity<>(responseBody, HttpStatus.OK);
+  }
+
+  @Override
+  public ResponseEntity<GlobalResponseBody<Void>> openGatewayOverride() {
+
+    gatewayService.openGateway();
+
+    GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody(null, null);
+
+    return new ResponseEntity<>(responseBody, HttpStatus.OK);
+  }
+
+  @Override
+  public ResponseEntity<GlobalResponseBody<Void>> closeGatewayOverride(CloseGatewayRequestInbound request) {
+
+    gatewayService.closeGateway(request.message());
+
+    GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody(null, null);
 
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
