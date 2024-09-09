@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "audit_job_schedules", schema = "service")
+@Table(name = "job_schedule_records", schema = "service")
 public class JobRecord {
 
   @Id
