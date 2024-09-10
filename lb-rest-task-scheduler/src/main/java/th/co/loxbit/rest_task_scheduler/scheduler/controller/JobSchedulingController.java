@@ -28,10 +28,10 @@ public interface JobSchedulingController {
   ResponseEntity<GlobalResponseBody<Void>> scheduleJob(@Valid @RequestBody ScheduleJobRequest requestBody);
 
   @PutMapping("/{id}")
-  ResponseEntity<GlobalResponseBody<Void>> updateJob(@PathVariable int id,
+  ResponseEntity<GlobalResponseBody<Void>> updateJob(@PathVariable String id,
       @Valid @RequestBody ScheduleJobRequest requestBody);
 
   @DeleteMapping("/{id}")
-  ResponseEntity<GlobalResponseBody<Void>> descheduleJob(@PathVariable int id);
+  ResponseEntity<GlobalResponseBody<Void>> descheduleJob(@PathVariable String id);
 
 }
