@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import th.co.loxbit.rest_task_scheduler.gateway.services.GatewayService;
 
 @RequiredArgsConstructor
-public class ServiceUpTask extends QuartzJobBean {
+public class OpenGatewayTask extends QuartzJobBean {
 
   private final GatewayService gatewayService;
 

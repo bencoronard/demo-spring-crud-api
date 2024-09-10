@@ -11,7 +11,7 @@ import th.co.loxbit.rest_task_scheduler.gateway.services.GatewayService;
 
 @Setter
 @RequiredArgsConstructor
-public class ServiceDownTask extends QuartzJobBean {
+public class CloseGatewayTask extends QuartzJobBean {
 
   private final GatewayService gatewayService;
   private String message;
