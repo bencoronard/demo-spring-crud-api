@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -69,11 +70,12 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
   }
 
   @Override
-  public void createSchedule(String jobId, String message, Trigger jobTriggerStart, Trigger jobTriggerEnd)
+  public void createSchedule(String jobId, Map<String, Object> jobData, Trigger jobTriggerStart, Trigger jobTriggerEnd)
       throws SchedulerException {
 
     JobDetail closeGatewayTask = JobBuilder.newJob(CloseGatewayTask.class).withIdentity(CLOSE_TASK_KEY, jobId)
-        .usingJobData("message", message).build();
+        .usingJobData(new JobDataMap(jobData))
+        .build();
 
     JobDetail openGatewayTask = JobBuilder.newJob(OpenGatewayTask.class).withIdentity(OPEN_TASK_KEY, jobId).build();
 

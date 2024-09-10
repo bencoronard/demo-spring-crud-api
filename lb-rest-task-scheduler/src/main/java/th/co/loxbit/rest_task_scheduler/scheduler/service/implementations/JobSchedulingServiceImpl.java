@@ -2,7 +2,9 @@ package th.co.loxbit.rest_task_scheduler.scheduler.service.implementations;
 
 import java.sql.Date;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.quartz.SchedulerException;
@@ -24,13 +26,17 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
   private final ScheduleRepository scheduleRepository;
 
   @Override
-  public void scheduleJob(int startTime, int endTime, String message) {
+  public void scheduleJob(int startTime, int endTime, String message, String owner) {
 
     final int SECTION_CODE = 0;
 
     try {
 
       String jobId = UUID.randomUUID().toString();
+
+      Map<String, Object> jobData = new HashMap<>();
+      jobData.put("message", message);
+      jobData.put("owner", owner);
 
       Trigger closeGatewayTrigger = TriggerBuilder.newTrigger().withIdentity("closeOneTime", jobId)
           .startAt(Date.from(Instant.ofEpochSecond(startTime)))
@@ -40,7 +46,7 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
           .startAt(Date.from(Instant.ofEpochSecond(endTime)))
           .withSchedule(SimpleScheduleBuilder.simpleSchedule().withRepeatCount(0)).build();
 
-      scheduleRepository.createSchedule(jobId, message, closeGatewayTrigger, openGatewayTrigger);
+      scheduleRepository.createSchedule(jobId, jobData, closeGatewayTrigger, openGatewayTrigger);
 
     } catch (RuntimeException | SchedulerException e) {
 
@@ -48,8 +54,8 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
           .serviceCode(SERVICE_CODE)
           .sectionCode(SECTION_CODE)
           .build();
-
     }
+
   }
 
   @Override
@@ -67,7 +73,6 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
           .serviceCode(SERVICE_CODE)
           .sectionCode(SECTION_CODE)
           .build();
-
     }
 
   }
@@ -87,21 +92,19 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
           .serviceCode(SERVICE_CODE)
           .sectionCode(SECTION_CODE)
           .build();
-
     }
 
   }
 
   @Override
-  public void updateJob(String jobId, int newStartTime, int newEndTime, String newMessage) {
+  public void updateJob(String jobId, int newStartTime, int newEndTime, String newMessage, String newOwner) {
 
     final int SECTION_CODE = 0;
 
     try {
 
-      scheduleJob(newStartTime, newEndTime, newMessage);
-
       scheduleRepository.deleteScheduleById(jobId);
+      scheduleJob(newStartTime, newEndTime, newMessage, newOwner);
 
     } catch (RuntimeException | SchedulerException e) {
 
@@ -109,7 +112,6 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
           .serviceCode(SERVICE_CODE)
           .sectionCode(SECTION_CODE)
           .build();
-
     }
 
   }

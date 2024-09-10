@@ -19,7 +19,7 @@ public interface ScheduleRepository {
 
   List<GatewaySchedule> findAllSchedules() throws SchedulerException;
 
-  void createSchedule(String jobId, String message, Trigger jobTriggerStart, Trigger jobTriggerEnd)
+  void createSchedule(String jobId, Map<String, Object> jobData, Trigger jobTriggerStart, Trigger jobTriggerEnd)
       throws SchedulerException;
 
   void deleteScheduleById(String jobId) throws SchedulerException;
