@@ -20,6 +20,8 @@ public class SecurityConfig {
     http.authorizeHttpRequests(
         authorize -> authorize.anyRequest().permitAll());
 
+    http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
+
     return http.build();
   }
 
