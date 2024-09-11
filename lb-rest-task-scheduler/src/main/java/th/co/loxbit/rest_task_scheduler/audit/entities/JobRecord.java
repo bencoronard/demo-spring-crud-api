@@ -2,6 +2,7 @@ package th.co.loxbit.rest_task_scheduler.audit.entities;
 
 import java.time.Instant;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -19,24 +20,31 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "job_schedule_records", schema = "service")
+@Table(name = "gateway_schedule_history", schema = "admin_portal")
 public class JobRecord {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id", nullable = false)
   private Long id;
 
-  private Long jobId;
+  @Column(name = "job_id", updatable = false, nullable = false)
+  private String jobId;
 
   @Enumerated(EnumType.STRING)
+  @Column(name = "user_action", updatable = false, nullable = false)
   private JobRecordType action;
 
-  private Instant start;
+  @Column(name = "job_start_at", updatable = false, nullable = false)
+  private Instant startAt;
 
-  private Instant end;
+  @Column(name = "job_end_at", updatable = false, nullable = false)
+  private Instant endAt;
 
+  @Column(name = "created_by", updatable = false, nullable = false)
   private String createdBy;
 
+  @Column(name = "created_at", updatable = false, nullable = false)
   private Instant createdAt;
 
 }
