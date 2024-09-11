@@ -5,15 +5,13 @@ import org.quartz.JobExecutionException;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import th.co.loxbit.rest_task_scheduler.gateway.services.GatewayService;
 
 @Setter
-@RequiredArgsConstructor
 public class CloseGatewayTask extends QuartzJobBean {
 
-  private final GatewayService gatewayService;
+  private GatewayService gatewayService;
   private String message;
 
   @Override

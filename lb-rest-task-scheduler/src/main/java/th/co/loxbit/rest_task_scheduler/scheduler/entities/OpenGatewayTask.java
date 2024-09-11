@@ -5,13 +5,13 @@ import org.quartz.JobExecutionException;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import th.co.loxbit.rest_task_scheduler.gateway.services.GatewayService;
 
-@RequiredArgsConstructor
+@Setter
 public class OpenGatewayTask extends QuartzJobBean {
 
-  private final GatewayService gatewayService;
+  private GatewayService gatewayService;
 
   @Override
   protected void executeInternal(@NonNull JobExecutionContext context) throws JobExecutionException {
