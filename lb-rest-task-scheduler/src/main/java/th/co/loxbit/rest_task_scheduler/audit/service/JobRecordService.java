@@ -8,6 +8,7 @@ public interface JobRecordService {
 
   int SERVICE_CODE = 2000;
 
-  void addJobRecord(String jobId, Instant startAt, Instant endAt, String createdBy, JobRecordType userAction);
+  void addJobRecord(String jobId, Instant startAt, Instant endAt, String createdBy, Instant createAt,
+      JobRecordType userAction);
 
 }

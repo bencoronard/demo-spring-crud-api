@@ -19,13 +19,15 @@ public class JobRecordServiceImpl implements JobRecordService {
   private JobRecordRepository jobRecordRepository;
 
   @Override
-  public void addJobRecord(String jobId, Instant startAt, Instant endAt, String createdBy, JobRecordType userAction) {
+  public void addJobRecord(String jobId, Instant startAt, Instant endAt, String createdBy, Instant createAt,
+      JobRecordType userAction) {
 
     JobRecord jobRecord = JobRecord.builder()
         .jobId(jobId)
         .startAt(startAt)
         .endAt(endAt)
         .createdBy(createdBy)
+        .createdAt(createAt)
         .action(userAction)
         .build();
 

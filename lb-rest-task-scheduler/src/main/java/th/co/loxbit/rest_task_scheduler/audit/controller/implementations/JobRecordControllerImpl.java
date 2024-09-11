@@ -27,6 +27,7 @@ public class JobRecordControllerImpl implements JobRecordController {
         Instant.ofEpochSecond(0),
         Instant.ofEpochSecond(1726029777),
         "BEN",
+        Instant.now(),
         JobRecordType.OVERRIDE);
 
     GlobalResponseBody<Void> responseBody = ResponseBodyUtils
