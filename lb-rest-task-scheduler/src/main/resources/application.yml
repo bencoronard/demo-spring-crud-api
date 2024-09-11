@@ -1,11 +1,15 @@
 spring:
-
   application:
     name: "REST Task Scheduler"
-
   threads:
     virtual:
       enabled: true
+
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/user"
+    username: "user"
+    password: ""
+    driver-class-name: "org.postgresql.Driver"
 
   jpa:
     open-in-view: false
@@ -14,23 +18,41 @@ spring:
     generate-ddl: true
     show-sql: true
     properties:
-      javax:
+      jakarta:
         persistence:
           schema-generation:
             create-source: "metadata"
             scripts:
               action: "create"
-              create-target: "create.sql"
+              create-target: "./src/main/resources/schema.sql"
       hibernate:
         hbm2ddl:
           schema-generation:
             script:
               append: false
 
+  sql:
+    init:
+      mode: "always"
+
   quartz:
     job-store-type: "jdbc"
     jdbc:
       initialize-schema: "always"
+    properties:
+      org:
+        quartz:
+          jobStore:
+            driverDelegateClass: "org.quartz.impl.jdbcjobstore.StdJDBCDelegate"
+            dataSource: "quartz-data-source"
+            tablePrefix: "QRTZ_"
+            isClustered: false
+
+quartz-data-Source:
+  url: "jdbc:h2:file:./data/quartz_db;DB_CLOSE_ON_EXIT=false"
+  driver-class-name: "org.h2.Driver"
+  username: "sa"
+  password: ""
 
 ---
 # Development environment
@@ -39,11 +61,9 @@ spring:
     activate:
       on-profile: "dev"
 
-  datasource:
-    url: "jdbc:postgresql://localhost:5432/user"
-    driver-class-name: "org.postgresql.Driver"
-    username: "user"
-    password: ""
+  h2:
+    console:
+      enabled: true
 
 logging:
   level:
@@ -67,5 +87,3 @@ api:
       uri: "http://localhost:8888"
       secret:
         key: "api-key-for-audit-service"
----
-# Production environment
