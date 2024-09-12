@@ -6,53 +6,37 @@ spring:
       enabled: true
 
   datasource:
-    url: "jdbc:postgresql://localhost:5432/user"
-    username: "user"
-    password: ""
-    driver-class-name: "org.postgresql.Driver"
-
-  jpa:
-    open-in-view: false
-    hibernate:
-      ddl-auto: "update"
-    generate-ddl: true
-    show-sql: true
-    properties:
-      jakarta:
-        persistence:
-          schema-generation:
-            create-source: "metadata"
-            scripts:
-              action: "create"
-              create-target: "./src/main/resources/schema.sql"
-      hibernate:
-        hbm2ddl:
-          schema-generation:
-            script:
-              append: false
+    postgresql:
+      url: "jdbc:postgresql://localhost:5432/user"
+      driver-class-name: "org.postgresql.Driver"
+      username: "user"
+      password: ""
+    h2:
+      url: "jdbc:h2:file:./data/localDb"
+      driver-class-name: "org.h2.Driver"
+      username: "sa"
+      password: ""
 
   sql:
     init:
       mode: "always"
+      platform: "postgresql, h2"
+      schema-locations: "classpath:db/migration/schema-postgresql.sql, optional:classpath:db/migration/schema-h2.sql"
+      data-locations: "optional:classpath:db/migration/data-postgresql.sql, optional:classpath:db/migration/data-h2.sql"
 
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: "update"
+    
   quartz:
     job-store-type: "jdbc"
     jdbc:
-      initialize-schema: "always"
+      initialize-schema: "never"
     properties:
-      org:
-        quartz:
-          jobStore:
-            driverDelegateClass: "org.quartz.impl.jdbcjobstore.StdJDBCDelegate"
-            dataSource: "quartz-data-source"
-            tablePrefix: "QRTZ_"
-            isClustered: false
-
-quartz-data-Source:
-  url: "jdbc:h2:file:./data/quartz_db;DB_CLOSE_ON_EXIT=false"
-  driver-class-name: "org.h2.Driver"
-  username: "sa"
-  password: ""
+      "[org.quartz.jobStore.tablePrefix]": "admin_portal.QRTZ_"
+      "[org.quartz.jobStore.driverDelegateClass]": "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
 
 ---
 # Development environment
@@ -83,7 +67,3 @@ api:
       uri: "http://localhost:7777"
       secret:
         key: "api-key-for-gateway-service"
-    audit:
-      uri: "http://localhost:8888"
-      secret:
-        key: "api-key-for-audit-service"

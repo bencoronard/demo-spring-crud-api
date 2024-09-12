@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-
 import javax.sql.DataSource;
 
 @Configuration
@@ -14,14 +13,14 @@ public class DataSourceConfig {
 
   @Bean
   @Primary
-  @ConfigurationProperties("spring.datasource")
+  @QuartzDataSource
+  @ConfigurationProperties(prefix = "spring.datasource.postgresql")
   DataSource postgreDataSource() {
     return new DriverManagerDataSource();
   }
 
   @Bean
-  @QuartzDataSource
-  @ConfigurationProperties("quartz-data-source")
+  @ConfigurationProperties(prefix = "spring.datasource.h2")
   DataSource h2DataSource() {
     return new DriverManagerDataSource();
   }
