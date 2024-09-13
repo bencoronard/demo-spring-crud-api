@@ -89,3 +89,10 @@ RespCode : `####`
 - `00` : ...
 - `10` : ...
 - `20` : ...
+
+
+## Exception handling
+
+1. Basic:
+    * Hello world
+    * Hello world
