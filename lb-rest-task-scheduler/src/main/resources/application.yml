@@ -45,6 +45,9 @@ spring:
     activate:
       on-profile: "dev"
 
+app:
+  environment: "dev"
+
   h2:
     console:
       enabled: true
