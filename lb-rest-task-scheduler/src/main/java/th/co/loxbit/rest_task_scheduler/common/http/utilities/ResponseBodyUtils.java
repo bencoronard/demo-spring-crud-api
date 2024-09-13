@@ -18,11 +18,18 @@ public class ResponseBodyUtils {
   public static <T> GlobalResponseBody<T> createSuccessResponseBody(
       String desc,
       T payload) {
-    return GlobalResponseBody.<T>builder()
-        .respCode(0)
-        .desc(desc)
-        .payload(payload)
-        .build();
+
+    GlobalResponseBody.GlobalResponseBodyBuilder<T> builder = GlobalResponseBody.<T>builder().respCode(0);
+
+    if (desc != null) {
+      builder.desc(desc);
+    }
+
+    if (payload != null) {
+      builder.payload(payload);
+    }
+
+    return builder.build();
   }
 
 }
