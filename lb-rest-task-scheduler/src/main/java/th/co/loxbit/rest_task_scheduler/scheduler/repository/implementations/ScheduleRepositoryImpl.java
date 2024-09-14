@@ -31,7 +31,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
   private final Scheduler scheduler;
 
   // ---------------------------------------------------------------------------//
-  // Functions
+  // Methods
   // ---------------------------------------------------------------------------//
 
   @Override

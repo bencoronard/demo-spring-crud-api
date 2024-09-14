@@ -21,7 +21,7 @@ public class JobRecordServiceImpl implements JobRecordService {
   private final JobRecordRepository jobRecordRepository;
 
   // ---------------------------------------------------------------------------//
-  // Functions
+  // Methods
   // ---------------------------------------------------------------------------//
 
   @Override

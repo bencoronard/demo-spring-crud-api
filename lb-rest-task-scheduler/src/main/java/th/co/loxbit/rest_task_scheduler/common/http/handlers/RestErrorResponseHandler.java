@@ -14,6 +14,10 @@ import th.co.loxbit.rest_task_scheduler.common.http.exceptions.Resp5xxException;
 @Component
 public class RestErrorResponseHandler implements ResponseErrorHandler {
 
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
+
   @Override
   public boolean hasError(@NonNull ClientHttpResponse response) throws IOException {
 
@@ -21,6 +25,8 @@ public class RestErrorResponseHandler implements ResponseErrorHandler {
 
     return responseStatusCode.is4xxClientError() || responseStatusCode.is5xxServerError();
   }
+
+  // ---------------------------------------------------------------------------//
 
   @Override
   public void handleError(@NonNull ClientHttpResponse response) throws IOException {

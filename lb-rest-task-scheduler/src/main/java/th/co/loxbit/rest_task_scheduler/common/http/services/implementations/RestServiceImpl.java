@@ -17,7 +17,7 @@ public class RestServiceImpl implements RestService {
   private final RestClient restClient;
 
   // ---------------------------------------------------------------------------//
-  // Functions
+  // Methods
   // ---------------------------------------------------------------------------//
 
   @Override

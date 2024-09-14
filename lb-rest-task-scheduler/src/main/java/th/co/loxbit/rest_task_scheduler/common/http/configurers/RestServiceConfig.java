@@ -9,6 +9,10 @@ import lombok.Getter;
 @Getter
 public class RestServiceConfig {
 
+  // ---------------------------------------------------------------------------//
+  // Fields
+  // ---------------------------------------------------------------------------//
+
   private final String baseUrl;
   private final ClientHttpRequestInterceptor interceptor;
 

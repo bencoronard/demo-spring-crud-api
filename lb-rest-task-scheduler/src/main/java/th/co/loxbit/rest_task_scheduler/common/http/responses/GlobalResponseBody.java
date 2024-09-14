@@ -7,10 +7,12 @@ import lombok.Getter;
 @Getter
 public class GlobalResponseBody<T> {
 
+  // ---------------------------------------------------------------------------//
+  // Fields
+  // ---------------------------------------------------------------------------//
+
   private final int respCode;
-
   private final String desc;
-
   private final T payload;
 
 }

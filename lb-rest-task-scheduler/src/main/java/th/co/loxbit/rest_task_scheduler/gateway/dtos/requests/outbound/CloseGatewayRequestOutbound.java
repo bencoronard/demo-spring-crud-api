@@ -7,6 +7,10 @@ import lombok.Getter;
 @Getter
 public class CloseGatewayRequestOutbound {
 
+  // ---------------------------------------------------------------------------//
+  // Fields
+  // ---------------------------------------------------------------------------//
+
   private final String message;
 
 }

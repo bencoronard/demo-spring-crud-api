@@ -25,7 +25,7 @@ public class GatewayServiceImpl implements GatewayService {
   private final RetryTemplateFactory retry;
 
   // ---------------------------------------------------------------------------//
-  // Functions
+  // Methods
   // ---------------------------------------------------------------------------//
 
   @Override

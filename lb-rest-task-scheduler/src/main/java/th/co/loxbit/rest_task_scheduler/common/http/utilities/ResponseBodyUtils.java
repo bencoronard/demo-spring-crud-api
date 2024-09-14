@@ -5,6 +5,10 @@ import th.co.loxbit.rest_task_scheduler.common.http.responses.GlobalResponseBody
 
 public class ResponseBodyUtils {
 
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
+
   public static GlobalResponseBody<String> createErrorResponseBody(ServiceRuntimeException exception) {
 
     String errorMessage = exception.getMessage();
@@ -19,6 +23,8 @@ public class ResponseBodyUtils {
 
     return builder.build();
   }
+
+  // ---------------------------------------------------------------------------//
 
   public static <T> GlobalResponseBody<T> createSuccessResponseBody(String desc, T payload) {
 

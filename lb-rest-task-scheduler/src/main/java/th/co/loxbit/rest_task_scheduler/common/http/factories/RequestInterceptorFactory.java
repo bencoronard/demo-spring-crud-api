@@ -10,6 +10,10 @@ import th.co.loxbit.rest_task_scheduler.common.http.interceptors.RequestIntercep
 public class RequestInterceptorFactory
     implements ConfigurableObjectFactory<RequestInterceptor, RequestInterceptorConfig> {
 
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
+
   @Override
   public RequestInterceptor create(RequestInterceptorConfig config) {
     return new RequestInterceptor(config);

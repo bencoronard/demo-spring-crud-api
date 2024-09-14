@@ -24,7 +24,7 @@ public class JobRecordControllerImpl implements JobRecordController {
   private final JobRecordService jobRecordService;
 
   // ---------------------------------------------------------------------------//
-  // Functions
+  // Methods
   // ---------------------------------------------------------------------------//
 
   @Override

@@ -27,7 +27,7 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
   private final JobSchedulingService jobSchedulingService;
 
   // ---------------------------------------------------------------------------//
-  // Functions
+  // Methods
   // ---------------------------------------------------------------------------//
 
   @Override

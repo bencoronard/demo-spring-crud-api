@@ -13,8 +13,16 @@ import th.co.loxbit.rest_task_scheduler.common.http.services.implementations.Res
 @RequiredArgsConstructor
 public class RestServiceFactory implements ConfigurableObjectFactory<RestServiceImpl, RestServiceConfig> {
 
+  // ---------------------------------------------------------------------------//
+  // Dependencies
+  // ---------------------------------------------------------------------------//
+
   private final RestClient.Builder restClientBuilder;
   private final ResponseErrorHandler responseErrorHandler;
+
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
 
   @Override
   public RestServiceImpl create(RestServiceConfig config) {

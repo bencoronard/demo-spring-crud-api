@@ -5,7 +5,15 @@ import th.co.loxbit.rest_task_scheduler.common.exceptions.ServiceRuntimeExceptio
 
 public class Resp5xxException extends ServiceRuntimeException {
 
+  // ---------------------------------------------------------------------------//
+  // Fields
+  // ---------------------------------------------------------------------------//
+
   private static final int ERROR_CODE = 50;
+
+  // ---------------------------------------------------------------------------//
+  // Constructors
+  // ---------------------------------------------------------------------------//
 
   @Builder
   public Resp5xxException(int serviceCode, int sectionCode, String message) {

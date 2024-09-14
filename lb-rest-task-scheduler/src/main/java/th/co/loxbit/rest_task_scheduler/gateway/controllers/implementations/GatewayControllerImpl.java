@@ -24,7 +24,7 @@ public class GatewayControllerImpl implements GatewayController {
   private final GatewayService gatewayService;
 
   // ---------------------------------------------------------------------------//
-  // Functions
+  // Methods
   // ---------------------------------------------------------------------------//
 
   @Override

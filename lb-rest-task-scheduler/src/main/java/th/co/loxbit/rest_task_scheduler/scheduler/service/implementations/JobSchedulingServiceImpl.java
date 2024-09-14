@@ -29,7 +29,7 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
   private final ScheduleRepository scheduleRepository;
 
   // ---------------------------------------------------------------------------//
-  // Functions
+  // Methods
   // ---------------------------------------------------------------------------//
 
   @Override
