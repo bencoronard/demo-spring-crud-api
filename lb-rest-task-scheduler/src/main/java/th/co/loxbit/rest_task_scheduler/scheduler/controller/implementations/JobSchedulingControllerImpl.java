@@ -2,6 +2,7 @@ package th.co.loxbit.rest_task_scheduler.scheduler.controller.implementations;
 
 import java.util.List;
 
+import org.quartz.SchedulerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,7 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
   private final JobSchedulingService jobSchedulingService;
 
   @Override
-  public ResponseEntity<GlobalResponseBody<List<GatewaySchedule>>> getScheduledJobs() {
+  public ResponseEntity<GlobalResponseBody<List<GatewaySchedule>>> getScheduledJobs() throws SchedulerException {
 
     List<GatewaySchedule> data = jobSchedulingService.getScheduledJobs();
 
@@ -33,7 +34,8 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
   }
 
   @Override
-  public ResponseEntity<GlobalResponseBody<Void>> scheduleJob(@Valid ScheduleJobRequest requestBody) {
+  public ResponseEntity<GlobalResponseBody<Void>> scheduleJob(@Valid ScheduleJobRequest requestBody)
+      throws SchedulerException {
 
     jobSchedulingService.scheduleJob(requestBody.start(), requestBody.end(), requestBody.message(),
         requestBody.userId());
@@ -44,7 +46,8 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
   }
 
   @Override
-  public ResponseEntity<GlobalResponseBody<Void>> updateJob(String id, @Valid ScheduleJobRequest requestBody) {
+  public ResponseEntity<GlobalResponseBody<Void>> updateJob(String id, @Valid ScheduleJobRequest requestBody)
+      throws SchedulerException {
 
     jobSchedulingService.updateJob(id, requestBody.start(), requestBody.end(), requestBody.message(),
         requestBody.userId());
@@ -55,7 +58,7 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
   }
 
   @Override
-  public ResponseEntity<GlobalResponseBody<Void>> descheduleJob(String id) {
+  public ResponseEntity<GlobalResponseBody<Void>> descheduleJob(String id) throws SchedulerException {
 
     jobSchedulingService.descheduleJob(id);
 
