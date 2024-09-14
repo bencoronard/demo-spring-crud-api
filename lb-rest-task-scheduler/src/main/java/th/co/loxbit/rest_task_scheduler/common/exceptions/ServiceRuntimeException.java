@@ -2,9 +2,17 @@ package th.co.loxbit.rest_task_scheduler.common.exceptions;
 
 public class ServiceRuntimeException extends RuntimeException {
 
+  // ---------------------------------------------------------------------------//
+  // Fields
+  // ---------------------------------------------------------------------------//
+
   private int serviceCode;
   private int sectionCode;
   private int errorCode;
+
+  // ---------------------------------------------------------------------------//
+  // Constructors
+  // ---------------------------------------------------------------------------//
 
   public ServiceRuntimeException(int serviceCode, int sectionCode, int errorCode, String message) {
     super(message);
@@ -13,9 +21,15 @@ public class ServiceRuntimeException extends RuntimeException {
     this.errorCode = errorCode;
   }
 
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
+
   public int getRespCode() {
     return this.serviceCode + this.sectionCode + this.errorCode;
   }
+
+  // ---------------------------------------------------------------------------//
 
   public ServiceRuntimeException merge(ServiceRuntimeException that) {
     this.serviceCode = this.serviceCode + that.serviceCode / 100;

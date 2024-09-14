@@ -20,7 +20,15 @@ import th.co.loxbit.rest_task_scheduler.scheduler.service.JobSchedulingService;
 @RequiredArgsConstructor
 public class JobSchedulingControllerImpl implements JobSchedulingController {
 
+  // ---------------------------------------------------------------------------//
+  // Dependencies
+  // ---------------------------------------------------------------------------//
+
   private final JobSchedulingService jobSchedulingService;
+
+  // ---------------------------------------------------------------------------//
+  // Functions
+  // ---------------------------------------------------------------------------//
 
   @Override
   public ResponseEntity<GlobalResponseBody<List<GatewaySchedule>>> getScheduledJobs() throws SchedulerException {
@@ -32,6 +40,8 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
 
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
+
+  // ---------------------------------------------------------------------------//
 
   @Override
   public ResponseEntity<GlobalResponseBody<Void>> scheduleJob(@Valid ScheduleJobRequest requestBody)
@@ -45,6 +55,8 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
 
+  // ---------------------------------------------------------------------------//
+
   @Override
   public ResponseEntity<GlobalResponseBody<Void>> updateJob(String id, @Valid ScheduleJobRequest requestBody)
       throws SchedulerException {
@@ -56,6 +68,8 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
 
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
+
+  // ---------------------------------------------------------------------------//
 
   @Override
   public ResponseEntity<GlobalResponseBody<Void>> descheduleJob(String id) throws SchedulerException {

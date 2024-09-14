@@ -17,7 +17,15 @@ import th.co.loxbit.rest_task_scheduler.gateway.services.GatewayService;
 @RequiredArgsConstructor
 public class GatewayControllerImpl implements GatewayController {
 
+  // ---------------------------------------------------------------------------//
+  // Dependencies
+  // ---------------------------------------------------------------------------//
+
   private final GatewayService gatewayService;
+
+  // ---------------------------------------------------------------------------//
+  // Functions
+  // ---------------------------------------------------------------------------//
 
   @Override
   public ResponseEntity<GlobalResponseBody<GetGatewayStatusResponseOutbound>> getGatewayStatus() {
@@ -33,6 +41,8 @@ public class GatewayControllerImpl implements GatewayController {
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
 
+  // ---------------------------------------------------------------------------//
+
   @Override
   public ResponseEntity<GlobalResponseBody<Void>> openGatewayOverride() {
 
@@ -42,6 +52,8 @@ public class GatewayControllerImpl implements GatewayController {
 
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
+
+  // ---------------------------------------------------------------------------//
 
   @Override
   public ResponseEntity<GlobalResponseBody<Void>> closeGatewayOverride(CloseGatewayRequestInbound request) {

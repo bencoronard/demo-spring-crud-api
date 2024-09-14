@@ -23,6 +23,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "gateway_schedule_history", schema = "admin_portal")
 public class JobRecord {
 
+  // ---------------------------------------------------------------------------//
+  // Fields
+  // ---------------------------------------------------------------------------//
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false)

@@ -7,6 +7,10 @@ import lombok.Getter;
 @Getter
 public class GetGatewayStatusResponseOutbound {
 
+  // ---------------------------------------------------------------------------//
+  // Fields
+  // ---------------------------------------------------------------------------//
+
   private final boolean isGatewayOpen;
 
 }

@@ -9,6 +9,10 @@ import lombok.Getter;
 @Getter
 public class GatewaySchedule {
 
+  // ---------------------------------------------------------------------------//
+  // Fields
+  // ---------------------------------------------------------------------------//
+
   private final String id;
   private final Instant startTime;
   private final Instant endTime;

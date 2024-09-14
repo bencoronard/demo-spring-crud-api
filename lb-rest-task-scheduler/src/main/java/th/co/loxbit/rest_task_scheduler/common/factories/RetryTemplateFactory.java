@@ -13,11 +13,19 @@ import th.co.loxbit.rest_task_scheduler.common.http.exceptions.Resp5xxException;
 @Component
 public class RetryTemplateFactory {
 
+  // ---------------------------------------------------------------------------//
+  // Fields
+  // ---------------------------------------------------------------------------//
+
   private static final List<Class<? extends Throwable>> RETRYABLE_EXCEPTIONS = List.of(
       InterruptedException.class,
       SocketTimeoutException.class,
       TimeoutException.class,
       Resp5xxException.class);
+
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
 
   public RetryTemplate withFixedBackOff(int maxAttempts, long backoffMillis) {
     return new RetryTemplateBuilder()
@@ -26,6 +34,8 @@ public class RetryTemplateFactory {
         .retryOn(RETRYABLE_EXCEPTIONS)
         .build();
   }
+
+  // ---------------------------------------------------------------------------//
 
   public RetryTemplate withExponentialBackOff(int maxAttempts, long initInterval, double multiplier, long maxInterval) {
     return new RetryTemplateBuilder()

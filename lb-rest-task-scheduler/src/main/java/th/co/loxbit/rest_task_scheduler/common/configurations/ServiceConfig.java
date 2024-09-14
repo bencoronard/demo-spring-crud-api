@@ -16,8 +16,16 @@ import th.co.loxbit.rest_task_scheduler.common.http.services.implementations.Res
 @RequiredArgsConstructor
 public class ServiceConfig {
 
+  // ---------------------------------------------------------------------------//
+  // Dependencies
+  // ---------------------------------------------------------------------------//
+
   private final ConfigurableObjectFactory<RequestInterceptor, RequestInterceptorConfig> interceptorFactory;
   private final ConfigurableObjectFactory<RestServiceImpl, RestServiceConfig> restServiceFactory;
+
+  // ---------------------------------------------------------------------------//
+  // Configurations
+  // ---------------------------------------------------------------------------//
 
   @Bean("gatewayRestService")
   RestService gatewayRestService(

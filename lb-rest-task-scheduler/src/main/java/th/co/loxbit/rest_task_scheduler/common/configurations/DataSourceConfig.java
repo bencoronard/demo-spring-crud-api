@@ -11,6 +11,10 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
 
+  // ---------------------------------------------------------------------------//
+  // Configurations
+  // ---------------------------------------------------------------------------//
+
   @Bean
   @Primary
   @QuartzDataSource
@@ -18,6 +22,8 @@ public class DataSourceConfig {
   DataSource postgreDataSource() {
     return new DriverManagerDataSource();
   }
+
+  // ---------------------------------------------------------------------------//
 
   @Bean
   @ConfigurationProperties(prefix = "spring.datasource.h2")

@@ -22,7 +22,15 @@ import th.co.loxbit.rest_task_scheduler.scheduler.service.JobSchedulingService;
 @RequiredArgsConstructor
 public class JobSchedulingServiceImpl implements JobSchedulingService {
 
+  // ---------------------------------------------------------------------------//
+  // Dependencies
+  // ---------------------------------------------------------------------------//
+
   private final ScheduleRepository scheduleRepository;
+
+  // ---------------------------------------------------------------------------//
+  // Functions
+  // ---------------------------------------------------------------------------//
 
   @Override
   public void scheduleJob(int startTime, int endTime, String message, String owner) throws SchedulerException {
@@ -44,15 +52,21 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
     scheduleRepository.createSchedule(jobId, jobData, closeGatewayTrigger, openGatewayTrigger);
   }
 
+  // ---------------------------------------------------------------------------//
+
   @Override
   public void descheduleJob(String jobId) throws SchedulerException {
     scheduleRepository.deleteScheduleById(jobId);
   }
 
+  // ---------------------------------------------------------------------------//
+
   @Override
   public List<GatewaySchedule> getScheduledJobs() throws SchedulerException {
     return scheduleRepository.findAllSchedules();
   }
+
+  // ---------------------------------------------------------------------------//
 
   @Override
   public void updateJob(String jobId, int newStartTime, int newEndTime, String newMessage, String newOwner)

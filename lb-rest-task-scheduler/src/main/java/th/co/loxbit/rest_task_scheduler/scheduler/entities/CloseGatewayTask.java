@@ -11,8 +11,16 @@ import th.co.loxbit.rest_task_scheduler.gateway.services.GatewayService;
 @Setter
 public class CloseGatewayTask extends QuartzJobBean {
 
+  // ---------------------------------------------------------------------------//
+  // Dependencies
+  // ---------------------------------------------------------------------------//
+
   private GatewayService gatewayService;
   private String message;
+
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
 
   @Override
   protected void executeInternal(@NonNull JobExecutionContext context) throws JobExecutionException {

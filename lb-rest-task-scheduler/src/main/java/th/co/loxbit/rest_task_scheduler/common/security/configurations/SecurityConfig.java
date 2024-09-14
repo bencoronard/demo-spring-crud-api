@@ -8,6 +8,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+  // ---------------------------------------------------------------------------//
+  // Configurations
+  // ---------------------------------------------------------------------------//
+
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 

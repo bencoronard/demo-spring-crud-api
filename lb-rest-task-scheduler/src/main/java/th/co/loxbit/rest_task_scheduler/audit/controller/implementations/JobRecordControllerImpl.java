@@ -17,7 +17,15 @@ import th.co.loxbit.rest_task_scheduler.common.http.utilities.ResponseBodyUtils;
 @RequiredArgsConstructor
 public class JobRecordControllerImpl implements JobRecordController {
 
+  // ---------------------------------------------------------------------------//
+  // Dependencies
+  // ---------------------------------------------------------------------------//
+
   private final JobRecordService jobRecordService;
+
+  // ---------------------------------------------------------------------------//
+  // Functions
+  // ---------------------------------------------------------------------------//
 
   @Override
   public ResponseEntity<GlobalResponseBody<Void>> test() {

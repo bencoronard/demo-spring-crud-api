@@ -4,6 +4,10 @@ import lombok.Builder;
 
 public class CatchAllServiceException extends ServiceRuntimeException {
 
+  // ---------------------------------------------------------------------------//
+  // Constructors
+  // ---------------------------------------------------------------------------//
+
   @Builder
   public CatchAllServiceException(int serviceCode, int sectionCode, int errorCode, String message) {
     super(serviceCode, sectionCode, errorCode, message);
