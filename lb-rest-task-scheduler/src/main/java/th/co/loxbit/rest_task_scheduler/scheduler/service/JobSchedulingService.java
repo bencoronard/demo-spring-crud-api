@@ -6,7 +6,7 @@ import th.co.loxbit.rest_task_scheduler.scheduler.entities.GatewaySchedule;
 
 public interface JobSchedulingService {
 
-  int SERVICE_CODE = 5000;
+  int SERVICE_CODE = 7000;
 
   void scheduleJob(int start, int end, String message, String owner);
 

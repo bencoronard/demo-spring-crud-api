@@ -76,9 +76,10 @@ HTTP 5xx
 RespCode : `####`
 
 `(#)###` : SERVICE ID
-- `0` : ...
-- `1` : ...
-- `2` : ...
+- `1` : HTTP
+- `3` : Audit
+- `5` : Gateway
+- `7` : Scheduler
 
 `#(#)##` : SECTION ID
 - `0` : ...

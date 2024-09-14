@@ -4,7 +4,7 @@ import org.springframework.retry.support.RetryTemplate;
 
 public interface RestService {
 
-  int SERVICE_CODE = 0;
+  int SERVICE_CODE = 100;
 
   <T> T get(String path, Class<T> responseType);
 
