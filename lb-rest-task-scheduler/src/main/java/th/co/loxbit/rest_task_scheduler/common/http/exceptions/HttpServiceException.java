@@ -1,23 +1,22 @@
 package th.co.loxbit.rest_task_scheduler.common.http.exceptions;
 
-import lombok.Builder;
-import th.co.loxbit.rest_task_scheduler.common.exceptions.ServiceRuntimeException;
+import th.co.loxbit.rest_task_scheduler.common.exceptions.WrappableException;
 
-public class Resp4xxException extends ServiceRuntimeException {
+public class HttpServiceException extends WrappableException {
 
   // ---------------------------------------------------------------------------//
   // Fields
   // ---------------------------------------------------------------------------//
 
   private static final int ERROR_CODE = 40;
+  private static final String RESP_MSG = "Unable to perform the requested opertaion at the server side";
 
   // ---------------------------------------------------------------------------//
   // Constructors
   // ---------------------------------------------------------------------------//
 
-  @Builder
-  public Resp4xxException(int serviceCode, int sectionCode, String message) {
-    super(serviceCode, sectionCode, ERROR_CODE, message);
+  public HttpServiceException(String message) {
+    super(ERROR_CODE, message, RESP_MSG);
   }
 
 }

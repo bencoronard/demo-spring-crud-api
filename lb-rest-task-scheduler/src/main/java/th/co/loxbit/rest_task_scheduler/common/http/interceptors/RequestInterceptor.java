@@ -45,7 +45,6 @@ public class RequestInterceptor implements ClientHttpRequestInterceptor {
 
     HttpHeaders headers = request.getHeaders();
     headers.add("Authorization", "Bearer " + apiKey);
-
   }
 
 }

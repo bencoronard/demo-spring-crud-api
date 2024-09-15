@@ -1,18 +1,31 @@
 package th.co.loxbit.rest_task_scheduler.common.http.handlers;
 
 import java.io.IOException;
+import java.util.Set;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResponseErrorHandler;
 
-import th.co.loxbit.rest_task_scheduler.common.http.exceptions.Resp4xxException;
-import th.co.loxbit.rest_task_scheduler.common.http.exceptions.Resp5xxException;
+import th.co.loxbit.rest_task_scheduler.common.http.exceptions.HttpServiceException;
+import th.co.loxbit.rest_task_scheduler.common.http.exceptions.RetryableHttpServiceException;
 
 @Component
 public class RestErrorResponseHandler implements ResponseErrorHandler {
+
+  // ---------------------------------------------------------------------------//
+  // Fields
+  // ---------------------------------------------------------------------------//
+
+  private static final Set<HttpStatus> RETRYABLE_STATUSES = Set.of(
+      HttpStatus.REQUEST_TIMEOUT,
+      HttpStatus.INTERNAL_SERVER_ERROR,
+      HttpStatus.BAD_GATEWAY,
+      HttpStatus.SERVICE_UNAVAILABLE,
+      HttpStatus.GATEWAY_TIMEOUT);
 
   // ---------------------------------------------------------------------------//
   // Methods
@@ -20,10 +33,7 @@ public class RestErrorResponseHandler implements ResponseErrorHandler {
 
   @Override
   public boolean hasError(@NonNull ClientHttpResponse response) throws IOException {
-
-    HttpStatusCode responseStatusCode = response.getStatusCode();
-
-    return responseStatusCode.is4xxClientError() || responseStatusCode.is5xxServerError();
+    return response.getStatusCode().isError();
   }
 
   // ---------------------------------------------------------------------------//
@@ -31,14 +41,14 @@ public class RestErrorResponseHandler implements ResponseErrorHandler {
   @Override
   public void handleError(@NonNull ClientHttpResponse response) throws IOException {
 
-    HttpStatusCode responseStatusCode = response.getStatusCode();
+    HttpStatusCode statusCode = response.getStatusCode();
+    String body = new String(response.getBody().readAllBytes());
 
-    if (responseStatusCode.is4xxClientError()) {
-      throw new Resp4xxException(0, 0, "Client error");
-    } else {
-      throw new Resp5xxException(0, 0, "Server error");
+    if (RETRYABLE_STATUSES.contains(statusCode)) {
+      throw new RetryableHttpServiceException("Retryable HTTP error: " + statusCode + ", Body: " + body);
     }
 
+    throw new HttpServiceException("HTTP error: " + statusCode + ", Body: " + body);
   }
 
 }

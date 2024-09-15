@@ -1,23 +1,22 @@
 package th.co.loxbit.rest_task_scheduler.common.http.exceptions;
 
-import lombok.Builder;
-import th.co.loxbit.rest_task_scheduler.common.exceptions.ServiceRuntimeException;
+import th.co.loxbit.rest_task_scheduler.common.exceptions.RetryableException;
 
-public class Resp5xxException extends ServiceRuntimeException {
+public class RetryableHttpServiceException extends RetryableException {
 
   // ---------------------------------------------------------------------------//
   // Fields
   // ---------------------------------------------------------------------------//
 
   private static final int ERROR_CODE = 50;
+  private static final String RESP_MSG = "Unable to perform the requested opertaion at a third-party service";
 
   // ---------------------------------------------------------------------------//
   // Constructors
   // ---------------------------------------------------------------------------//
 
-  @Builder
-  public Resp5xxException(int serviceCode, int sectionCode, String message) {
-    super(serviceCode, sectionCode, ERROR_CODE, message);
+  public RetryableHttpServiceException(String message) {
+    super(ERROR_CODE, message, RESP_MSG);
   }
 
 }
