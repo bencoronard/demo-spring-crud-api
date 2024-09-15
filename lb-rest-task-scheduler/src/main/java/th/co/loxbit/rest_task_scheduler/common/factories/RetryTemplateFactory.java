@@ -5,7 +5,7 @@ import org.springframework.retry.support.RetryTemplate;
 import org.springframework.retry.support.RetryTemplateBuilder;
 import org.springframework.stereotype.Component;
 
-import th.co.loxbit.rest_task_scheduler.common.exceptions.RetryableException;
+import th.co.loxbit.rest_task_scheduler.common.exceptions.implementations.RetryableException;
 
 @Component
 public class RetryTemplateFactory {

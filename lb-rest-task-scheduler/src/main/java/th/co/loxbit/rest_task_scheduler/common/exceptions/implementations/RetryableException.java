@@ -1,4 +1,6 @@
-package th.co.loxbit.rest_task_scheduler.common.exceptions;
+package th.co.loxbit.rest_task_scheduler.common.exceptions.implementations;
+
+import th.co.loxbit.rest_task_scheduler.common.exceptions.WrappableException;
 
 public class RetryableException extends WrappableException {
 

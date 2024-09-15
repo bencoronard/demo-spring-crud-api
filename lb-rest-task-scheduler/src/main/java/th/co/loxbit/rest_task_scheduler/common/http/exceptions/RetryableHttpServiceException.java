@@ -1,6 +1,6 @@
 package th.co.loxbit.rest_task_scheduler.common.http.exceptions;
 
-import th.co.loxbit.rest_task_scheduler.common.exceptions.RetryableException;
+import th.co.loxbit.rest_task_scheduler.common.exceptions.implementations.RetryableException;
 
 public class RetryableHttpServiceException extends RetryableException {
 
