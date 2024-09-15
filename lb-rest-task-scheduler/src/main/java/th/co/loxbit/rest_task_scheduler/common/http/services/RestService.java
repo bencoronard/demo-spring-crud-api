@@ -4,8 +4,6 @@ import org.springframework.retry.support.RetryTemplate;
 
 public interface RestService {
 
-  int SERVICE_CODE = 100;
-
   <T> T get(String path, Class<T> responseType);
 
   <T, R> R post(String path, T requestBody, Class<R> responseType);
