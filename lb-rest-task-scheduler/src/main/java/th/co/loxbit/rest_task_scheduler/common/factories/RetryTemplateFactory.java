@@ -1,14 +1,11 @@
 package th.co.loxbit.rest_task_scheduler.common.factories;
 
-import java.net.SocketTimeoutException;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
-
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.retry.support.RetryTemplateBuilder;
 import org.springframework.stereotype.Component;
 
-import th.co.loxbit.rest_task_scheduler.common.http.exceptions.Resp5xxException;
+import th.co.loxbit.rest_task_scheduler.common.exceptions.RetryableException;
 
 @Component
 public class RetryTemplateFactory {
@@ -17,11 +14,7 @@ public class RetryTemplateFactory {
   // Fields
   // ---------------------------------------------------------------------------//
 
-  private static final List<Class<? extends Throwable>> RETRYABLE_EXCEPTIONS = List.of(
-      InterruptedException.class,
-      SocketTimeoutException.class,
-      TimeoutException.class,
-      Resp5xxException.class);
+  private static final List<Class<? extends Throwable>> RETRYABLE_EXCEPTIONS = List.of(RetryableException.class);
 
   // ---------------------------------------------------------------------------//
   // Methods
