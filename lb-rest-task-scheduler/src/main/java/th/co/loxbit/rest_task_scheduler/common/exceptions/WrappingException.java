@@ -1,42 +1,57 @@
 package th.co.loxbit.rest_task_scheduler.common.exceptions;
 
+import lombok.Getter;
+
+@Getter
 public class WrappingException extends RuntimeException {
 
   // ---------------------------------------------------------------------------//
   // Fields
   // ---------------------------------------------------------------------------//
 
-  // private int serviceCode;
-  // private int sectionCode;
-  // private int errorCode;
+  private final int SERVICE_CODE;
 
   // ---------------------------------------------------------------------------//
   // Constructors
   // ---------------------------------------------------------------------------//
 
-  // public ServiceRuntimeException(int serviceCode, int sectionCode, int
-  // errorCode, String message) {
-  // super(message);
-  // this.serviceCode = serviceCode;
-  // this.sectionCode = sectionCode;
-  // this.errorCode = errorCode;
-  // }
+  public WrappingException(int serviceCode, Throwable cause) {
+    super(cause);
+    this.SERVICE_CODE = serviceCode;
+  }
 
   // ---------------------------------------------------------------------------//
   // Methods
   // ---------------------------------------------------------------------------//
 
-  // public int getRespCode() {
-  // return this.serviceCode + this.sectionCode + this.errorCode;
-  // }
+  public int getRespData() {
 
-  // ---------------------------------------------------------------------------//
+    Throwable cause = this.getCause();
 
-  // public ServiceRuntimeException merge(ServiceRuntimeException that) {
-  // this.serviceCode = this.serviceCode + that.serviceCode / 100;
-  // this.sectionCode = this.sectionCode + that.sectionCode / 100;
-  // this.errorCode = that.errorCode;
-  // return this;
-  // }
+    // CASE_1(1): a service exception wrapped in THIS wrapper
+    if (cause instanceof WrappableException) {
+      WrappableException wrappedException = (WrappableException) cause;
+      return this.SERVICE_CODE + wrappedException.getERROR_CODE();
+    }
+
+    // CASE_2: a wrapper wrapped in THIS wrapper
+    if (cause instanceof WrappingException) {
+
+      WrappingException wrappedWrapper = (WrappingException) cause;
+      Throwable wrappedCause = wrappedWrapper.getCause();
+
+      // CASE_2(1): a service exception wrapped in the wrapper
+      if (wrappedCause instanceof WrappableException) {
+        WrappableException wrappedException = (WrappableException) wrappedCause;
+        return this.SERVICE_CODE + wrappedWrapper.getSERVICE_CODE() / 10 + wrappedException.getERROR_CODE();
+      }
+
+      // CASE_2(2): a Java exception wrapped in the wrapper
+      return this.SERVICE_CODE + wrappedWrapper.getSERVICE_CODE() / 10;
+    }
+
+    // CASE_1(2): a Java exception wrapped in THIS wrapper
+    return this.SERVICE_CODE;
+  }
 
 }
