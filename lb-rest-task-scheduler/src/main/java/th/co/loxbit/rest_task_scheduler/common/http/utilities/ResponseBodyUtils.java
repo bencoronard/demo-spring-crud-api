@@ -1,6 +1,6 @@
 package th.co.loxbit.rest_task_scheduler.common.http.utilities;
 
-import th.co.loxbit.rest_task_scheduler.common.http.responses.GlobalResponseBody;
+import th.co.loxbit.rest_task_scheduler.common.http.dtos.responses.GlobalResponseBody;
 
 public class ResponseBodyUtils {
 

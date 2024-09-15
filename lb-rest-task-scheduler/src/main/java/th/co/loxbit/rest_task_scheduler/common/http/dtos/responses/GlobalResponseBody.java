@@ -1,4 +1,4 @@
-package th.co.loxbit.rest_task_scheduler.common.http.responses;
+package th.co.loxbit.rest_task_scheduler.common.http.dtos.responses;
 
 import lombok.Builder;
 import lombok.Getter;

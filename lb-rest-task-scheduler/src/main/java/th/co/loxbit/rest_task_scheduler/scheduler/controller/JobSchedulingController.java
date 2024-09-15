@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import th.co.loxbit.rest_task_scheduler.common.http.responses.GlobalResponseBody;
+import th.co.loxbit.rest_task_scheduler.common.http.dtos.responses.GlobalResponseBody;
 import th.co.loxbit.rest_task_scheduler.scheduler.dtos.requests.ScheduleJobRequest;
 import th.co.loxbit.rest_task_scheduler.scheduler.entities.GatewaySchedule;
 

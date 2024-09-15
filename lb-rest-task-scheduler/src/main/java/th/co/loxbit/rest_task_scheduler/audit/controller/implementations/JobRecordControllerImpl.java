@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import th.co.loxbit.rest_task_scheduler.audit.controller.JobRecordController;
 import th.co.loxbit.rest_task_scheduler.audit.entities.JobRecordType;
 import th.co.loxbit.rest_task_scheduler.audit.service.JobRecordService;
-import th.co.loxbit.rest_task_scheduler.common.http.responses.GlobalResponseBody;
+import th.co.loxbit.rest_task_scheduler.common.http.dtos.responses.GlobalResponseBody;
 import th.co.loxbit.rest_task_scheduler.common.http.utilities.ResponseBodyUtils;
 
 @RestController
