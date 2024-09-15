@@ -24,7 +24,7 @@ public class WrappingException extends RuntimeException {
   // Methods
   // ---------------------------------------------------------------------------//
 
-  public int getRespData() {
+  public int getRespCode() {
 
     Throwable cause = this.getCause();
 
@@ -52,6 +52,70 @@ public class WrappingException extends RuntimeException {
 
     // CASE_1(2): a Java exception wrapped in THIS wrapper
     return this.SERVICE_CODE;
+  }
+
+  // ---------------------------------------------------------------------------//
+
+  public String getRespMsg() {
+
+    Throwable cause = this.getCause();
+
+    // CASE_1(1): a service exception wrapped in THIS wrapper
+    if (cause instanceof WrappableException) {
+      WrappableException wrappedException = (WrappableException) cause;
+      return wrappedException.getRESP_MSG();
+    }
+
+    // CASE_2: a wrapper wrapped in THIS wrapper
+    if (cause instanceof WrappingException) {
+
+      WrappingException wrappedWrapper = (WrappingException) cause;
+      Throwable wrappedCause = wrappedWrapper.getCause();
+
+      // CASE_2(1): a service exception wrapped in the wrapper
+      if (wrappedCause instanceof WrappableException) {
+        WrappableException wrappedException = (WrappableException) wrappedCause;
+        return wrappedException.getRESP_MSG();
+      }
+
+      // CASE_2(2): a Java exception wrapped in the wrapper
+      return "Unhandled exception at server side";
+    }
+
+    // CASE_1(2): a Java exception wrapped in THIS wrapper
+    return "Unhandled exception at server side";
+  }
+
+  // ---------------------------------------------------------------------------//
+
+  public String getErrorMessage() {
+
+    Throwable cause = this.getCause();
+
+    // CASE_1(1): a service exception wrapped in THIS wrapper
+    if (cause instanceof WrappableException) {
+      WrappableException wrappedException = (WrappableException) cause;
+      return wrappedException.getMessage();
+    }
+
+    // CASE_2: a wrapper wrapped in THIS wrapper
+    if (cause instanceof WrappingException) {
+
+      WrappingException wrappedWrapper = (WrappingException) cause;
+      Throwable wrappedCause = wrappedWrapper.getCause();
+
+      // CASE_2(1): a service exception wrapped in the wrapper
+      if (wrappedCause instanceof WrappableException) {
+        WrappableException wrappedException = (WrappableException) wrappedCause;
+        return wrappedException.getMessage();
+      }
+
+      // CASE_2(2): a Java exception wrapped in the wrapper
+      return wrappedCause.getMessage();
+    }
+
+    // CASE_1(2): a Java exception wrapped in THIS wrapper
+    return cause.getMessage();
   }
 
 }
