@@ -14,7 +14,15 @@ import th.co.loxbit.rest_task_scheduler.audit.service.JobRecordService;
 @RequiredArgsConstructor
 public class JobRecordServiceImpl implements JobRecordService {
 
+  // ---------------------------------------------------------------------------//
+  // Dependencies
+  // ---------------------------------------------------------------------------//
+
   private final JobRecordRepository jobRecordRepository;
+
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
 
   @Override
   public void addJobRecord(String jobId, Instant startAt, Instant endAt, String createdBy, Instant createAt,

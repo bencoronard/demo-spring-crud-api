@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import th.co.loxbit.rest_task_scheduler.common.http.responses.GlobalResponseBody;
+import th.co.loxbit.rest_task_scheduler.common.http.dtos.responses.GlobalResponseBody;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.requests.inbound.CloseGatewayRequestInbound;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.outbound.GetGatewayStatusResponseOutbound;
 

@@ -10,14 +10,22 @@ import lombok.RequiredArgsConstructor;
 import th.co.loxbit.rest_task_scheduler.audit.controller.JobRecordController;
 import th.co.loxbit.rest_task_scheduler.audit.entities.JobRecordType;
 import th.co.loxbit.rest_task_scheduler.audit.service.JobRecordService;
-import th.co.loxbit.rest_task_scheduler.common.http.responses.GlobalResponseBody;
+import th.co.loxbit.rest_task_scheduler.common.http.dtos.responses.GlobalResponseBody;
 import th.co.loxbit.rest_task_scheduler.common.http.utilities.ResponseBodyUtils;
 
 @RestController
 @RequiredArgsConstructor
 public class JobRecordControllerImpl implements JobRecordController {
 
+  // ---------------------------------------------------------------------------//
+  // Dependencies
+  // ---------------------------------------------------------------------------//
+
   private final JobRecordService jobRecordService;
+
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
 
   @Override
   public ResponseEntity<GlobalResponseBody<Void>> test() {

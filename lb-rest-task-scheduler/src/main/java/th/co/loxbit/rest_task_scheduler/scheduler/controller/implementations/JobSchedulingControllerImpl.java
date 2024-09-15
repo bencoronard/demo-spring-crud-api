@@ -2,13 +2,14 @@ package th.co.loxbit.rest_task_scheduler.scheduler.controller.implementations;
 
 import java.util.List;
 
+import org.quartz.SchedulerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import th.co.loxbit.rest_task_scheduler.common.http.responses.GlobalResponseBody;
+import th.co.loxbit.rest_task_scheduler.common.http.dtos.responses.GlobalResponseBody;
 import th.co.loxbit.rest_task_scheduler.common.http.utilities.ResponseBodyUtils;
 import th.co.loxbit.rest_task_scheduler.scheduler.controller.JobSchedulingController;
 import th.co.loxbit.rest_task_scheduler.scheduler.dtos.requests.ScheduleJobRequest;
@@ -19,10 +20,18 @@ import th.co.loxbit.rest_task_scheduler.scheduler.service.JobSchedulingService;
 @RequiredArgsConstructor
 public class JobSchedulingControllerImpl implements JobSchedulingController {
 
+  // ---------------------------------------------------------------------------//
+  // Dependencies
+  // ---------------------------------------------------------------------------//
+
   private final JobSchedulingService jobSchedulingService;
 
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
+
   @Override
-  public ResponseEntity<GlobalResponseBody<List<GatewaySchedule>>> getScheduledJobs() {
+  public ResponseEntity<GlobalResponseBody<List<GatewaySchedule>>> getScheduledJobs() throws SchedulerException {
 
     List<GatewaySchedule> data = jobSchedulingService.getScheduledJobs();
 
@@ -32,8 +41,11 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
 
+  // ---------------------------------------------------------------------------//
+
   @Override
-  public ResponseEntity<GlobalResponseBody<Void>> scheduleJob(@Valid ScheduleJobRequest requestBody) {
+  public ResponseEntity<GlobalResponseBody<Void>> scheduleJob(@Valid ScheduleJobRequest requestBody)
+      throws SchedulerException {
 
     jobSchedulingService.scheduleJob(requestBody.start(), requestBody.end(), requestBody.message(),
         requestBody.userId());
@@ -43,8 +55,11 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
 
+  // ---------------------------------------------------------------------------//
+
   @Override
-  public ResponseEntity<GlobalResponseBody<Void>> updateJob(String id, @Valid ScheduleJobRequest requestBody) {
+  public ResponseEntity<GlobalResponseBody<Void>> updateJob(String id, @Valid ScheduleJobRequest requestBody)
+      throws SchedulerException {
 
     jobSchedulingService.updateJob(id, requestBody.start(), requestBody.end(), requestBody.message(),
         requestBody.userId());
@@ -54,8 +69,10 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
 
+  // ---------------------------------------------------------------------------//
+
   @Override
-  public ResponseEntity<GlobalResponseBody<Void>> descheduleJob(String id) {
+  public ResponseEntity<GlobalResponseBody<Void>> descheduleJob(String id) throws SchedulerException {
 
     jobSchedulingService.descheduleJob(id);
 

@@ -1,17 +1,18 @@
 package th.co.loxbit.rest_task_scheduler.common.http.utilities;
 
-import th.co.loxbit.rest_task_scheduler.common.exceptions.ServiceRuntimeException;
-import th.co.loxbit.rest_task_scheduler.common.http.responses.GlobalResponseBody;
+import th.co.loxbit.rest_task_scheduler.common.http.dtos.responses.GlobalResponseBody;
 
 public class ResponseBodyUtils {
 
-  public static GlobalResponseBody<String> createErrorResponseBody(ServiceRuntimeException exception) {
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
+
+  public static GlobalResponseBody<String> createErrorResponseBody(RuntimeException exception) {
 
     String errorMessage = exception.getMessage();
 
     GlobalResponseBody.GlobalResponseBodyBuilder<String> builder = GlobalResponseBody.<String>builder();
-
-    builder.respCode(exception.getRespCode());
 
     builder.desc("Runtime exception");
 
@@ -19,6 +20,8 @@ public class ResponseBodyUtils {
 
     return builder.build();
   }
+
+  // ---------------------------------------------------------------------------//
 
   public static <T> GlobalResponseBody<T> createSuccessResponseBody(String desc, T payload) {
 

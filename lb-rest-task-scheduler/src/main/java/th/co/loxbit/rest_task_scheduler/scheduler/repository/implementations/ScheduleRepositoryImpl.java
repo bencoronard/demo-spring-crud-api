@@ -24,7 +24,15 @@ import th.co.loxbit.rest_task_scheduler.scheduler.repository.ScheduleRepository;
 @RequiredArgsConstructor
 public class ScheduleRepositoryImpl implements ScheduleRepository {
 
+  // ---------------------------------------------------------------------------//
+  // Dependencies
+  // ---------------------------------------------------------------------------//
+
   private final Scheduler scheduler;
+
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
 
   @Override
   public Map<String, Pair<JobDetail, ? extends Trigger>> findScheduleById(String jobId) throws SchedulerException {
@@ -50,6 +58,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     return schedules;
   }
 
+  // ---------------------------------------------------------------------------//
+
   @Override
   public List<GatewaySchedule> findAllSchedules() throws SchedulerException {
 
@@ -69,6 +79,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     return gatewaySchedules;
   }
 
+  // ---------------------------------------------------------------------------//
+
   @Override
   public void createSchedule(String jobId, Map<String, Object> jobData, Trigger jobTriggerStart, Trigger jobTriggerEnd)
       throws SchedulerException {
@@ -82,6 +94,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     scheduler.scheduleJob(closeGatewayTask, jobTriggerStart);
     scheduler.scheduleJob(openGatewayTask, jobTriggerEnd);
   }
+
+  // ---------------------------------------------------------------------------//
 
   @Override
   public void deleteScheduleById(String jobId) throws SchedulerException {

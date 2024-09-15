@@ -7,6 +7,10 @@ import lombok.Getter;
 @Getter
 public class RequestInterceptorConfig {
 
+  // ---------------------------------------------------------------------------//
+  // Fields
+  // ---------------------------------------------------------------------------//
+
   private final String apiKey;
 
 }

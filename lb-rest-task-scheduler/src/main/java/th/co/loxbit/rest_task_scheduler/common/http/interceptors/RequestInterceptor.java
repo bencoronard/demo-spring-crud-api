@@ -15,7 +15,15 @@ import th.co.loxbit.rest_task_scheduler.common.http.configurers.RequestIntercept
 @RequiredArgsConstructor
 public class RequestInterceptor implements ClientHttpRequestInterceptor {
 
+  // ---------------------------------------------------------------------------//
+  // Dependencies
+  // ---------------------------------------------------------------------------//
+
   private final RequestInterceptorConfig config;
+
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
 
   @Override
   @NonNull
@@ -31,7 +39,10 @@ public class RequestInterceptor implements ClientHttpRequestInterceptor {
     return execution.execute(request, body);
   }
 
+  // ---------------------------------------------------------------------------//
+
   private void addApiKeyHeader(HttpRequest request, String apiKey) {
+
     HttpHeaders headers = request.getHeaders();
     headers.add("Authorization", "Bearer " + apiKey);
   }

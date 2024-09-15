@@ -3,7 +3,6 @@ package th.co.loxbit.rest_task_scheduler.gateway.services.implementations;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
-import th.co.loxbit.rest_task_scheduler.common.exceptions.CatchAllServiceException;
 import th.co.loxbit.rest_task_scheduler.common.factories.RetryTemplateFactory;
 import th.co.loxbit.rest_task_scheduler.common.http.services.RestService;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.requests.outbound.CloseGatewayRequestOutbound;
@@ -17,81 +16,55 @@ import th.co.loxbit.rest_task_scheduler.gateway.services.GatewayService;
 @RequiredArgsConstructor
 public class GatewayServiceImpl implements GatewayService {
 
+  // ---------------------------------------------------------------------------//
+  // Dependencies
+  // ---------------------------------------------------------------------------//
+
   @Qualifier("gatewayRestService")
   private final RestService restService;
   private final RetryTemplateFactory retry;
 
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
+
   @Override
   public GatewayStatus getGatewayStatus() {
 
-    final int SECTION_CODE = 0;
+    GetGatewayStatusResponseInbound response = restService.get(
+        "/status",
+        GetGatewayStatusResponseInbound.class);
 
-    try {
-
-      GetGatewayStatusResponseInbound response = restService.get(
-          "/status",
-          GetGatewayStatusResponseInbound.class);
-
-      return GatewayStatus.fromStatus(response.desc());
-
-    } catch (RuntimeException e) {
-
-      throw CatchAllServiceException.builder()
-          .serviceCode(SERVICE_CODE)
-          .sectionCode(SECTION_CODE)
-          .build();
-    }
+    return GatewayStatus.fromStatus(response.desc());
   }
+
+  // ---------------------------------------------------------------------------//
 
   @Override
   public void openGateway() {
 
-    final int SECTION_CODE = 100;
-
-    try {
-
-      restService.postWithRetry(
-          "/open",
-          null,
-          OpenGatewayResponseInbound.class,
-          retry.withExponentialBackOff(3, 1000, 2, 3000));
-
-    } catch (RuntimeException e) {
-
-      throw CatchAllServiceException.builder()
-          .serviceCode(SERVICE_CODE)
-          .sectionCode(SECTION_CODE)
-          .message(e.getMessage())
-          .build();
-
-    }
+    restService.postWithRetry(
+        "/open",
+        null,
+        OpenGatewayResponseInbound.class,
+        retry.withExponentialBackOff(3, 1000, 2, 3000));
   }
+
+  // ---------------------------------------------------------------------------//
 
   @Override
   public void closeGateway(String maintenanceMsg) {
 
-    final int SECTION_CODE = 200;
+    CloseGatewayRequestOutbound requestBody = CloseGatewayRequestOutbound.builder()
+        .message(maintenanceMsg)
+        .build();
 
-    try {
+    restService.postWithRetry(
+        "/close",
+        requestBody,
+        CloseGatewayResponseInbound.class,
+        retry.withFixedBackOff(3, 1000));
 
-      CloseGatewayRequestOutbound requestBody = CloseGatewayRequestOutbound.builder()
-          .message(maintenanceMsg)
-          .build();
-
-      restService.postWithRetry(
-          "/close",
-          requestBody,
-          CloseGatewayResponseInbound.class,
-          retry.withFixedBackOff(3, 1000));
-
-    } catch (RuntimeException e) {
-
-      throw CatchAllServiceException.builder()
-          .serviceCode(SERVICE_CODE)
-          .sectionCode(SECTION_CODE)
-          .build();
-
-    }
   }
 
 }

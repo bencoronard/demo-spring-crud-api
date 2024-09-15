@@ -10,7 +10,15 @@ import th.co.loxbit.rest_task_scheduler.common.http.services.RestService;
 @RequiredArgsConstructor
 public class RestServiceImpl implements RestService {
 
+  // ---------------------------------------------------------------------------//
+  // Dependencies
+  // ---------------------------------------------------------------------------//
+
   private final RestClient restClient;
+
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
 
   @Override
   public <T> T get(String path, Class<T> responseType) {
@@ -20,6 +28,8 @@ public class RestServiceImpl implements RestService {
         .retrieve()
         .body(responseType);
   }
+
+  // ---------------------------------------------------------------------------//
 
   @Override
   public <T, R> R post(String path, T requestBody, Class<R> responseType) {
@@ -32,6 +42,8 @@ public class RestServiceImpl implements RestService {
         .body(responseType);
   }
 
+  // ---------------------------------------------------------------------------//
+
   @Override
   public <T, R> R put(String path, T requestBody, Class<R> responseType) {
     return this.restClient
@@ -43,6 +55,8 @@ public class RestServiceImpl implements RestService {
         .body(responseType);
   }
 
+  // ---------------------------------------------------------------------------//
+
   @Override
   public <T> T delete(String path, Class<T> responseType) {
     return this.restClient
@@ -51,6 +65,8 @@ public class RestServiceImpl implements RestService {
         .retrieve()
         .body(responseType);
   }
+
+  // ---------------------------------------------------------------------------//
 
   @Override
   public <T> T getWithRetry(String path, Class<T> responseType, RetryTemplate withRetry) {
@@ -62,6 +78,8 @@ public class RestServiceImpl implements RestService {
           .body(responseType);
     });
   }
+
+  // ---------------------------------------------------------------------------//
 
   @Override
   public <T, R> R postWithRetry(String path, T requestBody, Class<R> responseType, RetryTemplate withRetry) {
@@ -76,6 +94,8 @@ public class RestServiceImpl implements RestService {
     });
   }
 
+  // ---------------------------------------------------------------------------//
+
   @Override
   public <T, R> R putWithRetry(String path, T requestBody, Class<R> responseType, RetryTemplate withRetry) {
     return withRetry.execute((context) -> {
@@ -88,6 +108,8 @@ public class RestServiceImpl implements RestService {
           .body(responseType);
     });
   }
+
+  // ---------------------------------------------------------------------------//
 
   @Override
   public <T> T deleteWithRetry(String path, Class<T> responseType, RetryTemplate withRetry) {

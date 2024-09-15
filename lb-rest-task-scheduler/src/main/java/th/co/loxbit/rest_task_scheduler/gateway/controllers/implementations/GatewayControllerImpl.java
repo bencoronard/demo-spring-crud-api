@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import th.co.loxbit.rest_task_scheduler.common.http.responses.GlobalResponseBody;
+import th.co.loxbit.rest_task_scheduler.common.http.dtos.responses.GlobalResponseBody;
 import th.co.loxbit.rest_task_scheduler.common.http.utilities.ResponseBodyUtils;
 import th.co.loxbit.rest_task_scheduler.gateway.controllers.GatewayController;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.requests.inbound.CloseGatewayRequestInbound;
@@ -17,7 +17,15 @@ import th.co.loxbit.rest_task_scheduler.gateway.services.GatewayService;
 @RequiredArgsConstructor
 public class GatewayControllerImpl implements GatewayController {
 
+  // ---------------------------------------------------------------------------//
+  // Dependencies
+  // ---------------------------------------------------------------------------//
+
   private final GatewayService gatewayService;
+
+  // ---------------------------------------------------------------------------//
+  // Methods
+  // ---------------------------------------------------------------------------//
 
   @Override
   public ResponseEntity<GlobalResponseBody<GetGatewayStatusResponseOutbound>> getGatewayStatus() {
@@ -33,6 +41,8 @@ public class GatewayControllerImpl implements GatewayController {
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
 
+  // ---------------------------------------------------------------------------//
+
   @Override
   public ResponseEntity<GlobalResponseBody<Void>> openGatewayOverride() {
 
@@ -42,6 +52,8 @@ public class GatewayControllerImpl implements GatewayController {
 
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
+
+  // ---------------------------------------------------------------------------//
 
   @Override
   public ResponseEntity<GlobalResponseBody<Void>> closeGatewayOverride(CloseGatewayRequestInbound request) {
