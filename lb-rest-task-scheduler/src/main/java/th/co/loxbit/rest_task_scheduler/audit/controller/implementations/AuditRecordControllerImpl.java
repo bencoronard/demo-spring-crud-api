@@ -2,6 +2,7 @@ package th.co.loxbit.rest_task_scheduler.audit.controller.implementations;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -27,13 +28,13 @@ public class AuditRecordControllerImpl implements AuditRecordController {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public ResponseEntity<GlobalResponseBody<Void>> test() {
+  public ResponseEntity<GlobalResponseBody<Void>> test(@AuthenticationPrincipal String userId) {
 
     auditRecordService.addAuditRecord(
-        "helloworld1234",
-        0,
+        "Loxbit888",
+        1700000000,
         1726029777,
-        "BEN",
+        userId,
         AuditRecordType.OVERRIDE);
 
     GlobalResponseBody<Void> responseBody = ResponseBodyUtils
