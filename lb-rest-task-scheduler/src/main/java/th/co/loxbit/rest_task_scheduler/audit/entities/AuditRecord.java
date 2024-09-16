@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "gateway_schedule_history", schema = "admin_portal")
-public class JobRecord {
+public class AuditRecord {
 
   // ---------------------------------------------------------------------------//
   // Fields
@@ -37,7 +37,7 @@ public class JobRecord {
 
   @Enumerated(EnumType.STRING)
   @Column(name = "user_action", updatable = false, nullable = false)
-  private JobRecordType action;
+  private AuditRecordType action;
 
   @Column(name = "job_start_at", updatable = false, nullable = false)
   private Instant startAt;

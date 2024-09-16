@@ -13,8 +13,8 @@ import org.quartz.TriggerBuilder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import th.co.loxbit.rest_task_scheduler.audit.entities.JobRecordType;
-import th.co.loxbit.rest_task_scheduler.audit.service.JobRecordService;
+import th.co.loxbit.rest_task_scheduler.audit.entities.AuditRecordType;
+import th.co.loxbit.rest_task_scheduler.audit.service.AuditRecordService;
 import th.co.loxbit.rest_task_scheduler.common.utilities.ServiceExceptionUtil;
 import th.co.loxbit.rest_task_scheduler.scheduler.entities.GatewaySchedule;
 import th.co.loxbit.rest_task_scheduler.scheduler.repository.ScheduleRepository;
@@ -29,7 +29,7 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
   // ---------------------------------------------------------------------------//
 
   private final ScheduleRepository scheduleRepository;
-  private final JobRecordService jobRecordService;
+  private final AuditRecordService auditRecordService;
 
   // ---------------------------------------------------------------------------//
   // Methods
@@ -70,8 +70,8 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
 
       scheduleRepository.createSchedule(jobId, jobData, closeGatewayTrigger, openGatewayTrigger);
 
-      jobRecordService.addJobRecord(jobId, startTime, endTime, owner, Instant.now().getEpochSecond(),
-          JobRecordType.CREATE);
+      auditRecordService.addAuditRecord(jobId, startTime, endTime, owner, Instant.now().getEpochSecond(),
+          AuditRecordType.CREATE);
 
       return null;
 
