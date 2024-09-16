@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
@@ -34,7 +33,7 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void scheduleJob(int startTime, int endTime, String message, String owner) throws SchedulerException {
+  public void scheduleJob(int startTime, int endTime, String message, String owner) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
       String jobId = UUID.randomUUID().toString();
@@ -61,7 +60,7 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void descheduleJob(String jobId) throws SchedulerException {
+  public void descheduleJob(String jobId) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
       scheduleRepository.deleteScheduleById(jobId);
@@ -74,7 +73,7 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public List<GatewaySchedule> getScheduledJobs() throws SchedulerException {
+  public List<GatewaySchedule> getScheduledJobs() {
     return ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
       return scheduleRepository.findAllSchedules();
@@ -85,8 +84,7 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void updateJob(String jobId, int newStartTime, int newEndTime, String newMessage, String newOwner)
-      throws SchedulerException {
+  public void updateJob(String jobId, int newStartTime, int newEndTime, String newMessage, String newOwner) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
       scheduleRepository.deleteScheduleById(jobId);
