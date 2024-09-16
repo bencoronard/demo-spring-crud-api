@@ -6,7 +6,6 @@ public interface AuditRecordService {
 
   int SERVICE_CODE = 3000;
 
-  void addAuditRecord(String jobId, long startAt, long endAt, String createdBy, long createAt,
-      AuditRecordType userAction);
+  void addAuditRecord(String jobId, long startAt, long endAt, String createdBy, AuditRecordType userAction);
 
 }

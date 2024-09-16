@@ -71,7 +71,7 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
   @Override
   public ResponseEntity<GlobalResponseBody<Void>> descheduleJob(String id) {
 
-    jobSchedulingService.descheduleJob(id);
+    jobSchedulingService.descheduleJob(id, id);
 
     GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody(null, null);
 

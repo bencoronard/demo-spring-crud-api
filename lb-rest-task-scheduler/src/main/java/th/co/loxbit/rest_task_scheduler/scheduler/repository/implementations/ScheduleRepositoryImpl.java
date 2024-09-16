@@ -41,17 +41,21 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
     JobKey closeGatewayTaskKey = new JobKey(CLOSE_TASK_KEY, jobId);
     JobDetail closeGatewayTaskDetail = scheduler.getJobDetail(closeGatewayTaskKey);
+
     if (closeGatewayTaskDetail == null) {
       throw new SchedulerException("CloseTask not found for jobId: " + jobId);
     }
+
     List<? extends Trigger> closeGatewayTaskTriggers = scheduler.getTriggersOfJob(closeGatewayTaskKey);
     schedules.put(CLOSE_TASK_KEY, Pair.of(closeGatewayTaskDetail, closeGatewayTaskTriggers.get(0)));
 
     JobKey openGatewayTaskKey = new JobKey(OPEN_TASK_KEY, jobId);
     JobDetail openGatewayTaskDetail = scheduler.getJobDetail(openGatewayTaskKey);
+
     if (openGatewayTaskDetail == null) {
       throw new SchedulerException("OpenTask not found for jobId: " + jobId);
     }
+
     List<? extends Trigger> openGatewayTaskTriggers = scheduler.getTriggersOfJob(openGatewayTaskKey);
     schedules.put(OPEN_TASK_KEY, Pair.of(openGatewayTaskDetail, openGatewayTaskTriggers.get(0)));
 
@@ -93,18 +97,30 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
     scheduler.scheduleJob(closeGatewayTask, jobTriggerStart);
     scheduler.scheduleJob(openGatewayTask, jobTriggerEnd);
+
   }
 
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void deleteScheduleById(String jobId) throws SchedulerException {
+  public GatewaySchedule deleteScheduleById(String jobId) throws SchedulerException {
+
+    Map<String, Pair<JobDetail, ? extends Trigger>> schedules = findScheduleById(jobId);
+    Pair<JobDetail, ? extends Trigger> closeGatewaySchedule = schedules.get(CLOSE_TASK_KEY);
+    Pair<JobDetail, ? extends Trigger> openGatewaySchedule = schedules.get(OPEN_TASK_KEY);
 
     JobKey closeGatewayTaskKey = new JobKey(CLOSE_TASK_KEY, jobId);
     scheduler.deleteJob(closeGatewayTaskKey);
 
     JobKey openGatewayTaskKey = new JobKey(OPEN_TASK_KEY, jobId);
     scheduler.deleteJob(openGatewayTaskKey);
+
+    return GatewaySchedule.builder()
+        .id(jobId)
+        .startTime(closeGatewaySchedule.getSecond().getStartTime().toInstant())
+        .endTime(openGatewaySchedule.getSecond().getStartTime().toInstant())
+        .build();
+
   }
 
 }

@@ -1,8 +1,11 @@
 package th.co.loxbit.rest_task_scheduler.gateway.services.implementations;
 
+import java.time.Instant;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import th.co.loxbit.rest_task_scheduler.audit.entities.AuditRecordType;
+import th.co.loxbit.rest_task_scheduler.audit.service.AuditRecordService;
 import th.co.loxbit.rest_task_scheduler.common.factories.RetryTemplateFactory;
 import th.co.loxbit.rest_task_scheduler.common.http.services.RestService;
 import th.co.loxbit.rest_task_scheduler.common.utilities.ServiceExceptionUtil;
@@ -23,6 +26,7 @@ public class GatewayServiceImpl implements GatewayService {
 
   @Qualifier("gatewayRestService")
   private final RestService restService;
+  private final AuditRecordService auditRecordService;
   private final RetryTemplateFactory retry;
 
   // ---------------------------------------------------------------------------//
@@ -45,7 +49,7 @@ public class GatewayServiceImpl implements GatewayService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void openGateway() {
+  public void openGateway(String createdBy) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
       restService.postWithRetry(
@@ -53,6 +57,10 @@ public class GatewayServiceImpl implements GatewayService {
           null,
           OpenGatewayResponseInbound.class,
           retry.withExponentialBackOff(3, 1000, 2, 3000));
+
+      long now = Instant.now().getEpochSecond();
+
+      auditRecordService.addAuditRecord(GatewayStatus.OPEN.getStatus(), now, now, createdBy, AuditRecordType.OVERRIDE);
 
       return null;
 
@@ -62,11 +70,11 @@ public class GatewayServiceImpl implements GatewayService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void closeGateway(String maintenanceMsg) {
+  public void closeGateway(String message, String createdBy) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
       CloseGatewayRequestOutbound requestBody = CloseGatewayRequestOutbound.builder()
-          .message(maintenanceMsg)
+          .message(message)
           .build();
 
       restService.postWithRetry(
@@ -74,6 +82,11 @@ public class GatewayServiceImpl implements GatewayService {
           requestBody,
           CloseGatewayResponseInbound.class,
           retry.withFixedBackOff(3, 1000));
+
+      long now = Instant.now().getEpochSecond();
+
+      auditRecordService.addAuditRecord(GatewayStatus.CLOSED.getStatus(), now, now, createdBy,
+          AuditRecordType.OVERRIDE);
 
       return null;
 

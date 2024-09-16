@@ -19,27 +19,26 @@ public class AuditRecordServiceImpl implements AuditRecordService {
   // Dependencies
   // ---------------------------------------------------------------------------//
 
-  private final AuditRecordRepository jobRecordRepository;
+  private final AuditRecordRepository auditRecordRepository;
 
   // ---------------------------------------------------------------------------//
   // Methods
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void addAuditRecord(String jobId, long startAt, long endAt, String createdBy, long createAt,
-      AuditRecordType userAction) {
+  public void addAuditRecord(String jobId, long startAt, long endAt, String createdBy, AuditRecordType userAction) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
-      AuditRecord jobRecord = AuditRecord.builder()
+      AuditRecord auditRecord = AuditRecord.builder()
           .jobId(jobId)
           .startAt(Instant.ofEpochSecond(startAt))
           .endAt(Instant.ofEpochSecond(endAt))
           .createdBy(createdBy)
-          .createdAt(Instant.ofEpochSecond(createAt))
+          .createdAt(Instant.now())
           .action(userAction)
           .build();
 
-      jobRecordRepository.save(jobRecord);
+      auditRecordRepository.save(auditRecord);
 
       return null;
 

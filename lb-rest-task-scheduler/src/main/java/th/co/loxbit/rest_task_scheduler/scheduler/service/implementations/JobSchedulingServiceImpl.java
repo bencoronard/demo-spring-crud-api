@@ -70,8 +70,7 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
 
       scheduleRepository.createSchedule(jobId, jobData, closeGatewayTrigger, openGatewayTrigger);
 
-      auditRecordService.addAuditRecord(jobId, startTime, endTime, owner, Instant.now().getEpochSecond(),
-          AuditRecordType.CREATE);
+      auditRecordService.addAuditRecord(jobId, startTime, endTime, owner, AuditRecordType.CREATE);
 
       return null;
 
@@ -81,10 +80,13 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void descheduleJob(String jobId) {
+  public void descheduleJob(String jobId, String deletedBy) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
-      scheduleRepository.deleteScheduleById(jobId);
+      GatewaySchedule deletedSchedule = scheduleRepository.deleteScheduleById(jobId);
+
+      auditRecordService.addAuditRecord(jobId, deletedSchedule.getStartTime().getEpochSecond(),
+          deletedSchedule.getEndTime().getEpochSecond(), deletedBy, AuditRecordType.DELETE);
 
       return null;
 
@@ -100,6 +102,8 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
       scheduleRepository.deleteScheduleById(jobId);
 
       scheduleJob(newStartTime, newEndTime, newMessage, newOwner);
+
+      auditRecordService.addAuditRecord(jobId, newStartTime, newEndTime, newOwner, AuditRecordType.EDIT);
 
       return null;
 

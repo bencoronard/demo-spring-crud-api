@@ -22,6 +22,6 @@ public interface ScheduleRepository {
   void createSchedule(String jobId, Map<String, Object> jobData, Trigger jobTriggerStart, Trigger jobTriggerEnd)
       throws SchedulerException;
 
-  void deleteScheduleById(String jobId) throws SchedulerException;
+  GatewaySchedule deleteScheduleById(String jobId) throws SchedulerException;
 
 }

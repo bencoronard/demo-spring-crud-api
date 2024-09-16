@@ -1,7 +1,5 @@
 package th.co.loxbit.rest_task_scheduler.audit.controller.implementations;
 
-import java.time.Instant;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +34,6 @@ public class AuditRecordControllerImpl implements AuditRecordController {
         0,
         1726029777,
         "BEN",
-        Instant.now().getEpochSecond(),
         AuditRecordType.OVERRIDE);
 
     GlobalResponseBody<Void> responseBody = ResponseBodyUtils
