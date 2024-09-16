@@ -12,6 +12,7 @@ import th.co.loxbit.rest_task_scheduler.audit.entities.JobRecordType;
 import th.co.loxbit.rest_task_scheduler.audit.service.JobRecordService;
 import th.co.loxbit.rest_task_scheduler.common.http.dtos.responses.GlobalResponseBody;
 import th.co.loxbit.rest_task_scheduler.common.http.utilities.ResponseBodyUtils;
+import th.co.loxbit.rest_task_scheduler.common.utilities.ServiceExceptionUtil;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,6 +43,15 @@ public class JobRecordControllerImpl implements JobRecordController {
         .createSuccessResponseBody(null, null);
 
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
+  }
+
+  // ---------------------------------------------------------------------------//
+
+  @Override
+  public void testError() {
+    ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
+      throw new UnsupportedOperationException("Unimplemented method 'testError'");
+    }, 9000);
   }
 
 }
