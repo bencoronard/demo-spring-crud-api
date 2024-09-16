@@ -3,6 +3,9 @@ package th.co.loxbit.rest_task_scheduler.common.security.filters;
 import java.io.IOException;
 
 import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -35,6 +38,10 @@ public class UserIdFilter extends OncePerRequestFilter {
       response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Missing user ID");
       return;
     }
+
+    Authentication auth = new UsernamePasswordAuthenticationToken(userId, null, null);
+
+    SecurityContextHolder.getContext().setAuthentication(auth);
 
     filterChain.doFilter(request, response);
 

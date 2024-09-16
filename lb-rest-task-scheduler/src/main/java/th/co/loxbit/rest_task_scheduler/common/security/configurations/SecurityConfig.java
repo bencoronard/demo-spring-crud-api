@@ -38,8 +38,8 @@ public class SecurityConfig {
 
     http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
-    http.addFilterBefore(apiKeyFilter(), UsernamePasswordAuthenticationFilter.class)
-        .addFilterAfter(userIdFilter(), ApiKeyFilter.class);
+    http.addFilterBefore(userIdFilter(), UsernamePasswordAuthenticationFilter.class)
+        .addFilterBefore(apiKeyFilter(), UserIdFilter.class);
 
     return http.build();
   }
