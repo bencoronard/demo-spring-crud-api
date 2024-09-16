@@ -8,12 +8,12 @@ public interface JobSchedulingService {
 
   int SERVICE_CODE = 7000;
 
-  void scheduleJob(int start, int end, String message, String owner);
+  void scheduleJob(long start, long end, String message, String owner);
 
   void descheduleJob(String jobId);
 
   List<GatewaySchedule> getScheduledJobs();
 
-  void updateJob(String jobId, int newStart, int newEnd, String newMessage, String newOwner);
+  void updateJob(String jobId, long newStart, long newEnd, String newMessage, String newOwner);
 
 }
