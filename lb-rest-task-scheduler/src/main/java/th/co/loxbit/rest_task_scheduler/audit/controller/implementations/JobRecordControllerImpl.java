@@ -33,10 +33,10 @@ public class JobRecordControllerImpl implements JobRecordController {
 
     jobRecordService.addJobRecord(
         "helloworld1234",
-        Instant.ofEpochSecond(0),
-        Instant.ofEpochSecond(1726029777),
+        0,
+        1726029777,
         "BEN",
-        Instant.now(),
+        Instant.now().getEpochSecond(),
         JobRecordType.OVERRIDE);
 
     GlobalResponseBody<Void> responseBody = ResponseBodyUtils

@@ -26,16 +26,16 @@ public class JobRecordServiceImpl implements JobRecordService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void addJobRecord(String jobId, Instant startAt, Instant endAt, String createdBy, Instant createAt,
+  public void addJobRecord(String jobId, long startAt, long endAt, String createdBy, long createAt,
       JobRecordType userAction) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
       JobRecord jobRecord = JobRecord.builder()
           .jobId(jobId)
-          .startAt(startAt)
-          .endAt(endAt)
+          .startAt(Instant.ofEpochSecond(startAt))
+          .endAt(Instant.ofEpochSecond(endAt))
           .createdBy(createdBy)
-          .createdAt(createAt)
+          .createdAt(Instant.ofEpochSecond(createAt))
           .action(userAction)
           .build();
 

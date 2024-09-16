@@ -47,12 +47,10 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void scheduleJob(int startTime, int endTime, String message, String owner) {
+  public void scheduleJob(long startTime, long endTime, String message, String owner) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
       String jobId = UUID.randomUUID().toString();
-      Instant startAt = Instant.ofEpochSecond(startTime);
-      Instant endAt = Instant.ofEpochSecond(endTime);
 
       Map<String, Object> jobData = new HashMap<>();
       jobData.put("message", message);
@@ -60,19 +58,20 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
 
       Trigger closeGatewayTrigger = TriggerBuilder.newTrigger()
           .withIdentity("closeOneTime", jobId)
-          .startAt(Date.from(startAt))
+          .startAt(Date.from(Instant.ofEpochSecond(startTime)))
           .withSchedule(SimpleScheduleBuilder.simpleSchedule().withRepeatCount(0))
           .build();
 
       Trigger openGatewayTrigger = TriggerBuilder.newTrigger()
           .withIdentity("openOneTime", jobId)
-          .startAt(Date.from(endAt))
+          .startAt(Date.from(Instant.ofEpochSecond(endTime)))
           .withSchedule(SimpleScheduleBuilder.simpleSchedule().withRepeatCount(0))
           .build();
 
       scheduleRepository.createSchedule(jobId, jobData, closeGatewayTrigger, openGatewayTrigger);
 
-      jobRecordService.addJobRecord(jobId, startAt, endAt, owner, Instant.now(), JobRecordType.CREATE);
+      jobRecordService.addJobRecord(jobId, startTime, endTime, owner, Instant.now().getEpochSecond(),
+          JobRecordType.CREATE);
 
       return null;
 
@@ -95,7 +94,7 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void updateJob(String jobId, int newStartTime, int newEndTime, String newMessage, String newOwner) {
+  public void updateJob(String jobId, long newStartTime, long newEndTime, String newMessage, String newOwner) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
       scheduleRepository.deleteScheduleById(jobId);
