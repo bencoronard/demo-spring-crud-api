@@ -13,6 +13,8 @@ import org.quartz.TriggerBuilder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import th.co.loxbit.rest_task_scheduler.audit.entities.JobRecordType;
+import th.co.loxbit.rest_task_scheduler.audit.service.JobRecordService;
 import th.co.loxbit.rest_task_scheduler.common.utilities.ServiceExceptionUtil;
 import th.co.loxbit.rest_task_scheduler.scheduler.entities.GatewaySchedule;
 import th.co.loxbit.rest_task_scheduler.scheduler.repository.ScheduleRepository;
@@ -27,9 +29,21 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
   // ---------------------------------------------------------------------------//
 
   private final ScheduleRepository scheduleRepository;
+  private final JobRecordService jobRecordService;
 
   // ---------------------------------------------------------------------------//
   // Methods
+  // ---------------------------------------------------------------------------//
+
+  @Override
+  public List<GatewaySchedule> getScheduledJobs() {
+    return ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
+
+      return scheduleRepository.findAllSchedules();
+
+    }, SERVICE_CODE);
+  }
+
   // ---------------------------------------------------------------------------//
 
   @Override
@@ -37,20 +51,28 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
       String jobId = UUID.randomUUID().toString();
+      Instant startAt = Instant.ofEpochSecond(startTime);
+      Instant endAt = Instant.ofEpochSecond(endTime);
 
       Map<String, Object> jobData = new HashMap<>();
       jobData.put("message", message);
       jobData.put("owner", owner);
 
-      Trigger closeGatewayTrigger = TriggerBuilder.newTrigger().withIdentity("closeOneTime", jobId)
-          .startAt(Date.from(Instant.ofEpochSecond(startTime)))
-          .withSchedule(SimpleScheduleBuilder.simpleSchedule().withRepeatCount(0)).build();
+      Trigger closeGatewayTrigger = TriggerBuilder.newTrigger()
+          .withIdentity("closeOneTime", jobId)
+          .startAt(Date.from(startAt))
+          .withSchedule(SimpleScheduleBuilder.simpleSchedule().withRepeatCount(0))
+          .build();
 
-      Trigger openGatewayTrigger = TriggerBuilder.newTrigger().withIdentity("openOneTime", jobId)
-          .startAt(Date.from(Instant.ofEpochSecond(endTime)))
-          .withSchedule(SimpleScheduleBuilder.simpleSchedule().withRepeatCount(0)).build();
+      Trigger openGatewayTrigger = TriggerBuilder.newTrigger()
+          .withIdentity("openOneTime", jobId)
+          .startAt(Date.from(endAt))
+          .withSchedule(SimpleScheduleBuilder.simpleSchedule().withRepeatCount(0))
+          .build();
 
       scheduleRepository.createSchedule(jobId, jobData, closeGatewayTrigger, openGatewayTrigger);
+
+      jobRecordService.addJobRecord(jobId, startAt, endAt, owner, Instant.now(), JobRecordType.CREATE);
 
       return null;
 
@@ -66,17 +88,6 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
       scheduleRepository.deleteScheduleById(jobId);
 
       return null;
-
-    }, SERVICE_CODE);
-  }
-
-  // ---------------------------------------------------------------------------//
-
-  @Override
-  public List<GatewaySchedule> getScheduledJobs() {
-    return ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
-
-      return scheduleRepository.findAllSchedules();
 
     }, SERVICE_CODE);
   }
