@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
     builder.respCode(exData.getRespCode());
 
     if (environment.isDevEnvironment()) {
-      builder.desc(exData.getErrorMsg());
+      builder.desc("Exception: " + exClass + " thrown with message: " + exData.getErrorMsg());
     }
 
     builder.payload(exData.getRespMsg());
