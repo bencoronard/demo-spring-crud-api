@@ -2,7 +2,6 @@ package th.co.loxbit.rest_task_scheduler.scheduler.controller;
 
 import java.util.List;
 
-import org.quartz.SchedulerException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,17 +22,16 @@ import th.co.loxbit.rest_task_scheduler.scheduler.entities.GatewaySchedule;
 public interface JobSchedulingController {
 
   @GetMapping
-  ResponseEntity<GlobalResponseBody<List<GatewaySchedule>>> getScheduledJobs() throws SchedulerException;
+  ResponseEntity<GlobalResponseBody<List<GatewaySchedule>>> getScheduledJobs();
 
   @PostMapping
-  ResponseEntity<GlobalResponseBody<Void>> scheduleJob(@Valid @RequestBody ScheduleJobRequest requestBody)
-      throws SchedulerException;
+  ResponseEntity<GlobalResponseBody<Void>> scheduleJob(@Valid @RequestBody ScheduleJobRequest requestBody);
 
   @PutMapping("/{id}")
   ResponseEntity<GlobalResponseBody<Void>> updateJob(@PathVariable String id,
-      @Valid @RequestBody ScheduleJobRequest requestBody) throws SchedulerException;
+      @Valid @RequestBody ScheduleJobRequest requestBody);
 
   @DeleteMapping("/{id}")
-  ResponseEntity<GlobalResponseBody<Void>> descheduleJob(@PathVariable String id) throws SchedulerException;
+  ResponseEntity<GlobalResponseBody<Void>> descheduleJob(@PathVariable String id);
 
 }

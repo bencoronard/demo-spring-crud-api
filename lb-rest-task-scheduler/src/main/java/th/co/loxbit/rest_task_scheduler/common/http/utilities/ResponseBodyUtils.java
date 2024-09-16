@@ -8,21 +8,6 @@ public class ResponseBodyUtils {
   // Methods
   // ---------------------------------------------------------------------------//
 
-  public static GlobalResponseBody<String> createErrorResponseBody(RuntimeException exception) {
-
-    String errorMessage = exception.getMessage();
-
-    GlobalResponseBody.GlobalResponseBodyBuilder<String> builder = GlobalResponseBody.<String>builder();
-
-    builder.desc("Runtime exception");
-
-    builder.payload(errorMessage != null ? errorMessage : "An exception was thrown");
-
-    return builder.build();
-  }
-
-  // ---------------------------------------------------------------------------//
-
   public static <T> GlobalResponseBody<T> createSuccessResponseBody(String desc, T payload) {
 
     GlobalResponseBody.GlobalResponseBodyBuilder<T> builder = GlobalResponseBody.<T>builder();
