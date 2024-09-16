@@ -4,7 +4,7 @@ import java.util.concurrent.Callable;
 
 import th.co.loxbit.rest_task_scheduler.common.exceptions.WrappingException;
 
-public class ExceptionUtil {
+public class ServiceExceptionUtil {
 
   // ---------------------------------------------------------------------------//
   // Methods
