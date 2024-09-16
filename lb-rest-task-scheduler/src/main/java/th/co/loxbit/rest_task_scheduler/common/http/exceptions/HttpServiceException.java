@@ -9,7 +9,7 @@ public class HttpServiceException extends WrappableException {
   // ---------------------------------------------------------------------------//
 
   private static final int ERROR_CODE = 40;
-  private static final String RESP_MSG = "Unable to perform the requested opertaion at the server side";
+  private static final String RESP_MSG = "Unable to perform the requested opertaion due to an error at the proxy server";
 
   // ---------------------------------------------------------------------------//
   // Constructors
