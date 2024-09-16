@@ -10,7 +10,7 @@ import th.co.loxbit.rest_task_scheduler.common.http.dtos.responses.GlobalRespons
 
 @RestController
 @RequestMapping("/audit")
-public interface JobRecordController {
+public interface AuditRecordController {
 
   @PostMapping("/test")
   ResponseEntity<GlobalResponseBody<Void>> test();
