@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import th.co.loxbit.rest_task_scheduler.common.factories.RetryTemplateFactory;
 import th.co.loxbit.rest_task_scheduler.common.http.services.RestService;
+import th.co.loxbit.rest_task_scheduler.common.utilities.ServiceExceptionUtil;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.requests.outbound.CloseGatewayRequestOutbound;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.inbound.CloseGatewayResponseInbound;
 import th.co.loxbit.rest_task_scheduler.gateway.dtos.responses.inbound.GetGatewayStatusResponseInbound;
@@ -30,41 +31,53 @@ public class GatewayServiceImpl implements GatewayService {
 
   @Override
   public GatewayStatus getGatewayStatus() {
+    return ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
-    GetGatewayStatusResponseInbound response = restService.get(
-        "/status",
-        GetGatewayStatusResponseInbound.class);
+      GetGatewayStatusResponseInbound response = restService.get(
+          "/status",
+          GetGatewayStatusResponseInbound.class);
 
-    return GatewayStatus.fromStatus(response.desc());
+      return GatewayStatus.fromStatus(response.desc());
+
+    }, SERVICE_CODE);
   }
 
   // ---------------------------------------------------------------------------//
 
   @Override
   public void openGateway() {
+    ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
-    restService.postWithRetry(
-        "/open",
-        null,
-        OpenGatewayResponseInbound.class,
-        retry.withExponentialBackOff(3, 1000, 2, 3000));
+      restService.postWithRetry(
+          "/open",
+          null,
+          OpenGatewayResponseInbound.class,
+          retry.withExponentialBackOff(3, 1000, 2, 3000));
+
+      return null;
+
+    }, SERVICE_CODE);
   }
 
   // ---------------------------------------------------------------------------//
 
   @Override
   public void closeGateway(String maintenanceMsg) {
+    ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
-    CloseGatewayRequestOutbound requestBody = CloseGatewayRequestOutbound.builder()
-        .message(maintenanceMsg)
-        .build();
+      CloseGatewayRequestOutbound requestBody = CloseGatewayRequestOutbound.builder()
+          .message(maintenanceMsg)
+          .build();
 
-    restService.postWithRetry(
-        "/close",
-        requestBody,
-        CloseGatewayResponseInbound.class,
-        retry.withFixedBackOff(3, 1000));
+      restService.postWithRetry(
+          "/close",
+          requestBody,
+          CloseGatewayResponseInbound.class,
+          retry.withFixedBackOff(3, 1000));
 
+      return null;
+
+    }, SERVICE_CODE);
   }
 
 }
