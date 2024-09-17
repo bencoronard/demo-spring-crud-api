@@ -35,7 +35,7 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
     List<GatewaySchedule> data = jobSchedulingService.getScheduledJobs();
 
     GlobalResponseBody<List<GatewaySchedule>> responseBody = ResponseBodyUtils
-        .createSuccessResponseBody("scheduled job", data);
+        .createSuccessResponseBody("scheduled jobs", data);
 
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
@@ -43,10 +43,9 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public ResponseEntity<GlobalResponseBody<Void>> scheduleJob(@Valid ScheduleJobRequest requestBody) {
+  public ResponseEntity<GlobalResponseBody<Void>> scheduleJob(@Valid ScheduleJobRequest requestBody, String userId) {
 
-    jobSchedulingService.scheduleJob(requestBody.start(), requestBody.end(), requestBody.message(),
-        requestBody.userId());
+    jobSchedulingService.scheduleJob(requestBody.start(), requestBody.end(), requestBody.message(), userId);
 
     GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody(null, null);
 
@@ -56,10 +55,10 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public ResponseEntity<GlobalResponseBody<Void>> updateJob(String id, @Valid ScheduleJobRequest requestBody) {
+  public ResponseEntity<GlobalResponseBody<Void>> updateJob(String id, @Valid ScheduleJobRequest requestBody,
+      String userId) {
 
-    jobSchedulingService.updateJob(id, requestBody.start(), requestBody.end(), requestBody.message(),
-        requestBody.userId());
+    jobSchedulingService.updateJob(id, requestBody.start(), requestBody.end(), requestBody.message(), userId);
 
     GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody(null, null);
 
@@ -69,9 +68,9 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public ResponseEntity<GlobalResponseBody<Void>> descheduleJob(String id) {
+  public ResponseEntity<GlobalResponseBody<Void>> descheduleJob(String id, String userId) {
 
-    jobSchedulingService.descheduleJob(id, id);
+    jobSchedulingService.descheduleJob(id, userId);
 
     GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody(null, null);
 

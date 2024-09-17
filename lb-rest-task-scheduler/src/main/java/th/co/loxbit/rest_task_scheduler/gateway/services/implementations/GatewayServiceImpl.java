@@ -49,7 +49,45 @@ public class GatewayServiceImpl implements GatewayService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void openGateway(String createdBy) {
+  public void openGateway() {
+    ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
+
+      restService.postWithRetry(
+          "/open",
+          null,
+          OpenGatewayResponseInbound.class,
+          retry.withExponentialBackOff(3, 1000, 2, 3000));
+
+      return null;
+
+    }, SERVICE_CODE);
+  }
+
+  // ---------------------------------------------------------------------------//
+
+  @Override
+  public void closeGateway(String message) {
+    ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
+
+      CloseGatewayRequestOutbound requestBody = CloseGatewayRequestOutbound.builder()
+          .message(message)
+          .build();
+
+      restService.postWithRetry(
+          "/close",
+          requestBody,
+          CloseGatewayResponseInbound.class,
+          retry.withFixedBackOff(3, 1000));
+
+      return null;
+
+    }, SERVICE_CODE);
+  }
+
+  // ---------------------------------------------------------------------------//
+
+  @Override
+  public void openGatewayOverride(String performedBy) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
       restService.postWithRetry(
@@ -60,7 +98,8 @@ public class GatewayServiceImpl implements GatewayService {
 
       long now = Instant.now().getEpochSecond();
 
-      auditRecordService.addAuditRecord(GatewayStatus.OPEN.getStatus(), now, now, createdBy, AuditRecordType.OVERRIDE);
+      auditRecordService.addAuditRecord(GatewayStatus.OPEN.getStatus(), now, now, performedBy,
+          AuditRecordType.OVERRIDE);
 
       return null;
 
@@ -70,7 +109,7 @@ public class GatewayServiceImpl implements GatewayService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void closeGateway(String message, String createdBy) {
+  public void closeGatewayOverride(String message, String performedBy) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
       CloseGatewayRequestOutbound requestBody = CloseGatewayRequestOutbound.builder()
@@ -85,7 +124,7 @@ public class GatewayServiceImpl implements GatewayService {
 
       long now = Instant.now().getEpochSecond();
 
-      auditRecordService.addAuditRecord(GatewayStatus.CLOSED.getStatus(), now, now, createdBy,
+      auditRecordService.addAuditRecord(GatewayStatus.CLOSED.getStatus(), now, now, performedBy,
           AuditRecordType.OVERRIDE);
 
       return null;

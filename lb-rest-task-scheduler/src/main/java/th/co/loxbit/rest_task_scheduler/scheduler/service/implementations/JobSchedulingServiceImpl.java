@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import th.co.loxbit.rest_task_scheduler.audit.entities.AuditRecordType;
 import th.co.loxbit.rest_task_scheduler.audit.service.AuditRecordService;
+import th.co.loxbit.rest_task_scheduler.common.exceptions.WrappableException;
 import th.co.loxbit.rest_task_scheduler.common.utilities.ServiceExceptionUtil;
 import th.co.loxbit.rest_task_scheduler.scheduler.entities.GatewaySchedule;
 import th.co.loxbit.rest_task_scheduler.scheduler.repository.ScheduleRepository;
@@ -47,30 +48,32 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void scheduleJob(long startTime, long endTime, String message, String owner) {
+  public void scheduleJob(long start, long end, String message, String createdBy) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
+
+      checkValidStartEndTimes(start, end);
 
       String jobId = UUID.randomUUID().toString();
 
       Map<String, Object> jobData = new HashMap<>();
       jobData.put("message", message);
-      jobData.put("owner", owner);
+      jobData.put("owner", createdBy);
 
       Trigger closeGatewayTrigger = TriggerBuilder.newTrigger()
           .withIdentity("closeOneTime", jobId)
-          .startAt(Date.from(Instant.ofEpochSecond(startTime)))
+          .startAt(Date.from(Instant.ofEpochSecond(start)))
           .withSchedule(SimpleScheduleBuilder.simpleSchedule().withRepeatCount(0))
           .build();
 
       Trigger openGatewayTrigger = TriggerBuilder.newTrigger()
           .withIdentity("openOneTime", jobId)
-          .startAt(Date.from(Instant.ofEpochSecond(endTime)))
+          .startAt(Date.from(Instant.ofEpochSecond(end)))
           .withSchedule(SimpleScheduleBuilder.simpleSchedule().withRepeatCount(0))
           .build();
 
       scheduleRepository.createSchedule(jobId, jobData, closeGatewayTrigger, openGatewayTrigger);
 
-      auditRecordService.addAuditRecord(jobId, startTime, endTime, owner, AuditRecordType.CREATE);
+      auditRecordService.addAuditRecord(jobId, start, end, createdBy, AuditRecordType.CREATE);
 
       return null;
 
@@ -96,18 +99,37 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void updateJob(String jobId, long newStartTime, long newEndTime, String newMessage, String newOwner) {
+  public void updateJob(String jobId, long newStart, long newEnd, String newMessage, String updatedBy) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
+
+      checkValidStartEndTimes(newStart, newEnd);
 
       scheduleRepository.deleteScheduleById(jobId);
 
-      scheduleJob(newStartTime, newEndTime, newMessage, newOwner);
+      scheduleJob(newStart, newEnd, newMessage, updatedBy);
 
-      auditRecordService.addAuditRecord(jobId, newStartTime, newEndTime, newOwner, AuditRecordType.EDIT);
+      auditRecordService.addAuditRecord(jobId, newStart, newEnd, updatedBy, AuditRecordType.EDIT);
 
       return null;
 
     }, SERVICE_CODE);
+  }
+
+  // ---------------------------------------------------------------------------//
+
+  private void checkValidStartEndTimes(long start, long end) {
+
+    String message1 = "End time must be after start time";
+    String message2 = "Start time must be in the future";
+
+    if (start > end) {
+      throw new WrappableException(71, message1, message1);
+    }
+
+    if (start < Instant.now().getEpochSecond()) {
+      throw new WrappableException(72, message2, message2);
+    }
+
   }
 
 }

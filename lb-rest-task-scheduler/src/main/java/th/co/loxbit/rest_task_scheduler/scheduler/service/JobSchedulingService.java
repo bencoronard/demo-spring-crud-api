@@ -10,10 +10,10 @@ public interface JobSchedulingService {
 
   List<GatewaySchedule> getScheduledJobs();
 
-  void scheduleJob(long start, long end, String message, String owner);
+  void scheduleJob(long start, long end, String message, String createdBy);
 
   void descheduleJob(String jobId, String deletedBy);
 
-  void updateJob(String jobId, long newStart, long newEnd, String newMessage, String newOwner);
+  void updateJob(String jobId, long newStart, long newEnd, String newMessage, String updatedBy);
 
 }

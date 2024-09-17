@@ -25,7 +25,7 @@ public class CloseGatewayTask extends QuartzJobBean {
   @Override
   protected void executeInternal(@NonNull JobExecutionContext context) throws JobExecutionException {
 
-    this.gatewayService.closeGateway(message, message);
+    this.gatewayService.closeGateway(message);
 
   }
 

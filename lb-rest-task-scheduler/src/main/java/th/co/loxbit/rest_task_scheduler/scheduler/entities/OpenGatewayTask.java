@@ -24,7 +24,7 @@ public class OpenGatewayTask extends QuartzJobBean {
   @Override
   protected void executeInternal(@NonNull JobExecutionContext context) throws JobExecutionException {
 
-    this.gatewayService.openGateway(null);
+    this.gatewayService.openGateway();
 
   }
 
