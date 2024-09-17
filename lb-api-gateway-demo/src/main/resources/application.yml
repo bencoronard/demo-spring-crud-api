@@ -16,4 +16,4 @@ server:
 api:
   internal:
     secret:
-      key: "macau888"
+      key: "loxley888"
