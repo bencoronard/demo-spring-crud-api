@@ -64,7 +64,8 @@ server:
 api:
   internal:
     secret:
-      key: "api-key-for-this-service"
+      key: "loxbit888"
+      
   external:
     gateway:
       uri: "http://localhost:7777"
