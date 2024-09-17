@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: "API Gateway Demo"
+  threads:
+    virtual:
+      enabled: true
+
+logging:
+  level:
+    "[org.springframework]": "INFO"
+    "[org.springframework.security]": "DEBUG"
+
+server:
+  port: ${SERVER_PORT:3000}
+
+api:
+  internal:
+    secret:
+      key: "macau888"
