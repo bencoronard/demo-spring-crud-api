@@ -15,9 +15,10 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import th.co.loxbit.rest_task_scheduler.audit.entities.AuditRecordType;
 import th.co.loxbit.rest_task_scheduler.audit.service.AuditRecordService;
-import th.co.loxbit.rest_task_scheduler.common.exceptions.WrappableException;
 import th.co.loxbit.rest_task_scheduler.common.utilities.ServiceExceptionUtil;
 import th.co.loxbit.rest_task_scheduler.scheduler.entities.GatewaySchedule;
+import th.co.loxbit.rest_task_scheduler.scheduler.exceptions.IllegalEndTimeException;
+import th.co.loxbit.rest_task_scheduler.scheduler.exceptions.IllegalStartTimeException;
 import th.co.loxbit.rest_task_scheduler.scheduler.repository.ScheduleRepository;
 import th.co.loxbit.rest_task_scheduler.scheduler.service.JobSchedulingService;
 
@@ -119,15 +120,12 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
 
   private void checkValidStartEndTimes(long start, long end) {
 
-    String message1 = "End time must be after start time";
-    String message2 = "Start time must be in the future";
-
     if (start > end) {
-      throw new WrappableException(71, message1, message1);
+      throw new IllegalEndTimeException("Method received invalid end time");
     }
 
     if (start < Instant.now().getEpochSecond()) {
-      throw new WrappableException(72, message2, message2);
+      throw new IllegalStartTimeException("Method received invalid start time");
     }
 
   }

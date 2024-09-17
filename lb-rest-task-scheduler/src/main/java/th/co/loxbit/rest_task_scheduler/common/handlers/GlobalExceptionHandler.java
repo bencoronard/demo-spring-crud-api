@@ -14,6 +14,8 @@ import th.co.loxbit.rest_task_scheduler.common.http.dtos.responses.GlobalRespons
 import th.co.loxbit.rest_task_scheduler.common.http.exceptions.HttpServiceException;
 import th.co.loxbit.rest_task_scheduler.common.http.exceptions.RetryableHttpServiceException;
 import th.co.loxbit.rest_task_scheduler.common.utilities.EnvironmentUtil;
+import th.co.loxbit.rest_task_scheduler.scheduler.exceptions.IllegalEndTimeException;
+import th.co.loxbit.rest_task_scheduler.scheduler.exceptions.IllegalStartTimeException;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
@@ -31,7 +33,9 @@ public class GlobalExceptionHandler {
 
   private static final Map<Class<? extends Throwable>, HttpStatus> EXCEPTION_STATUS_MAP = Map.of(
       HttpServiceException.class, HttpStatus.BAD_GATEWAY,
-      RetryableHttpServiceException.class, HttpStatus.BAD_GATEWAY);
+      RetryableHttpServiceException.class, HttpStatus.BAD_GATEWAY,
+      IllegalStartTimeException.class, HttpStatus.BAD_REQUEST,
+      IllegalEndTimeException.class, HttpStatus.BAD_REQUEST);
 
   // ---------------------------------------------------------------------------//
   // Methods
