@@ -59,7 +59,7 @@ logging:
     "[org.springframework.security]": "DEBUG"
 
 server:
-  port: ${SERVER_PORT:3000}
+  port: ${SERVER_PORT:8080}
 
 api:
   internal:
@@ -70,4 +70,4 @@ api:
     gateway:
       uri: "http://localhost:7777"
       secret:
-        key: "api-key-for-gateway-service"
+        key: "loxley888"

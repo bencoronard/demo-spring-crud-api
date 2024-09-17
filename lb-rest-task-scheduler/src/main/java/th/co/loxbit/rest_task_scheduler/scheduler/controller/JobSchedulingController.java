@@ -11,34 +11,31 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import jakarta.validation.Valid;
 import th.co.loxbit.rest_task_scheduler.common.http.dtos.responses.GlobalResponseBody;
 import th.co.loxbit.rest_task_scheduler.scheduler.dtos.requests.ScheduleJobRequest;
 import th.co.loxbit.rest_task_scheduler.scheduler.entities.GatewaySchedule;
 
-@RestController
 @RequestMapping("/jobs")
 public interface JobSchedulingController {
 
-    @GetMapping
-    ResponseEntity<GlobalResponseBody<List<GatewaySchedule>>> getScheduledJobs();
+        @GetMapping
+        ResponseEntity<GlobalResponseBody<List<GatewaySchedule>>> getScheduledJobs();
 
-    @PostMapping
-    ResponseEntity<GlobalResponseBody<Void>> scheduleJob(
-            @Valid @RequestBody ScheduleJobRequest requestBody,
-            @AuthenticationPrincipal String userId);
+        @PostMapping
+        ResponseEntity<GlobalResponseBody<Void>> scheduleJob(
+                        @Valid @RequestBody ScheduleJobRequest requestBody,
+                        @AuthenticationPrincipal String userId);
 
-    @PutMapping("/{id}")
-    ResponseEntity<GlobalResponseBody<Void>> updateJob(
-            @PathVariable String id,
-            @Valid @RequestBody ScheduleJobRequest requestBody,
-            @AuthenticationPrincipal String userId);
+        @PutMapping("/{id}")
+        ResponseEntity<GlobalResponseBody<Void>> updateJob(
+                        @PathVariable String id,
+                        @Valid @RequestBody ScheduleJobRequest requestBody,
+                        @AuthenticationPrincipal String userId);
 
-    @DeleteMapping("/{id}")
-    ResponseEntity<GlobalResponseBody<Void>> descheduleJob(
-            @PathVariable String id,
-            @AuthenticationPrincipal String userId);
+        @DeleteMapping("/{id}")
+        ResponseEntity<GlobalResponseBody<Void>> descheduleJob(
+                        @PathVariable String id,
+                        @AuthenticationPrincipal String userId);
 
 }
