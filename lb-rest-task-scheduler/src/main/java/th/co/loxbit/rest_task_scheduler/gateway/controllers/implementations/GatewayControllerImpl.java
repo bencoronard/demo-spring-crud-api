@@ -44,9 +44,9 @@ public class GatewayControllerImpl implements GatewayController {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public ResponseEntity<GlobalResponseBody<Void>> openGatewayOverride() {
+  public ResponseEntity<GlobalResponseBody<Void>> openGatewayOverride(String userId) {
 
-    gatewayService.openGateway(null);
+    gatewayService.openGatewayOverride(userId);
 
     GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody(null, null);
 
@@ -56,9 +56,10 @@ public class GatewayControllerImpl implements GatewayController {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public ResponseEntity<GlobalResponseBody<Void>> closeGatewayOverride(CloseGatewayRequestInbound request) {
+  public ResponseEntity<GlobalResponseBody<Void>> closeGatewayOverride(CloseGatewayRequestInbound request,
+      String userId) {
 
-    gatewayService.closeGateway(request.message(), null);
+    gatewayService.closeGatewayOverride(request.message(), userId);
 
     GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody(null, null);
 

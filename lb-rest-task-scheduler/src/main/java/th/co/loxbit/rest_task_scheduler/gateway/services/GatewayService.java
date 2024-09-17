@@ -8,8 +8,12 @@ public interface GatewayService {
 
   GatewayStatus getGatewayStatus();
 
-  void openGateway(String createdBy);
+  void openGateway();
 
-  void closeGateway(String message, String createdBy);
+  void closeGateway(String message);
+
+  void openGatewayOverride(String performedBy);
+
+  void closeGatewayOverride(String message, String performedBy);
 
 }

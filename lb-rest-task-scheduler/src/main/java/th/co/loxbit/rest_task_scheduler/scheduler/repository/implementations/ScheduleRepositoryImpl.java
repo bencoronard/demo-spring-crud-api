@@ -73,11 +73,13 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
       Map<String, Pair<JobDetail, ? extends Trigger>> schedules = findScheduleById(jobId);
       Pair<JobDetail, ? extends Trigger> closeGatewaySchedule = schedules.get(CLOSE_TASK_KEY);
       Pair<JobDetail, ? extends Trigger> openGatewaySchedule = schedules.get(OPEN_TASK_KEY);
+
       gatewaySchedules.add(GatewaySchedule.builder()
           .id(jobId)
           .startTime(closeGatewaySchedule.getSecond().getStartTime().toInstant())
           .endTime(openGatewaySchedule.getSecond().getStartTime().toInstant())
           .build());
+
     }
 
     return gatewaySchedules;

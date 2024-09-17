@@ -3,6 +3,7 @@ package th.co.loxbit.rest_task_scheduler.scheduler.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,17 +22,23 @@ import th.co.loxbit.rest_task_scheduler.scheduler.entities.GatewaySchedule;
 @RequestMapping("/jobs")
 public interface JobSchedulingController {
 
-  @GetMapping
-  ResponseEntity<GlobalResponseBody<List<GatewaySchedule>>> getScheduledJobs();
+    @GetMapping
+    ResponseEntity<GlobalResponseBody<List<GatewaySchedule>>> getScheduledJobs();
 
-  @PostMapping
-  ResponseEntity<GlobalResponseBody<Void>> scheduleJob(@Valid @RequestBody ScheduleJobRequest requestBody);
+    @PostMapping
+    ResponseEntity<GlobalResponseBody<Void>> scheduleJob(
+            @Valid @RequestBody ScheduleJobRequest requestBody,
+            @AuthenticationPrincipal String userId);
 
-  @PutMapping("/{id}")
-  ResponseEntity<GlobalResponseBody<Void>> updateJob(@PathVariable String id,
-      @Valid @RequestBody ScheduleJobRequest requestBody);
+    @PutMapping("/{id}")
+    ResponseEntity<GlobalResponseBody<Void>> updateJob(
+            @PathVariable String id,
+            @Valid @RequestBody ScheduleJobRequest requestBody,
+            @AuthenticationPrincipal String userId);
 
-  @DeleteMapping("/{id}")
-  ResponseEntity<GlobalResponseBody<Void>> descheduleJob(@PathVariable String id);
+    @DeleteMapping("/{id}")
+    ResponseEntity<GlobalResponseBody<Void>> descheduleJob(
+            @PathVariable String id,
+            @AuthenticationPrincipal String userId);
 
 }
