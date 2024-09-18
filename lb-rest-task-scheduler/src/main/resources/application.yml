@@ -6,23 +6,17 @@ spring:
       enabled: true
 
   datasource:
-    postgresql:
-      url: "jdbc:postgresql://localhost:5432/user"
-      driver-class-name: "org.postgresql.Driver"
-      username: "user"
-      password: ""
-    h2:
-      url: "jdbc:h2:file:./data/localDb"
-      driver-class-name: "org.h2.Driver"
-      username: "sa"
-      password: ""
+    url: "jdbc:postgresql://localhost:5432/user"
+    driver-class-name: "org.postgresql.Driver"
+    username: "user"
+    password: ""
 
   sql:
     init:
       mode: "always"
-      platform: "postgresql, h2"
-      schema-locations: "classpath:db/migration/schema-postgresql.sql, optional:classpath:db/migration/schema-h2.sql"
-      data-locations: "optional:classpath:db/migration/data-postgresql.sql, optional:classpath:db/migration/data-h2.sql"
+      platform: "postgresql"
+      schema-locations: "classpath:db/migration/schema-postgresql.sql"
+      data-locations: "optional:classpath:db/migration/data-postgresql.sql"
 
   jpa:
     open-in-view: false
@@ -38,26 +32,6 @@ spring:
       "[org.quartz.jobStore.tablePrefix]": "admin_portal.QRTZ_"
       "[org.quartz.jobStore.driverDelegateClass]": "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
 
----
-# Development environment
-spring:
-  config:
-    activate:
-      on-profile: "dev"
-
-app:
-  environment: "dev"
-
-  h2:
-    console:
-      enabled: true
-
-logging:
-  level:
-    root: "WARN"
-    "[org.springframework]": "INFO"
-    "[org.springframework.security]": "DEBUG"
-
 server:
   port: ${SERVER_PORT:8080}
 
@@ -71,3 +45,21 @@ api:
       uri: "http://localhost:7777"
       secret:
         key: "loxley888"
+
+logging:
+  level:
+    root: "WARN"
+    "[org.springframework]": "INFO"
+    "[org.springframework.security]": "DEBUG"
+
+app:
+  environment: "dev"
+
+---
+# Development environment
+# spring:
+#   config:
+#     activate:
+#       on-profile: "dev"
+
+
