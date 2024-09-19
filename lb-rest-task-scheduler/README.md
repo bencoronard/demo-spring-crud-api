@@ -27,7 +27,7 @@ HTTP 4xx, 5xx
 
 ## Endpoints
 
-`Job` { id: string, start: integer (UNIX timestamp), end: integer (UNIX timestamp), owner: string, isRecurrent: boolean }
+`Job` { id: string, start: UNIX timestamp (seconds), end: UNIX timestamp (seconds), owner: string }
 
 /#######################################
 
