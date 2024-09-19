@@ -6,9 +6,9 @@ spring:
       enabled: true
 
 server:
-  port: "${SERVER_PORT:7786}"
+  port: "${SERVER_PORT}"
 
 api:
   internal:
     secret:
-      key: "${SERVER_API_KEY:mdd1234}"
+      key: "${SERVER_API_KEY}"
