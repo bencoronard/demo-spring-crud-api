@@ -4,75 +4,114 @@ REST API for scheduling opening/closing of API gateway
 
 ## Global Response Body
 
-`ResponseBody` { respCode: ..., desc: ..., payload: ... }
+`ResponseBody` { respCode: ... , desc: ... , payload: ... }
 
 HTTP 200
 
-- `respCode` (integer):
-  - `0` : operation successful
-  - `non-zero` : business error occurred
+- `respCode` (integer): 0
 - `desc` (string): payload description
-- `payload` (any) : (requested data) if respCode == 0, (business error message) if respCode != 0
+- `payload` (any) : requested data
 
-HTTP 4xx
+HTTP 4xx, 5xx
 
-- 401 : invalid access token
-- 403 : unauthorized
-- 400 : requested endpoint exists but request body is not valid
-- etc.
+- `respCode` (integer): ####
+- `desc` (string):
+    - env `dev`: error message from JVM (not safe for public)
+    - env `prod`: null
+- `payload` (any) : custom error message (safe for public)
 
-HTTP 5xx
+## Global Request Header
 
-- 500 : unhandled errors
-- 503 : server down
-- etc.
+- `X-API-KEY` : "loxbit888"
+- `X-USER-ID` : ...
 
 ## Endpoints
 
 `Job` { id: string, start: integer (UNIX timestamp), end: integer (UNIX timestamp), owner: string, isRecurrent: boolean }
 
-/----------------------------------------------------
+/#######################################
 
 `GET` **/gateway/status**
 
+Request body:
+  - none
+
+Response body:
+- _respCode_: 0
 - _desc_ : "gateway status"
 - _payload_ : { isGatewayOpen : boolean }
 
-`POST` **/gateway/open**
-- request body : none
-- *response similar to /gateway/status
+/----------------------------------------------------
 
-`POST` **/gateway/close**
-- request body : { message : string }
-- *response similar to /gateway/status
+`POST` **/gateway/open**
+Request body:
+  - none
+
+Response body:
+- _respCode_: 0
+- _desc_ : null
+- _payload_ : null
 
 /----------------------------------------------------
 
+`POST` **/gateway/close**
+Request body:
+  - none
+
+Response body:
+- _respCode_: 0
+- _desc_ : null
+- _payload_ : null
+
+/#######################################
+
 `GET` **/jobs**
 
-- request body : none
+Request body:
+  - none
+
+Response body:
+- _respCode_: 0
 - _desc_ : "scheduled jobs"
-- _payload_ : Job[ ]
+- _payload_ : Job[]
+
+/----------------------------------------------------
 
 `POST` **/jobs**
 
-- request body : { start : string, end : string, message : string , isRecurrent : boolean }
-- _desc_ : "created job"
-- _payload_ : Job
+Request body:
+  - { start: UNIX timestamp (seconds), end: UNIX timestamp (seconds), message: string}
+
+Response body:
+- _respCode_: 0
+- _desc_ : null
+- _payload_ : null
+
+/----------------------------------------------------
 
 `PUT` **/jobs/{id}**
 
-- request body : { start : ... , end : ... , message : ... }
-- _desc_ : "updated job"
-- _payload_ : Job
+Request body:
+  - same as `POST` **/jobs**
+
+Response body:
+- _respCode_: 0
+- _desc_ : null
+- _payload_ : null
+
+/----------------------------------------------------
 
 `DELETE` **/jobs/{id}**
 
-- request body : none
-- _desc_ : "number of jobs deleted"
-- _payload_ : 1 (integer)
+Request body:
+  - none
 
-## RespCode Translation Guide
+Response body:
+- _respCode_: 0
+- _desc_ : null
+- _payload_ : null
+
+## RespCode Error Translation Guide
 RespCode : `####`
 
 `(#)###` : SERVICE ID
@@ -81,19 +120,15 @@ RespCode : `####`
 - `5` : Gateway
 - `7` : Scheduler
 
-`#(#)##` : SECTION ID
-- `0` : ...
-- `1` : ...
-- `2` : ...
+`#(#)##` : NESTED SERVICE ID
+- `0` : none
+- `1` : HTTP
+- `3` : Audit
+- `5` : Gateway
+- `7` : Scheduler
 
 `##(##)` : EXCEPTION ID
-- `00` : ...
-- `10` : ...
-- `20` : ...
-
-
-## Exception handling
-
-1. Basic:
-    * Hello world
-    * Hello world
+- `40` : `HTTP 502` Error at Gateway proxy server (this service)
+- `50` : `HTTP 502` Error at Gateway server
+- `71` : `HTTP 400` Illegal _start_ time
+- `72` : `HTTP 400` Illegal _end_ time
