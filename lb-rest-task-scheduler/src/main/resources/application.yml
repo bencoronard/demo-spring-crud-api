@@ -1,3 +1,12 @@
+server:
+  port: ${SERVER_PORT:8778}
+
+logging:
+  level:
+    root: "WARN"
+    "[org.springframework]": "INFO"
+    "[org.springframework.security]": "DEBUG"
+
 spring:
   application:
     name: "REST Task Scheduler"
@@ -6,17 +15,17 @@ spring:
       enabled: true
 
   datasource:
-    url: "jdbc:postgresql://localhost:5432/user"
+    url: "${DATASOURCE_URI:jdbc:postgresql://localhost:5432/user}"
     driver-class-name: "org.postgresql.Driver"
-    username: "user"
-    password: ""
+    username: "${DATASOURCE_USERNAME:user}"
+    password: "${DATASOURCE_PASSWORD:}"
 
   sql:
     init:
-      mode: "always"
-      platform: "postgresql"
-      schema-locations: "classpath:db/migration/schema-postgresql.sql"
-      data-locations: "optional:classpath:db/migration/data-postgresql.sql"
+      mode: "never"
+      # platform: "postgresql"
+      # schema-locations: "classpath:db/migration/schema-postgresql.sql"
+      # data-locations: "optional:classpath:db/migration/data-postgresql.sql"
 
   jpa:
     open-in-view: false
@@ -32,25 +41,18 @@ spring:
       "[org.quartz.jobStore.tablePrefix]": "admin_portal.QRTZ_"
       "[org.quartz.jobStore.driverDelegateClass]": "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
 
-server:
-  port: ${SERVER_PORT:8080}
+
 
 api:
   internal:
     secret:
-      key: "loxbit888"
+      key: "${SERVER_API_KEY:lb1234}"
       
   external:
     gateway:
-      uri: "http://localhost:7777"
+      uri: "${GATEWAY_URI:http://localhost:7786}"
       secret:
-        key: "loxley888"
-
-logging:
-  level:
-    root: "WARN"
-    "[org.springframework]": "INFO"
-    "[org.springframework.security]": "DEBUG"
+        key: "${GATEWAY_API_KEY:mdd1234}"
 
 app:
   environment: "dev"
