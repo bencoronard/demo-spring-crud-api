@@ -1,6 +1,6 @@
 services:
   app:
-    image: gateway-scheduler:dev
+    image: gateway-scheduler:v1
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -22,7 +22,7 @@ services:
       GATEWAY_API_KEY: loxley888
 
   gateway:
-    image: api-gateway:latest
+    image: bencoronard/api-gateway:v1
     restart: always
     networks:
       - public
