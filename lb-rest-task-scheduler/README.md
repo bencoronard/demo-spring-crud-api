@@ -18,7 +18,7 @@ HTTP 4xx, 5xx
 - `desc` (string):
     - env `dev`: error message from JVM (not safe for public)
     - env `prod`: null
-- `payload` (any) : custom error message (safe for public)
+- `payload` (string) : custom error message (safe for public)
 
 ## Global Request Header
 
@@ -31,7 +31,7 @@ HTTP 4xx, 5xx
 
 /#######################################
 
-`GET` **/gateway/status**
+`GET` **/api/gateway/status**
 
 Request body:
   - none
@@ -39,11 +39,12 @@ Request body:
 Response body:
 - _respCode_: 0
 - _desc_ : "gateway status"
-- _payload_ : { isGatewayOpen : boolean }
+- _payload_ : { gatewayIsOpen : boolean }
 
 /----------------------------------------------------
 
-`POST` **/gateway/open**
+`POST` **/api/gateway/open**
+
 Request body:
   - none
 
@@ -54,7 +55,8 @@ Response body:
 
 /----------------------------------------------------
 
-`POST` **/gateway/close**
+`POST` **/api/gateway/close**
+
 Request body:
   - none
 
@@ -65,7 +67,7 @@ Response body:
 
 /#######################################
 
-`GET` **/jobs**
+`GET` **/api/jobs**
 
 Request body:
   - none
@@ -77,7 +79,7 @@ Response body:
 
 /----------------------------------------------------
 
-`POST` **/jobs**
+`POST` **/api/jobs**
 
 Request body:
   - { start: UNIX timestamp (seconds), end: UNIX timestamp (seconds), message: string}
@@ -89,7 +91,7 @@ Response body:
 
 /----------------------------------------------------
 
-`PUT` **/jobs/{id}**
+`PUT` **/api/jobs/{id}**
 
 Request body:
   - same as `POST` **/jobs**
@@ -101,7 +103,7 @@ Response body:
 
 /----------------------------------------------------
 
-`DELETE` **/jobs/{id}**
+`DELETE` **/api/jobs/{id}**
 
 Request body:
   - none
@@ -110,6 +112,19 @@ Response body:
 - _respCode_: 0
 - _desc_ : null
 - _payload_ : null
+
+/#######################################
+
+`GET` **/actuator/health**
+
+Request headers:
+  - none
+
+Request body:
+  - none
+
+Response body:
+- _status_: 0
 
 ## RespCode Error Translation Guide
 RespCode : `####`

@@ -43,6 +43,14 @@ tasks.named('test') {
 }
 
 tasks.named('bootRun') {
-	args = ['--SPRING_PROFILES_ACTIVE=dev', '--SERVER_PORT=8080']
+	args = [
+		'--SERVER_PORT=8080',
+		'--SERVER_API_KEY=loxbit888',
+		'--DATASOURCE_URI=jdbc:postgresql://localhost:5432/user',
+		'--DATASOURCE_USERNAME=user',
+		'--DATASOURCE_PASSWORD=',
+		'--GATEWAY_URI=http://localhost:3000',
+		'--GATEWAY_API_KEY=loxley888'
+	]
 }
 

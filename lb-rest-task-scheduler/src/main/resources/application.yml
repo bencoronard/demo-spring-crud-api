@@ -65,3 +65,79 @@ app:
 #       on-profile: "dev"
 
 
+spring:
+  application:
+    name: "gateway-scheduler"
+
+  threads:
+    virtual:
+      enabled: true
+
+  datasource:
+    url: "${DATASOURCE_URI}"
+    driver-class-name: "org.postgresql.Driver"
+    username: "${DATASOURCE_USERNAME}"
+    password: "${DATASOURCE_PASSWORD}"
+
+  sql:
+    init:
+      mode: "never"
+
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: "update"
+    
+  quartz:
+    job-store-type: "jdbc"
+    jdbc:
+      initialize-schema: "never"
+    properties:
+      "[org.quartz.jobStore.tablePrefix]": "admin_portal.QRTZ_"
+      "[org.quartz.jobStore.driverDelegateClass]": "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
+
+server:
+  port: ${SERVER_PORT}
+
+management:
+  endpoints:
+    enabled-by-default: false
+    jmx:
+      exposure:
+        exclude: "*"
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      enabled: true
+      cache:
+        time-to-live: "5s"
+    info:
+      enabled: true
+      cache:
+        time-to-live: "10s"
+  info:
+    java:
+      enabled: true
+    env:
+      enabled: true
+
+api:
+  internal:
+    secret:
+      key: "${SERVER_API_KEY}"
+      
+  external:
+    gateway:
+      uri: "${GATEWAY_URI}"
+      secret:
+        key: "${GATEWAY_API_KEY}"
+
+app:
+  environment: "dev"
+
+info:
+  app:
+    environment: "development"
