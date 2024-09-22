@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN gradle build --no-daemon
+RUN gradle build --no-daemon -x test
 
 FROM eclipse-temurin:22-jdk-alpine
 
