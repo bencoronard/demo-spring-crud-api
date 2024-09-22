@@ -47,9 +47,9 @@ tasks.named('bootRun') {
 		'--SERVER_PORT=8080',
 		'--SERVER_API_KEY=loxbit888',
 		'--DATASOURCE_URI=jdbc:postgresql://localhost:5432/user',
-		'--DATASOURCE_USERNAME=user',
-		'--DATASOURCE_PASSWORD=',
-		'--GATEWAY_URI=http://localhost:3000',
+		'--DATASOURCE_USERNAME=loxbit',
+		'--DATASOURCE_PASSWORD=loxley',
+		'--GATEWAY_URI=http://localhost:8081',
 		'--GATEWAY_API_KEY=loxley888'
 	]
 }

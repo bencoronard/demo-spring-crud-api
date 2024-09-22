@@ -1,70 +1,3 @@
-server:
-  port: ${SERVER_PORT:8778}
-
-logging:
-  level:
-    root: "WARN"
-    "[org.springframework]": "INFO"
-    "[org.springframework.security]": "DEBUG"
-
-spring:
-  application:
-    name: "REST Task Scheduler"
-  threads:
-    virtual:
-      enabled: true
-
-  datasource:
-    url: "${DATASOURCE_URI:jdbc:postgresql://localhost:5432/user}"
-    driver-class-name: "org.postgresql.Driver"
-    username: "${DATASOURCE_USERNAME:user}"
-    password: "${DATASOURCE_PASSWORD:}"
-
-  sql:
-    init:
-      mode: "never"
-      # platform: "postgresql"
-      # schema-locations: "classpath:db/migration/schema-postgresql.sql"
-      # data-locations: "optional:classpath:db/migration/data-postgresql.sql"
-
-  jpa:
-    open-in-view: false
-    show-sql: true
-    hibernate:
-      ddl-auto: "update"
-    
-  quartz:
-    job-store-type: "jdbc"
-    jdbc:
-      initialize-schema: "never"
-    properties:
-      "[org.quartz.jobStore.tablePrefix]": "admin_portal.QRTZ_"
-      "[org.quartz.jobStore.driverDelegateClass]": "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
-
-
-
-api:
-  internal:
-    secret:
-      key: "${SERVER_API_KEY:lb1234}"
-      
-  external:
-    gateway:
-      uri: "${GATEWAY_URI:http://localhost:7786}"
-      secret:
-        key: "${GATEWAY_API_KEY:mdd1234}"
-
-app:
-  environment: "dev"
-
----
-# Development environment
-# spring:
-#   config:
-#     activate:
-#       on-profile: "dev"
-
-
 spring:
   application:
     name: "gateway-scheduler"
@@ -82,6 +15,9 @@ spring:
   sql:
     init:
       mode: "never"
+      # platform: "postgresql"
+      # schema-locations: "classpath:db/migration/schema-postgresql.sql"
+      # data-locations: "optional:classpath:db/migration/data-postgresql.sql"
 
   jpa:
     open-in-view: false
@@ -141,3 +77,10 @@ app:
 info:
   app:
     environment: "development"
+
+---
+# Development environment
+# spring:
+#   config:
+#     activate:
+#       on-profile: "dev"
