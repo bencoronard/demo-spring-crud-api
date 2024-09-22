@@ -3,9 +3,6 @@ package th.co.loxbit.rest_task_scheduler.common.security.filters;
 import java.io.IOException;
 
 import org.springframework.lang.NonNull;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -20,6 +17,7 @@ public class UserIdFilter extends OncePerRequestFilter {
   // ---------------------------------------------------------------------------//
 
   private static final String USER_ID_HEADER = "X-USER-ID";
+  private static final String USER_ID_KEY = "USER_ID";
 
   // ---------------------------------------------------------------------------//
   // Methods
@@ -39,9 +37,7 @@ public class UserIdFilter extends OncePerRequestFilter {
       return;
     }
 
-    Authentication auth = new UsernamePasswordAuthenticationToken(userId, null, null);
-
-    SecurityContextHolder.getContext().setAuthentication(auth);
+    request.setAttribute(USER_ID_KEY, userId);
 
     filterChain.doFilter(request, response);
 

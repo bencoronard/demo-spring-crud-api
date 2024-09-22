@@ -1,11 +1,9 @@
 package th.co.loxbit.rest_task_scheduler.common.security.configurations;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import th.co.loxbit.rest_task_scheduler.common.security.filters.ApiKeyFilter;
 import th.co.loxbit.rest_task_scheduler.common.security.filters.UserIdFilter;
@@ -25,39 +23,23 @@ public class SecurityConfig {
   // ---------------------------------------------------------------------------//
 
   @Bean
-  SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-    http.cors(
-        cors -> cors.disable());
-
-    http.csrf(
-        csrf -> csrf.disable());
-
-    http.authorizeHttpRequests(
-        authorize -> authorize.anyRequest().permitAll());
-
-    http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
-
-    http.addFilterBefore(userIdFilter(), UsernamePasswordAuthenticationFilter.class)
-        .addFilterBefore(apiKeyFilter(), UserIdFilter.class);
-
-    return http.build();
-  }
-
-  // ---------------------------------------------------------------------------//
-  // Methods
-  // ---------------------------------------------------------------------------//
-
-  @Bean
-  ApiKeyFilter apiKeyFilter() {
-    return new ApiKeyFilter(apiKey);
+  FilterRegistrationBean<ApiKeyFilter> apiKeyFilter() {
+    FilterRegistrationBean<ApiKeyFilter> filter = new FilterRegistrationBean<>();
+    filter.setFilter(new ApiKeyFilter(apiKey));
+    filter.setOrder(0);
+    filter.addUrlPatterns("/api/*");
+    return filter;
   }
 
   // ---------------------------------------------------------------------------//
 
   @Bean
-  UserIdFilter userIdFilter() {
-    return new UserIdFilter();
+  FilterRegistrationBean<UserIdFilter> userIdFilter() {
+    FilterRegistrationBean<UserIdFilter> filter = new FilterRegistrationBean<>();
+    filter.setFilter(new UserIdFilter());
+    filter.setOrder(1);
+    filter.addUrlPatterns("/api/*");
+    return filter;
   }
 
 }
