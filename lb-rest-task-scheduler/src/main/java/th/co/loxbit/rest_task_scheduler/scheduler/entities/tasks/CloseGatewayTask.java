@@ -1,4 +1,4 @@
-package th.co.loxbit.rest_task_scheduler.scheduler.entities;
+package th.co.loxbit.rest_task_scheduler.scheduler.entities.tasks;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -9,13 +9,14 @@ import lombok.Setter;
 import th.co.loxbit.rest_task_scheduler.gateway.services.GatewayService;
 
 @Setter
-public class OpenGatewayTask extends QuartzJobBean {
+public class CloseGatewayTask extends QuartzJobBean {
 
   // ---------------------------------------------------------------------------//
   // Dependencies
   // ---------------------------------------------------------------------------//
 
   private GatewayService gatewayService;
+  private String message;
 
   // ---------------------------------------------------------------------------//
   // Methods
@@ -24,7 +25,7 @@ public class OpenGatewayTask extends QuartzJobBean {
   @Override
   protected void executeInternal(@NonNull JobExecutionContext context) throws JobExecutionException {
 
-    this.gatewayService.openGateway();
+    this.gatewayService.closeGateway(message);
 
   }
 

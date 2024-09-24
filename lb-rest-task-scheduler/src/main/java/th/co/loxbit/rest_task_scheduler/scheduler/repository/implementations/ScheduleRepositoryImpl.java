@@ -15,9 +15,9 @@ import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import th.co.loxbit.rest_task_scheduler.scheduler.entities.CloseGatewayTask;
 import th.co.loxbit.rest_task_scheduler.scheduler.entities.GatewaySchedule;
-import th.co.loxbit.rest_task_scheduler.scheduler.entities.OpenGatewayTask;
+import th.co.loxbit.rest_task_scheduler.scheduler.entities.tasks.CloseGatewayTask;
+import th.co.loxbit.rest_task_scheduler.scheduler.entities.tasks.OpenGatewayTask;
 import th.co.loxbit.rest_task_scheduler.scheduler.repository.ScheduleRepository;
 
 @Component
