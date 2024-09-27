@@ -15,7 +15,9 @@ services:
     environment:
       SERVER_PORT: 8080
       SERVER_API_KEY: loxbit888
-      DATASOURCE_URI: jdbc:postgresql://db:5432/user
+      DATASOURCE_HOST: db
+      DATASOURCE_PORT: 5432
+      DATASOURCE_DB: user
       DATASOURCE_USERNAME: loxbit
       DATASOURCE_PASSWORD: loxley
       GATEWAY_URI: http://gateway:8081
