@@ -16,7 +16,7 @@ public class EnvironmentUtil {
   // Constructors
   // ---------------------------------------------------------------------------//
 
-  public EnvironmentUtil(@Value("${app.environment}") String env) {
+  public EnvironmentUtil(@Value("${info.app.environment}") String env) {
     this.isDevEnvironment = "dev".equalsIgnoreCase(env);
   }
 
