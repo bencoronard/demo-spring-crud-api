@@ -75,6 +75,11 @@ api:
       secret:
         key: "${GATEWAY_API_KEY}"
         
+logging:
+  include-application-name: false
+  file:
+    name: "logs/app.log"
+
 ---
 # Environment: dev
 spring:

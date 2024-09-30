@@ -1,6 +1,6 @@
 services:
   app:
-    image: gateway-scheduler:v1
+    image: lb-gateway-scheduler:v1
     build:
       context: .
       dockerfile: ./Dockerfile
