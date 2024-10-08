@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import th.co.loxbit.rest_task_scheduler.common.dtos.ExceptionData;
 import th.co.loxbit.rest_task_scheduler.common.exceptions.WrappingException;
 import th.co.loxbit.rest_task_scheduler.common.http.dtos.responses.GlobalResponseBody;
@@ -17,6 +18,7 @@ import th.co.loxbit.rest_task_scheduler.common.utilities.EnvironmentUtil;
 import th.co.loxbit.rest_task_scheduler.scheduler.exceptions.IllegalEndTimeException;
 import th.co.loxbit.rest_task_scheduler.scheduler.exceptions.IllegalStartTimeException;
 
+@Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
@@ -46,6 +48,8 @@ public class GlobalExceptionHandler {
 
     ExceptionData exData = exception.getRespData();
     Class<? extends Throwable> exClass = exData.getExceptionClass();
+
+    log.error("An error occured");
 
     GlobalResponseBody.GlobalResponseBodyBuilder<String> builder = GlobalResponseBody.<String>builder();
 
