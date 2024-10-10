@@ -2,6 +2,7 @@ package th.co.loxbit.rest_task_scheduler.gateway.services.implementations;
 
 import java.time.Instant;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import th.co.loxbit.rest_task_scheduler.audit.entities.AuditRecordType;
@@ -52,8 +53,9 @@ public class GatewayServiceImpl implements GatewayService {
   public void openGateway() {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
-      restService.postWithRetry(
+      restService.post(
           "/open",
+          MediaType.APPLICATION_JSON,
           null,
           OpenGatewayResponseInbound.class,
           retry.withExponentialBackOff(3, 1000, 2, 3000));
@@ -73,8 +75,9 @@ public class GatewayServiceImpl implements GatewayService {
           .message(message)
           .build();
 
-      restService.postWithRetry(
+      restService.post(
           "/close",
+          MediaType.APPLICATION_JSON,
           requestBody,
           CloseGatewayResponseInbound.class,
           retry.withFixedBackOff(3, 1000));
@@ -90,8 +93,9 @@ public class GatewayServiceImpl implements GatewayService {
   public void openGatewayOverride(String performedBy) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
-      restService.postWithRetry(
+      restService.post(
           "/open",
+          MediaType.APPLICATION_JSON,
           null,
           OpenGatewayResponseInbound.class,
           retry.withExponentialBackOff(3, 1000, 2, 3000));
@@ -116,8 +120,9 @@ public class GatewayServiceImpl implements GatewayService {
           .message(message)
           .build();
 
-      restService.postWithRetry(
+      restService.post(
           "/close",
+          MediaType.APPLICATION_JSON,
           requestBody,
           CloseGatewayResponseInbound.class,
           retry.withFixedBackOff(3, 1000));

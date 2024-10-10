@@ -32,7 +32,7 @@ public class RestServiceImpl implements RestService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public <T, R> R post(String path, T requestBody, Class<R> responseType) {
+  public <T, R> R post(String path, MediaType contentType, T requestBody, Class<R> responseType) {
     return this.restClient
         .post()
         .uri(path)
@@ -45,7 +45,7 @@ public class RestServiceImpl implements RestService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public <T, R> R put(String path, T requestBody, Class<R> responseType) {
+  public <T, R> R put(String path, MediaType contentType, T requestBody, Class<R> responseType) {
     return this.restClient
         .put()
         .uri(path)
@@ -69,7 +69,7 @@ public class RestServiceImpl implements RestService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public <T> T getWithRetry(String path, Class<T> responseType, RetryTemplate withRetry) {
+  public <T> T get(String path, Class<T> responseType, RetryTemplate withRetry) {
     return withRetry.execute((context) -> {
       return this.restClient
           .get()
@@ -82,7 +82,8 @@ public class RestServiceImpl implements RestService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public <T, R> R postWithRetry(String path, T requestBody, Class<R> responseType, RetryTemplate withRetry) {
+  public <T, R> R post(String path, MediaType contentType, T requestBody, Class<R> responseType,
+      RetryTemplate withRetry) {
     return withRetry.execute((context) -> {
       return this.restClient
           .post()
@@ -97,7 +98,8 @@ public class RestServiceImpl implements RestService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public <T, R> R putWithRetry(String path, T requestBody, Class<R> responseType, RetryTemplate withRetry) {
+  public <T, R> R put(String path, MediaType contentType, T requestBody, Class<R> responseType,
+      RetryTemplate withRetry) {
     return withRetry.execute((context) -> {
       return this.restClient
           .put()
@@ -112,7 +114,7 @@ public class RestServiceImpl implements RestService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public <T> T deleteWithRetry(String path, Class<T> responseType, RetryTemplate withRetry) {
+  public <T> T delete(String path, Class<T> responseType, RetryTemplate withRetry) {
     return withRetry.execute((context) -> {
       return this.restClient
           .delete()
