@@ -1,21 +1,35 @@
+# Stage 1: Build the application using Gradle
 FROM gradle:8.10.1-jdk22 AS build
 
+# Set the working directory in the build stage
 WORKDIR /app
 
+# Copy the source code into the container
 COPY . .
 
+# Build the application without running the tests
 RUN gradle build --no-daemon -x test
 
-FROM eclipse-temurin:22-jdk-alpine
+# Stage 2: Create the runtime container
+FROM eclipse-temurin:22-jre-alpine
 
+# Set the working directory in the runtime container
 WORKDIR /app
 
-RUN addgroup -S spring && adduser -S boot -G spring
+# Add a non-root user boot:spring
+# Give folder logs to boot:spring user
+RUN addgroup -S spring && adduser -S boot -G spring && \
+    mkdir logs && chown boot:spring logs
 
+# Copy the built JAR file from the build stage to the runtime container
+# Set ownership of the JAR file to boot:spring during the copy
 COPY --from=build --chown=boot:spring /app/build/libs/rest-task-scheduler-0.0.1-SNAPSHOT.jar app.jar
 
-USER boot:spring
-
+# Expose port 8080 for the application
 EXPOSE 8080
 
+# Run the container as user 'boot'
+USER boot:spring
+
+# Define the command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
