@@ -89,8 +89,8 @@ public class JobSchedulingServiceImpl implements JobSchedulingService {
 
       GatewaySchedule deletedSchedule = scheduleRepository.deleteScheduleById(jobId);
 
-      auditRecordService.addAuditRecord(jobId, deletedSchedule.getStartTime().getEpochSecond(),
-          deletedSchedule.getEndTime().getEpochSecond(), deletedBy, AuditRecordType.DELETE);
+      auditRecordService.addAuditRecord(jobId, deletedSchedule.getStart().getEpochSecond(),
+          deletedSchedule.getEnd().getEpochSecond(), deletedBy, AuditRecordType.DELETE);
 
       return null;
 

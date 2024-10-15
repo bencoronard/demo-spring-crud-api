@@ -76,8 +76,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
       gatewaySchedules.add(GatewaySchedule.builder()
           .id(jobId)
-          .startTime(closeGatewaySchedule.getSecond().getStartTime().toInstant())
-          .endTime(openGatewaySchedule.getSecond().getStartTime().toInstant())
+          .start(closeGatewaySchedule.getSecond().getStartTime().toInstant())
+          .end(openGatewaySchedule.getSecond().getStartTime().toInstant())
           .build());
 
     }
@@ -119,8 +119,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
     return GatewaySchedule.builder()
         .id(jobId)
-        .startTime(closeGatewaySchedule.getSecond().getStartTime().toInstant())
-        .endTime(openGatewaySchedule.getSecond().getStartTime().toInstant())
+        .start(closeGatewaySchedule.getSecond().getStartTime().toInstant())
+        .end(openGatewaySchedule.getSecond().getStartTime().toInstant())
         .build();
 
   }

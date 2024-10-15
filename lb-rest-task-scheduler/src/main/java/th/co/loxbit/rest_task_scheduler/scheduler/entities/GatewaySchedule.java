@@ -14,8 +14,8 @@ public class GatewaySchedule {
   // ---------------------------------------------------------------------------//
 
   private final String id;
-  private final Instant startTime;
-  private final Instant endTime;
+  private final Instant start;
+  private final Instant end;
   private final String owner;
 
 }
