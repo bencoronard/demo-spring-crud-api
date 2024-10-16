@@ -2,6 +2,7 @@ package th.co.loxbit.rest_task_scheduler.scheduler.controller.implementations;
 
 import java.util.List;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +38,12 @@ public class JobSchedulingControllerImpl implements JobSchedulingController {
     GlobalResponseBody<List<GatewaySchedule>> responseBody = ResponseBodyUtils
         .createSuccessResponseBody("scheduled jobs", data);
 
-    return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    HttpHeaders headers = new HttpHeaders();
+    headers.setCacheControl("no-store, no-cache, must-revalidate, max-age=0");
+    headers.setPragma("no-cache");
+    headers.setExpires(0);
+
+    return new ResponseEntity<>(responseBody, headers, HttpStatus.OK);
   }
 
   // ---------------------------------------------------------------------------//
