@@ -1,45 +1,3 @@
-server:
-  port: ${SERVER_PORT}
-
-spring:
-  application:
-    name: "${SERVICE_NAME}"
-
-  profiles:
-    active: "${SERVER_ENV}"
-
-  datasource:
-    url: "jdbc:postgresql://${DATASOURCE_HOST}:${DATASOURCE_PORT}/${DATASOURCE_DB}"
-    username: "${DATASOURCE_USERNAME}"
-    password: "${DATASOURCE_PASSWORD}"
-
-  sql:
-    init:
-      mode: "never"
-      # platform: "postgresql"
-      # schema-locations: "classpath:db/migration/schema-postgresql.sql"
-      # data-locations: "optional:classpath:db/migration/data-postgresql.sql"
-
-  jpa:
-    open-in-view: false
-    hibernate:
-      ddl-auto: "validate"
-    
-  quartz:
-    job-store-type: "jdbc"
-    jdbc:
-      initialize-schema: "never"
-    properties:
-      org:
-        quartz:
-          jobStore:
-            tablePrefix: "admin_portal.QRTZ_"
-            driverDelegateClass: "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
-
-  threads:
-    virtual:
-      enabled: true
-
 management:
   endpoints:
     enabled-by-default: false
@@ -64,21 +22,64 @@ management:
     env:
       enabled: true
 
-api:
-  internal:
-    secret:
-      key: "${SERVER_API_KEY}"
-      
-  external:
-    gateway:
-      uri: "${GATEWAY_URI}"
-      secret:
-        key: "${GATEWAY_API_KEY}"
-        
+spring:
+
+  threads:
+    virtual:
+      enabled: true
+
+  sql:
+    init:
+      mode: "never"
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: "validate"
+    
+  quartz:
+    job-store-type: "jdbc"
+    jdbc:
+      initialize-schema: "never"
+    properties:
+      org:
+        quartz:
+          threadPool:
+            threadCount: 3
+          jobStore:
+            driverDelegateClass: "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
+            tablePrefix: "admin_portal_quartz.QRTZ_"
+
+  application:
+    name: "${APP_SERVICE_NAME}"
+
+  profiles:
+    active: "${APP_SERVER_MODE}"
+
+  datasource:
+    url: "jdbc:postgresql://${APP_DATABASE_POSTGRES_HOST}:${APP_DATABASE_POSTGRES_PORT}/${APP_DATABASE_POSTGRES_DBNAME}"
+    driver-class-name: "org.postgresql.Driver"
+    username: "${APP_DATABASE_POSTGRES_USERNAME}"
+    password: "${APP_DATABASE_POSTGRES_PASSWORD}"
+
+server:
+  port: "${APP_SERVER_PORT}"
+
 logging:
   include-application-name: false
   file:
-    name: "logs/app.log"
+    name: "${APP_LOGGER_LOG_FILE_PATH}"
+
+api:
+  internal:
+    secret:
+      key: "${APP_APP_VALIDATE_X_SECRET_KEY}"
+  external:
+    timeout-in-sec: "${APP_SERVER_TIMEOUT:10}"
+    gateway:
+      uri: "${APP_CLIENTS_GATEWAY_URL_CSV}"
+      status:
+        uri: "${APP_CLIENTS_GATEWAY_STAT_URL}"
 
 ---
 # Environment: dev
@@ -95,13 +96,34 @@ info:
     environment: "dev"
 
 ---
+# Environment: uat
+spring:
+  config:
+    activate:
+      on-profile: "uat"
+
+info:
+  app:
+    environment: "uat"
+
+---
 # Environment: prod
 spring:
   config:
     activate:
       on-profile: "prod"
 
+  quartz:
+    properties:
+      org:
+        quartz:
+          jobStore:
+            isClustered: true
+            clusterCheckinInterval: 20000
+          scheduler:
+            instanceName: "qrtz-gateway-job-executor"
+            instanceId: "AUTO"
+
 info:
   app:
     environment: "prod"
-
