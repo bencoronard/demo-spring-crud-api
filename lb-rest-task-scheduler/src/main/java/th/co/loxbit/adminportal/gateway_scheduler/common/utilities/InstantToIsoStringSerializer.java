@@ -16,7 +16,7 @@ public class InstantToIsoStringSerializer extends StdSerializer<Instant> {
   // ---------------------------------------------------------------------------//
 
   private static final DateTimeFormatter FORMATTER = DateTimeFormatter
-      .ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+      .ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX")
       .withZone(ZoneId.of("GMT+7"));
 
   // ---------------------------------------------------------------------------//
@@ -33,7 +33,7 @@ public class InstantToIsoStringSerializer extends StdSerializer<Instant> {
 
   @Override
   public void serialize(Instant value, JsonGenerator gen, SerializerProvider provider) throws IOException {
-    gen.writeString(FORMATTER.format(value) + "Z");
+    gen.writeString(FORMATTER.format(value));
   }
 
 }
