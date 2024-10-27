@@ -1,19 +1,20 @@
 package th.co.loxbit.adminportal.gateway_scheduler.job_scheduling.repositories;
 
-import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import th.co.loxbit.adminportal.gateway_scheduler.job_scheduling.entities.Job;
 
 public interface JobRepository {
 
-  void createJob(Job job);
+  Job save(Job job);
 
-  Job findJobById(String id);
+  Optional<Job> findById(String id);
 
-  List<Job> findAllJobs();
+  Page<Job> findAll(Pageable pageable);
 
-  void updateJob(Job job);
-
-  void deleteJob(String id);
+  void delete(Job job);
 
 }

@@ -4,18 +4,22 @@ import java.time.Instant;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Builder
 @Getter
+@Setter
 public class Job {
 
   // ---------------------------------------------------------------------------//
   // Fields
   // ---------------------------------------------------------------------------//
 
-  private final String id;
-  private final Instant start;
-  private final Instant end;
-  private final String message;
+  private String id;
+  private Instant start;
+  private Instant end;
+  private String message;
+  private String owner;
+  private boolean isPartial;
 
 }
