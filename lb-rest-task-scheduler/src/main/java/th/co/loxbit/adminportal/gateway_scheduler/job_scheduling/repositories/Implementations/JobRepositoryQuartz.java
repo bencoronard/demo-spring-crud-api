@@ -75,7 +75,9 @@ public class JobRepositoryQuartz implements JobRepository {
 
     try {
       scheduleOneTimeJob(OpenGatewayTask.class, TASK_OPEN_KEY, id, end, jobData);
-      scheduleOneTimeJob(CloseGatewayTask.class, TASK_CLOSE_KEY, id, start, jobData);
+      if (!job.isPartial()) {
+        scheduleOneTimeJob(CloseGatewayTask.class, TASK_CLOSE_KEY, id, start, jobData);
+      }
     } catch (SchedulerException e) {
       throw new RuntimeException();
     }
