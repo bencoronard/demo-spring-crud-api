@@ -120,25 +120,23 @@ public class JobRepositoryQuartz implements JobRepository {
     try {
       List<String> jobIds = scheduler.getJobGroupNames();
 
-      if (pageable.getOffset() > jobIds.size()) {
+      int jobCount = jobIds.size();
+      int startIndex = (int) pageable.getOffset();
+
+      if (startIndex >= jobCount) {
         return Page.empty(pageable);
       }
 
-      int startIndex = (int) pageable.getOffset();
-      int endIndex = Math.min(startIndex + pageable.getPageSize(), jobIds.size());
+      int endIndex = Math.min(startIndex + pageable.getPageSize(), jobCount);
 
       List<Job> jobs = new ArrayList<>(endIndex - startIndex);
 
       for (int i = startIndex; i < endIndex; i++) {
-        try {
-          String jobId = jobIds.get(i);
-          findById(jobId).ifPresent(jobs::add);
-        } catch (IndexOutOfBoundsException e) {
-          endIndex = Math.min(endIndex, jobIds.size());
-        }
+        String jobId = jobIds.get(i);
+        findById(jobId).ifPresent(jobs::add);
       }
 
-      return new PageImpl<>(jobs, pageable, jobIds.size());
+      return new PageImpl<>(jobs, pageable, jobCount);
 
     } catch (SchedulerException e) {
       throw new RuntimeException();
