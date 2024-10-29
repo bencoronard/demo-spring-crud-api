@@ -41,7 +41,7 @@ public class JobRepositoryQuartz implements JobRepository {
 
   private final Scheduler scheduler;
 
-  private final String JDATA_OWNER_KEY = "owner";
+  private final String JDATA_INITIATOR_KEY = "initiator";
   private final String JDATA_MESSAGE_KEY = "message";
   private final String JDATA_JOB_START_KEY = "start";
   private final String JDATA_JOB_END_KEY = "end";
@@ -71,7 +71,7 @@ public class JobRepositoryQuartz implements JobRepository {
     jobData.put(JDATA_JOB_START_KEY, start);
     jobData.put(JDATA_JOB_END_KEY, end);
     jobData.put(JDATA_MESSAGE_KEY, job.getMessage());
-    jobData.put(JDATA_OWNER_KEY, job.getOwner());
+    jobData.put(JDATA_INITIATOR_KEY, job.getInitiator());
 
     try {
       scheduleOneTimeJob(OpenGatewayTask.class, TASK_OPEN_KEY, id, end, jobData);
@@ -106,7 +106,7 @@ public class JobRepositoryQuartz implements JobRepository {
       builder.start((Instant) jobData.get(JDATA_JOB_START_KEY));
       builder.end(taskOpenTrigger.get().getStartTime().toInstant());
       builder.message((String) jobData.get(JDATA_MESSAGE_KEY));
-      builder.owner((String) jobData.getString(JDATA_OWNER_KEY));
+      builder.initiator((String) jobData.get(JDATA_INITIATOR_KEY));
       builder.isPartial(taskCloseTrigger.isPresent() ? false : true);
 
       return Optional.of(builder.build());

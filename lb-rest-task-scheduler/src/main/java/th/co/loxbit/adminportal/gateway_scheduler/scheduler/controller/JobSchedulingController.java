@@ -16,7 +16,7 @@ import th.co.loxbit.adminportal.gateway_scheduler.common.http.dtos.responses.Glo
 import th.co.loxbit.adminportal.gateway_scheduler.scheduler.dtos.GatewaySchedule;
 import th.co.loxbit.adminportal.gateway_scheduler.scheduler.dtos.requests.ScheduleJobRequest;
 
-@RequestMapping("/v1/goodmoney-admin-portal/gateway")
+@RequestMapping("/v2/goodmoney-admin-portal/gateway")
 public interface JobSchedulingController {
 
   String USER_ID_KEY = "USER_ID";

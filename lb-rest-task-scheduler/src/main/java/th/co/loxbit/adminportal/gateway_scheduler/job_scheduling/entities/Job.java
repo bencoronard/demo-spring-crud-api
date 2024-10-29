@@ -19,7 +19,7 @@ public class Job {
   private Instant start;
   private Instant end;
   private String message;
-  private String owner;
+  private String initiator;
   private boolean isPartial;
 
 }
