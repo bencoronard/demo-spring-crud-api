@@ -1,4 +1,4 @@
-package th.co.loxbit.adminportal.gateway_scheduler.job_scheduling.repositories.Implementations;
+package th.co.loxbit.adminportal.gateway_scheduler.scheduler.repositories.Implementations;
 
 import java.time.Instant;
 import java.util.Date;
@@ -26,10 +26,10 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import th.co.loxbit.adminportal.gateway_scheduler.job_scheduling.entities.Job;
-import th.co.loxbit.adminportal.gateway_scheduler.job_scheduling.repositories.JobRepository;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.entities.Job;
 import th.co.loxbit.adminportal.gateway_scheduler.scheduler.entities.tasks.CloseGatewayTask;
 import th.co.loxbit.adminportal.gateway_scheduler.scheduler.entities.tasks.OpenGatewayTask;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.repositories.JobRepository;
 
 @Component
 @RequiredArgsConstructor
@@ -148,11 +148,12 @@ public class JobRepositoryQuartz implements JobRepository {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void delete(Job job) {
+  public Job delete(Job job) {
     String id = job.getId();
     try {
       scheduler.deleteJob(new JobKey(TASK_CLOSE_KEY, id));
       scheduler.deleteJob(new JobKey(TASK_OPEN_KEY, id));
+      return job;
     } catch (SchedulerException e) {
       throw new RuntimeException();
     }

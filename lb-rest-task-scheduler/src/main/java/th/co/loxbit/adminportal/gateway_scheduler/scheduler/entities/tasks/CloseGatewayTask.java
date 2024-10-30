@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import th.co.loxbit.adminportal.gateway_scheduler.common.exceptions.WrappingException;
 import th.co.loxbit.adminportal.gateway_scheduler.gateway.services.GatewayService;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.exceptions.TaskExecutionException;
 
 @Component
 @Scope("prototype")
@@ -25,6 +26,7 @@ public class CloseGatewayTask extends QuartzJobBean {
   // ---------------------------------------------------------------------------//
 
   private final GatewayService gatewayService;
+
   private String message;
   private Instant start;
   private Instant end;
@@ -37,9 +39,9 @@ public class CloseGatewayTask extends QuartzJobBean {
   protected void executeInternal(@NonNull JobExecutionContext context) throws JobExecutionException {
 
     try {
-      gatewayService.closeGateway(message, start, end);
+      gatewayService.close(message, start, end);
     } catch (WrappingException e) {
-      throw new JobExecutionException(e);
+      throw new TaskExecutionException(e);
     }
 
   }

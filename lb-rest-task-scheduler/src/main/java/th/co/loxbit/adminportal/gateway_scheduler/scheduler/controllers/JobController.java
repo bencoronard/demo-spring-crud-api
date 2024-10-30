@@ -1,4 +1,4 @@
-package th.co.loxbit.adminportal.gateway_scheduler.job_scheduling.controllers;
+package th.co.loxbit.adminportal.gateway_scheduler.scheduler.controllers;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 import th.co.loxbit.adminportal.gateway_scheduler.common.http.dtos.responses.GlobalResponseBody;
-import th.co.loxbit.adminportal.gateway_scheduler.job_scheduling.dtos.requests.ScheduleJobRequest;
-import th.co.loxbit.adminportal.gateway_scheduler.job_scheduling.entities.Job;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.dtos.requests.ScheduleJobRequest;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.entities.Job;
 
 @RequestMapping("/v1/goodmoney-admin-portal/gateway")
 public interface JobController {

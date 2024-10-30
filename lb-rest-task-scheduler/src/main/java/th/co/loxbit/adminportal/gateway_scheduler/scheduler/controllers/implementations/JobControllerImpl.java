@@ -1,4 +1,4 @@
-package th.co.loxbit.adminportal.gateway_scheduler.job_scheduling.controllers.implementations;
+package th.co.loxbit.adminportal.gateway_scheduler.scheduler.controllers.implementations;
 
 import java.time.Instant;
 import org.springframework.data.domain.Page;
@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import th.co.loxbit.adminportal.gateway_scheduler.audit.entities.AuditRecordType;
+import th.co.loxbit.adminportal.gateway_scheduler.audit.service.AuditRecordService;
 import th.co.loxbit.adminportal.gateway_scheduler.common.http.dtos.responses.GlobalResponseBody;
 import th.co.loxbit.adminportal.gateway_scheduler.common.http.utilities.ResponseBodyUtils;
-import th.co.loxbit.adminportal.gateway_scheduler.job_scheduling.controllers.JobController;
-import th.co.loxbit.adminportal.gateway_scheduler.job_scheduling.dtos.requests.ScheduleJobRequest;
-import th.co.loxbit.adminportal.gateway_scheduler.job_scheduling.entities.Job;
-import th.co.loxbit.adminportal.gateway_scheduler.job_scheduling.services.JobService;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.controllers.JobController;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.dtos.requests.ScheduleJobRequest;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.entities.Job;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.services.JobService;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class JobControllerImpl implements JobController {
   // ---------------------------------------------------------------------------//
 
   private final JobService jobService;
+  private final AuditRecordService auditRecordService;
 
   // ---------------------------------------------------------------------------//
   // Methods
@@ -34,11 +37,16 @@ public class JobControllerImpl implements JobController {
   @Override
   public ResponseEntity<GlobalResponseBody<Void>> createJob(@Valid ScheduleJobRequest requestBody, String userId) {
 
-    jobService.scheduleJob(
-        Instant.ofEpochSecond(requestBody.start()),
-        Instant.ofEpochSecond(requestBody.end()),
+    Instant start = Instant.ofEpochSecond(requestBody.start());
+    Instant end = Instant.ofEpochSecond(requestBody.end());
+
+    Job createdJob = jobService.scheduleJob(
+        start,
+        end,
         requestBody.message(),
         userId);
+
+    auditRecordService.record(createdJob.getId(), start, end, userId, AuditRecordType.CREATE);
 
     GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody("Job scheduled", null);
 
@@ -79,8 +87,12 @@ public class JobControllerImpl implements JobController {
   public ResponseEntity<GlobalResponseBody<Void>> updateJobWithId(String id, @Valid ScheduleJobRequest requestBody,
       String userId) {
 
-    jobService.rescheduleJob(id, Instant.ofEpochSecond(requestBody.start()), Instant.ofEpochSecond(requestBody.end()),
-        requestBody.message(), userId);
+    Instant start = Instant.ofEpochSecond(requestBody.start());
+    Instant end = Instant.ofEpochSecond(requestBody.end());
+
+    Job updatedJob = jobService.rescheduleJob(id, start, end, requestBody.message(), userId);
+
+    auditRecordService.record(updatedJob.getId(), start, end, userId, AuditRecordType.EDIT);
 
     GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody("Job updated", null);
 
@@ -92,7 +104,10 @@ public class JobControllerImpl implements JobController {
   @Override
   public ResponseEntity<GlobalResponseBody<Void>> removeJobWithId(String id, String userId) {
 
-    jobService.descheduleJobWithId(userId);
+    Job deletedJob = jobService.descheduleJobWithId(userId);
+
+    auditRecordService.record(deletedJob.getId(), deletedJob.getStart(), deletedJob.getEnd(), userId,
+        AuditRecordType.DELETE);
 
     GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody("Job deleted", null);
 

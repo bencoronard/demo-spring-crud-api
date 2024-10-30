@@ -1,11 +1,11 @@
-package th.co.loxbit.adminportal.gateway_scheduler.job_scheduling.repositories;
+package th.co.loxbit.adminportal.gateway_scheduler.scheduler.repositories;
 
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import th.co.loxbit.adminportal.gateway_scheduler.job_scheduling.entities.Job;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.entities.Job;
 
 public interface JobRepository {
 
@@ -15,6 +15,6 @@ public interface JobRepository {
 
   Page<Job> findAll(Pageable pageable);
 
-  void delete(Job job);
+  Job delete(Job job);
 
 }

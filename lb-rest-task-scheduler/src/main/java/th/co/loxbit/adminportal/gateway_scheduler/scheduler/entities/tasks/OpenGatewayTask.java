@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import th.co.loxbit.adminportal.gateway_scheduler.common.exceptions.WrappingException;
 import th.co.loxbit.adminportal.gateway_scheduler.gateway.services.GatewayService;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.exceptions.TaskExecutionException;
 
 @Component
 @Scope("prototype")
@@ -30,9 +31,9 @@ public class OpenGatewayTask extends QuartzJobBean {
   protected void executeInternal(@NonNull JobExecutionContext context) throws JobExecutionException {
 
     try {
-      gatewayService.openGateway();
+      gatewayService.open();
     } catch (WrappingException e) {
-      throw new JobExecutionException(e);
+      throw new TaskExecutionException(e);
     }
 
   }
