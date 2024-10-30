@@ -80,6 +80,8 @@ api:
       uri: "${APP_CLIENTS_GATEWAY_URL_CSV}"
       status:
         uri: "${APP_CLIENTS_GATEWAY_STAT_URL}"
+      properties:
+        default-plugin-message: "ขออภัย! ไม่สามารถทำรายการได้ \n\nเนื่องจากปิดปรับปรุงระบบชั่วคราว\nเพื่อเพิ่มประสิทธิภาพการใช้งาน\nและการให้บริการที่ดีขึ้น\n\nระหว่าง"
 
 ---
 # Environment: dev
