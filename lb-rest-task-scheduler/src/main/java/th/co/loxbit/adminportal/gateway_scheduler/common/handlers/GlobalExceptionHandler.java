@@ -18,7 +18,7 @@ import th.co.loxbit.adminportal.gateway_scheduler.common.http.exceptions.Retryab
 import th.co.loxbit.adminportal.gateway_scheduler.common.utilities.EnvironmentUtil;
 import th.co.loxbit.adminportal.gateway_scheduler.scheduler.exceptions.IllegalEndTimeException;
 import th.co.loxbit.adminportal.gateway_scheduler.scheduler.exceptions.IllegalStartTimeException;
-import th.co.loxbit.adminportal.gateway_scheduler.scheduler.exceptions.JobExecutionException;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.exceptions.TaskExecutionException;
 import th.co.loxbit.adminportal.gateway_scheduler.scheduler.exceptions.JobNotFoundException;
 
 @Slf4j
@@ -77,8 +77,8 @@ public class GlobalExceptionHandler {
 
   // ---------------------------------------------------------------------------//
 
-  @ExceptionHandler(JobExecutionException.class)
-  public void handleJobExecutionException(WrappingException exception) {
+  @ExceptionHandler(TaskExecutionException.class)
+  public void handleTaskExecutionException(WrappingException exception) {
 
     ExceptionData exData = exception.getRespData();
 
