@@ -8,14 +8,14 @@ public interface GatewayService {
 
   int SERVICE_CODE = 5000;
 
-  GatewayStatus getGatewayStatus();
+  GatewayStatus getStatus();
 
-  void openGateway();
+  void open();
 
-  void closeGateway(String message, Instant start, Instant end);
+  void close(String message, Instant start, Instant end);
 
-  void openGatewayOverride(String performedBy);
+  void openOverride(String performedBy);
 
-  void closeGatewayOverride(Instant end, String performedBy);
+  void closeOverride(Instant end, String performedBy);
 
 }

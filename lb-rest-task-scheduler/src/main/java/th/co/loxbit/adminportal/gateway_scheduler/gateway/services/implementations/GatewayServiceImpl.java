@@ -17,17 +17,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import th.co.loxbit.adminportal.gateway_scheduler.audit.entities.AuditRecordType;
-import th.co.loxbit.adminportal.gateway_scheduler.audit.service.AuditRecordService;
 import th.co.loxbit.adminportal.gateway_scheduler.common.exceptions.WrappableException;
 import th.co.loxbit.adminportal.gateway_scheduler.common.factories.RetryTemplateFactory;
 import th.co.loxbit.adminportal.gateway_scheduler.common.http.services.RestService;
-import th.co.loxbit.adminportal.gateway_scheduler.common.utilities.KongRequestUtil;
 import th.co.loxbit.adminportal.gateway_scheduler.common.utilities.ServiceExceptionUtil;
 import th.co.loxbit.adminportal.gateway_scheduler.gateway.dtos.requests.outbound.KongGatewayRequestOutbound;
 import th.co.loxbit.adminportal.gateway_scheduler.gateway.dtos.responses.inbound.KongGatewayResponseInbound;
 import th.co.loxbit.adminportal.gateway_scheduler.gateway.entities.GatewayStatus;
 import th.co.loxbit.adminportal.gateway_scheduler.gateway.services.GatewayService;
+import th.co.loxbit.adminportal.gateway_scheduler.gateway.utilities.KongUtil;
 
 @Slf4j
 @Service
@@ -40,9 +38,8 @@ public class GatewayServiceImpl implements GatewayService {
 
   @Qualifier("gatewayRestService")
   private final RestService restService;
-  private final AuditRecordService auditRecordService;
 
-  private final KongRequestUtil kongRequestUtil;
+  private final KongUtil kongUtil;
   private final ObjectMapper objectMapper;
   private final RetryTemplateFactory retry;
 
@@ -56,90 +53,56 @@ public class GatewayServiceImpl implements GatewayService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public GatewayStatus getGatewayStatus() {
+  public GatewayStatus getStatus() {
     return ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
-
       try {
         restService.get(gatewayStatusUrl, String.class);
       } catch (WrappableException e) {
         return GatewayStatus.CLOSED;
       }
-
       return GatewayStatus.OPEN;
-
     }, SERVICE_CODE);
   }
 
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void openGateway() {
+  public void open() {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
-
-      KongGatewayRequestOutbound requestBody = kongRequestUtil.createOpenGatewayRequestBody();
-
-      sendRequestsConcurrently(requestBody);
-
-      log.warn("Opened gateway");
-
+      sendRequestsConcurrently(kongUtil.createOpenGatewayRequestBody());
+      log.warn("Opened gateway via scheduled job");
       return null;
-
     }, SERVICE_CODE);
   }
 
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void closeGateway(String message, Instant start, Instant end) {
+  public void close(String message, Instant start, Instant end) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
-
-      KongGatewayRequestOutbound requestBody = kongRequestUtil.createCloseGatewayRequestBody(message, start, end);
-
-      sendRequestsConcurrently(requestBody);
-
-      log.warn("Closed gateway");
-
+      sendRequestsConcurrently(kongUtil.createCloseGatewayRequestBody(message, start, end));
+      log.warn("Closed gateway via scheduled job");
       return null;
-
     }, SERVICE_CODE);
   }
 
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void openGatewayOverride(String performedBy) {
+  public void openOverride(String performedBy) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
-
-      KongGatewayRequestOutbound requestBody = kongRequestUtil.createOpenGatewayRequestBody();
-
-      sendRequestsConcurrently(requestBody);
-
-      Instant now = Instant.now();
-
-      auditRecordService.addRecord(GatewayStatus.OPEN.getStatus(), now, now, performedBy,
-          AuditRecordType.OVERRIDE);
-
+      sendRequestsConcurrently(kongUtil.createOpenGatewayRequestBody());
       return null;
-
     }, SERVICE_CODE);
   }
 
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void closeGatewayOverride(Instant end, String performedBy) {
+  public void closeOverride(Instant end, String performedBy) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
-
-      KongGatewayRequestOutbound requestBody = kongRequestUtil.createCloseGatewayOverrideRequestBody(end);
-
-      sendRequestsConcurrently(requestBody);
-
-      Instant now = Instant.now();
-
-      auditRecordService.addRecord(GatewayStatus.CLOSED.getStatus(), now, now, performedBy, AuditRecordType.OVERRIDE);
-
+      sendRequestsConcurrently(kongUtil.createCloseGatewayOverrideRequestBody(end));
       return null;
-
     }, SERVICE_CODE);
   }
 
@@ -168,7 +131,6 @@ public class GatewayServiceImpl implements GatewayService {
       }
 
     }
-
   }
 
 }

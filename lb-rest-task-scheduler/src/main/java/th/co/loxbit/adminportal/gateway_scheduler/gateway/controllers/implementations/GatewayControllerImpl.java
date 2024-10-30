@@ -8,15 +8,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import th.co.loxbit.adminportal.gateway_scheduler.audit.entities.AuditRecordType;
+import th.co.loxbit.adminportal.gateway_scheduler.audit.service.AuditRecordService;
 import th.co.loxbit.adminportal.gateway_scheduler.common.http.dtos.responses.GlobalResponseBody;
 import th.co.loxbit.adminportal.gateway_scheduler.common.http.utilities.ResponseBodyUtils;
-import th.co.loxbit.adminportal.gateway_scheduler.common.utilities.KongRequestUtil;
 import th.co.loxbit.adminportal.gateway_scheduler.gateway.controllers.GatewayController;
 import th.co.loxbit.adminportal.gateway_scheduler.gateway.dtos.requests.inbound.CloseGatewayRequestInbound;
 import th.co.loxbit.adminportal.gateway_scheduler.gateway.dtos.responses.outbound.GetGatewayStatusResponseOutbound;
 import th.co.loxbit.adminportal.gateway_scheduler.gateway.entities.GatewayStatus;
 import th.co.loxbit.adminportal.gateway_scheduler.gateway.services.GatewayService;
-import th.co.loxbit.adminportal.gateway_scheduler.scheduler.service.JobSchedulingService;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.entities.Job;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.services.JobService;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,9 +29,8 @@ public class GatewayControllerImpl implements GatewayController {
   // ---------------------------------------------------------------------------//
 
   private final GatewayService gatewayService;
-  private final JobSchedulingService jobSchedulingService;
-
-  private final KongRequestUtil kongRequestUtil;
+  private final JobService jobService;
+  private final AuditRecordService auditRecordService;
 
   // ---------------------------------------------------------------------------//
   // Methods
@@ -38,12 +39,12 @@ public class GatewayControllerImpl implements GatewayController {
   @Override
   public ResponseEntity<GlobalResponseBody<GetGatewayStatusResponseOutbound>> getGatewayStatus() {
 
-    GatewayStatus data = gatewayService.getGatewayStatus();
+    GatewayStatus status = gatewayService.getStatus();
 
     GlobalResponseBody<GetGatewayStatusResponseOutbound> responseBody = ResponseBodyUtils.createSuccessResponseBody(
-        "gateway status",
+        "Gateway Status",
         GetGatewayStatusResponseOutbound.builder()
-            .gatewayIsOpen(data == GatewayStatus.OPEN ? true : false)
+            .gatewayIsOpen(status == GatewayStatus.OPEN ? true : false)
             .build());
 
     HttpHeaders headers = new HttpHeaders();
@@ -59,9 +60,13 @@ public class GatewayControllerImpl implements GatewayController {
   @Override
   public ResponseEntity<GlobalResponseBody<Void>> openGatewayOverride(String userId) {
 
-    gatewayService.openGatewayOverride(userId);
+    gatewayService.openOverride(userId);
 
-    GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody(null, null);
+    Instant now = Instant.now();
+
+    auditRecordService.record(GatewayStatus.OPEN.getStatus(), now, now, userId, AuditRecordType.OVERRIDE);
+
+    GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody("Gateway opened", null);
 
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }
@@ -74,11 +79,13 @@ public class GatewayControllerImpl implements GatewayController {
 
     Instant reopenAt = Instant.ofEpochSecond(request.end());
 
-    gatewayService.closeGatewayOverride(reopenAt, userId);
+    Job job = jobService.scheduleJobPartial(reopenAt, userId);
 
-    jobSchedulingService.createPartialJobSchedule(Instant.now(), reopenAt, kongRequestUtil.getDefaultMessage(), userId);
+    gatewayService.closeOverride(reopenAt, userId);
 
-    GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody(null, null);
+    auditRecordService.record(job.getId(), Instant.now(), reopenAt, userId, AuditRecordType.OVERRIDE);
+
+    GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody("Gateway closed", null);
 
     return new ResponseEntity<>(responseBody, HttpStatus.OK);
   }

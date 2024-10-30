@@ -23,7 +23,8 @@ public interface GatewayController {
   ResponseEntity<GlobalResponseBody<Void>> openGatewayOverride(@RequestAttribute(USER_ID_KEY) String userId);
 
   @PutMapping("/close")
-  ResponseEntity<GlobalResponseBody<Void>> closeGatewayOverride(@RequestBody CloseGatewayRequestInbound request,
+  ResponseEntity<GlobalResponseBody<Void>> closeGatewayOverride(
+      @RequestBody CloseGatewayRequestInbound request,
       @RequestAttribute(USER_ID_KEY) String userId);
 
 }
