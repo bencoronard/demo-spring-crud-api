@@ -8,6 +8,6 @@ public interface AuditRecordService {
 
   int SERVICE_CODE = 3000;
 
-  void addRecord(String jobId, Instant startAt, Instant endAt, String createdBy, AuditRecordType userAction);
+  void record(String jobId, Instant startAt, Instant endAt, String createdBy, AuditRecordType userAction);
 
 }

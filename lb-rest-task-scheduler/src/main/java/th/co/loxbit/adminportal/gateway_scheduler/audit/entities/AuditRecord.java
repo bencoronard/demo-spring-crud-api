@@ -15,11 +15,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "t_gateway_activity", schema = "admin_portal")
 public class AuditRecord {
 

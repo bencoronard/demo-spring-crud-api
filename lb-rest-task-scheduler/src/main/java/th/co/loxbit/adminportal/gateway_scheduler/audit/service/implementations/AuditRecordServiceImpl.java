@@ -26,7 +26,7 @@ public class AuditRecordServiceImpl implements AuditRecordService {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void addRecord(String jobId, Instant startAt, Instant endAt, String createdBy, AuditRecordType userAction) {
+  public void record(String jobId, Instant startAt, Instant endAt, String createdBy, AuditRecordType userAction) {
     ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
       AuditRecord auditRecord = AuditRecord.builder()
@@ -41,7 +41,6 @@ public class AuditRecordServiceImpl implements AuditRecordService {
       auditRecordRepository.save(auditRecord);
 
       return null;
-
     }, SERVICE_CODE);
   }
 
