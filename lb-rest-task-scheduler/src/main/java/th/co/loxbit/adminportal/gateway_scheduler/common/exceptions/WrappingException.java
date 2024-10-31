@@ -25,7 +25,7 @@ public class WrappingException extends RuntimeException {
   // Methods
   // ---------------------------------------------------------------------------//
 
-  public ExceptionData getRespData() {
+  public ExceptionData getExceptionData() {
 
     ExceptionData.ExceptionDataBuilder builder = ExceptionData.builder();
 
@@ -33,12 +33,14 @@ public class WrappingException extends RuntimeException {
 
     // CASE_1(1): a service exception wrapped in THIS wrapper
     if (cause instanceof WrappableException) {
+
       WrappableException wrappedException = (WrappableException) cause;
-      builder.respCode(this.SERVICE_CODE + wrappedException.getERROR_CODE())
-          .respMsg(wrappedException.getRESP_MSG())
-          .errorMsg(wrappedException.getMessage())
-          .exceptionClass(wrappedException.getClass());
-      return builder.build();
+
+      return builder.respCode(this.SERVICE_CODE + wrappedException.getERROR_CODE())
+          .respMsg(wrappedException.getMessage())
+          .debugMsg(wrappedException.getDEBUG_MSG())
+          .exceptionClass(wrappedException.getClass())
+          .build();
     }
 
     // CASE_2: a wrapper wrapped in THIS wrapper
@@ -49,28 +51,33 @@ public class WrappingException extends RuntimeException {
 
       // CASE_2(1): a service exception wrapped in the wrapper
       if (wrappedCause instanceof WrappableException) {
+
         WrappableException wrappedException = (WrappableException) wrappedCause;
-        builder.respCode(this.SERVICE_CODE + wrappedWrapper.getSERVICE_CODE() / 10 + wrappedException.getERROR_CODE())
-            .respMsg(wrappedException.getRESP_MSG())
-            .errorMsg(wrappedException.getMessage())
-            .exceptionClass(wrappedException.getClass());
-        return builder.build();
+
+        return builder
+            .respCode(this.SERVICE_CODE + wrappedWrapper.getSERVICE_CODE() / 10 +
+                wrappedException.getERROR_CODE())
+            .respMsg(wrappedException.getMessage())
+            .debugMsg(wrappedException.getDEBUG_MSG())
+            .exceptionClass(wrappedException.getClass())
+            .build();
       }
 
       // CASE_2(2): a Java exception wrapped in the wrapper
-      builder.respCode(this.SERVICE_CODE + wrappedWrapper.getSERVICE_CODE() / 10)
+      return builder.respCode(this.SERVICE_CODE + wrappedWrapper.getSERVICE_CODE()
+          / 10)
           .respMsg("Unhandled exception at server side")
-          .errorMsg(wrappedCause.getMessage())
-          .exceptionClass(wrappedCause.getClass());
-      return builder.build();
+          .debugMsg(wrappedCause.getMessage())
+          .exceptionClass(wrappedCause.getClass())
+          .build();
     }
 
     // CASE_1(2): a Java exception wrapped in THIS wrapper
-    builder.respCode(this.SERVICE_CODE)
+    return builder.respCode(this.SERVICE_CODE)
         .respMsg("Unhandled exception at server side")
-        .errorMsg(cause.getMessage())
-        .exceptionClass(cause.getClass());
-    return builder.build();
+        .debugMsg(cause.getMessage())
+        .exceptionClass(cause.getClass())
+        .build();
   }
 
 }

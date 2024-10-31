@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import th.co.loxbit.adminportal.gateway_scheduler.common.utilities.ServiceExceptionUtil;
 import th.co.loxbit.adminportal.gateway_scheduler.scheduler.entities.Job;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.exceptions.JobArgumentException;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.exceptions.JobNotDeletableException;
+import th.co.loxbit.adminportal.gateway_scheduler.scheduler.exceptions.JobNotFoundException;
 import th.co.loxbit.adminportal.gateway_scheduler.scheduler.repositories.JobRepository;
 import th.co.loxbit.adminportal.gateway_scheduler.scheduler.services.JobService;
 
@@ -36,13 +39,13 @@ public class JobServiceImpl implements JobService {
     return ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
       if (start == null || end == null) {
-        throw new RuntimeException();
+        throw new JobArgumentException("Start and end times are required for scheduling a job.");
       }
       if (start.isBefore(Instant.now())) {
-        throw new RuntimeException();
+        throw new JobArgumentException("The job's start time cannot be in the past.");
       }
       if (end.isBefore(start)) {
-        throw new RuntimeException();
+        throw new JobArgumentException("The job's end time must be after the start time.");
       }
 
       Job job = Job.builder()
@@ -64,10 +67,10 @@ public class JobServiceImpl implements JobService {
     return ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
       if (end == null) {
-        throw new RuntimeException();
+        throw new JobArgumentException("Start and end times are required for scheduling a job.");
       }
       if (end.isBefore(Instant.now())) {
-        throw new RuntimeException();
+        throw new JobArgumentException("The job's end time cannot be in the past.");
       }
 
       Job job = Job.builder()
@@ -109,27 +112,27 @@ public class JobServiceImpl implements JobService {
       Optional<Job> existingJob = jobRepository.findById(id);
 
       if (!existingJob.isPresent()) {
-        throw new RuntimeException();
+        throw new JobNotFoundException("Job with ID: " + id + " not found.");
       }
 
       Job theJob = existingJob.get();
 
       if (end == null) {
-        throw new RuntimeException();
+        throw new JobArgumentException("Start and end times are required for scheduling a job.");
       }
       if (!theJob.isPartial()) {
         if (start == null) {
-          throw new RuntimeException();
+          throw new JobArgumentException("Start and end times are required for scheduling a job.");
         }
         if (start.isBefore(Instant.now())) {
-          throw new RuntimeException();
+          throw new JobArgumentException("The job's start time cannot be in the past.");
         }
         if (end.isBefore(start)) {
-          throw new RuntimeException();
+          throw new JobArgumentException("The job's end time must be after the start time.");
         }
       }
       if (end.isBefore(Instant.now())) {
-        throw new RuntimeException();
+        throw new JobArgumentException("The job's end time cannot be in the past.");
       }
 
       Job job = Job.builder()
@@ -154,13 +157,13 @@ public class JobServiceImpl implements JobService {
       Optional<Job> existingJob = jobRepository.findById(id);
 
       if (!existingJob.isPresent()) {
-        throw new RuntimeException();
+        throw new JobNotFoundException("Job with ID: " + id + " not found.");
       }
 
       Job job = existingJob.get();
 
       if (job.isPartial()) {
-        throw new RuntimeException();
+        throw new JobNotDeletableException("Fired job cannot be descheduled.");
       }
 
       return jobRepository.delete(job);

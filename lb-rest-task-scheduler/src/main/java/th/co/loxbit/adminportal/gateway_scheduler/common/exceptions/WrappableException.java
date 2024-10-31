@@ -10,16 +10,16 @@ public class WrappableException extends RuntimeException {
   // ---------------------------------------------------------------------------//
 
   private final int ERROR_CODE;
-  private final String RESP_MSG;
+  private final String DEBUG_MSG;
 
   // ---------------------------------------------------------------------------//
   // Constructors
   // ---------------------------------------------------------------------------//
 
-  public WrappableException(int errorCode, String message, String respMessage) {
+  public WrappableException(String message, int errorCode, String debugMessage) {
     super(message);
     this.ERROR_CODE = errorCode;
-    this.RESP_MSG = respMessage;
+    this.DEBUG_MSG = debugMessage;
   }
 
 }

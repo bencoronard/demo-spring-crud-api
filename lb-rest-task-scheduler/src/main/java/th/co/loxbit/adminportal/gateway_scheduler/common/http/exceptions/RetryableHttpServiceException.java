@@ -9,14 +9,14 @@ public class RetryableHttpServiceException extends RetryableException {
   // ---------------------------------------------------------------------------//
 
   private static final int ERROR_CODE = 50;
-  private static final String RESP_MSG = "Unable to perform the requested opertaion at a third-party service";
+  private static final String DEBUG_MSG = "Unable to perform the requested opertaion at a third-party service";
 
   // ---------------------------------------------------------------------------//
   // Constructors
   // ---------------------------------------------------------------------------//
 
   public RetryableHttpServiceException(String message) {
-    super(ERROR_CODE, message, RESP_MSG);
+    super(message, ERROR_CODE, DEBUG_MSG);
   }
 
 }

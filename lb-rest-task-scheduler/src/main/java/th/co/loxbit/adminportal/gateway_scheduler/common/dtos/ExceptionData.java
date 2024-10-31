@@ -13,7 +13,7 @@ public class ExceptionData {
 
   private final int respCode;
   private final String respMsg;
-  private final String errorMsg;
+  private final String debugMsg;
   private final Class<? extends Throwable> exceptionClass;
 
 }

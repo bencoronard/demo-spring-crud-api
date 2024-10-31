@@ -79,7 +79,7 @@ public class JobRepositoryQuartz implements JobRepository {
         scheduleOneTimeJob(CloseGatewayTask.class, TASK_CLOSE_KEY, id, start, jobData);
       }
     } catch (SchedulerException e) {
-      throw new RuntimeException();
+      throw new RuntimeException(e);
     }
 
     return job;
@@ -111,7 +111,7 @@ public class JobRepositoryQuartz implements JobRepository {
 
       return Optional.of(builder.build());
     } catch (SchedulerException e) {
-      throw new RuntimeException();
+      throw new RuntimeException(e);
     }
   }
 
@@ -141,7 +141,7 @@ public class JobRepositoryQuartz implements JobRepository {
       return new PageImpl<>(jobs, pageable, jobCount);
 
     } catch (SchedulerException e) {
-      throw new RuntimeException();
+      throw new RuntimeException(e);
     }
   }
 
@@ -159,7 +159,7 @@ public class JobRepositoryQuartz implements JobRepository {
 
       return job;
     } catch (SchedulerException e) {
-      throw new RuntimeException();
+      throw new RuntimeException(e);
     }
   }
 
