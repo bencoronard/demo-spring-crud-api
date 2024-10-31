@@ -150,9 +150,13 @@ public class JobRepositoryQuartz implements JobRepository {
   @Override
   public Job delete(Job job) {
     String id = job.getId();
+
     try {
+
       scheduler.deleteJob(new JobKey(TASK_CLOSE_KEY, id));
+
       scheduler.deleteJob(new JobKey(TASK_OPEN_KEY, id));
+
       return job;
     } catch (SchedulerException e) {
       throw new RuntimeException();
