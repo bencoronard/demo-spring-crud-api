@@ -1,12 +1,12 @@
-package th.co.loxbit.adminportal.gateway_scheduler.common.security.configurations;
+package th.co.loxbit.adminportal.gateway_scheduler.common.configurations;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import th.co.loxbit.adminportal.gateway_scheduler.common.security.filters.ApiKeyFilter;
-import th.co.loxbit.adminportal.gateway_scheduler.common.security.filters.UserIdFilter;
+import th.co.loxbit.adminportal.gateway_scheduler.common.filters.ApiKeyFilter;
+import th.co.loxbit.adminportal.gateway_scheduler.common.filters.UserIdFilter;
 
 @Configuration
 public class SecurityConfig {

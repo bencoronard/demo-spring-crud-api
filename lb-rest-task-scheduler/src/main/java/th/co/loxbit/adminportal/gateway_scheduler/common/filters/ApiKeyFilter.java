@@ -1,4 +1,4 @@
-package th.co.loxbit.adminportal.gateway_scheduler.common.security.filters;
+package th.co.loxbit.adminportal.gateway_scheduler.common.filters;
 
 import java.io.IOException;
 
