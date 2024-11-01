@@ -38,9 +38,6 @@ public class JobServiceImpl implements JobService {
   public Job scheduleJob(Instant start, Instant end, String message, String initiatedBy) {
     return ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
-      if (start == null || end == null) {
-        throw new JobArgumentException("Start and end times are required for scheduling a job.");
-      }
       if (start.isBefore(Instant.now())) {
         throw new JobArgumentException("The job's start time cannot be in the past.");
       }
@@ -51,7 +48,7 @@ public class JobServiceImpl implements JobService {
       Job job = Job.builder()
           .start(start)
           .end(end)
-          .message(message == null ? DEFAULT_MESSAGE : message)
+          .message(message != null && !message.isBlank() ? message : DEFAULT_MESSAGE)
           .initiator(initiatedBy)
           .isPartial(false)
           .build();
@@ -66,9 +63,6 @@ public class JobServiceImpl implements JobService {
   public Job scheduleJobPartial(Instant end, String initiatedBy) {
     return ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
-      if (end == null) {
-        throw new JobArgumentException("Start and end times are required for scheduling a job.");
-      }
       if (end.isBefore(Instant.now())) {
         throw new JobArgumentException("The job's end time cannot be in the past.");
       }
@@ -90,7 +84,7 @@ public class JobServiceImpl implements JobService {
   @Override
   public Job retrieveJobWithId(String id) {
     return ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
-      return jobRepository.findById(id).orElse(null);
+      return jobRepository.findById(id, false).orElse(null);
     }, SERVICE_CODE);
   }
 
@@ -109,7 +103,7 @@ public class JobServiceImpl implements JobService {
   public Job rescheduleJob(String id, Instant start, Instant end, String message, String initiatedBy) {
     return ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
-      Optional<Job> existingJob = jobRepository.findById(id);
+      Optional<Job> existingJob = jobRepository.findById(id, true);
 
       if (!existingJob.isPresent()) {
         throw new JobNotFoundException("Job with ID: " + id + " not found.");
@@ -117,13 +111,7 @@ public class JobServiceImpl implements JobService {
 
       Job theJob = existingJob.get();
 
-      if (end == null) {
-        throw new JobArgumentException("Start and end times are required for scheduling a job.");
-      }
       if (!theJob.isPartial()) {
-        if (start == null) {
-          throw new JobArgumentException("Start and end times are required for scheduling a job.");
-        }
         if (start.isBefore(Instant.now())) {
           throw new JobArgumentException("The job's start time cannot be in the past.");
         }
@@ -139,7 +127,7 @@ public class JobServiceImpl implements JobService {
           .id(id)
           .start(start)
           .end(end)
-          .message(message == null ? DEFAULT_MESSAGE : message)
+          .message(message != null && !message.isBlank() ? message : DEFAULT_MESSAGE)
           .initiator(initiatedBy)
           .isPartial(theJob.isPartial())
           .build();
@@ -154,7 +142,7 @@ public class JobServiceImpl implements JobService {
   public Job descheduleJobWithId(String id) {
     return ServiceExceptionUtil.executeWithExceptionWrapper(() -> {
 
-      Optional<Job> existingJob = jobRepository.findById(id);
+      Optional<Job> existingJob = jobRepository.findById(id, true);
 
       if (!existingJob.isPresent()) {
         throw new JobNotFoundException("Job with ID: " + id + " not found.");

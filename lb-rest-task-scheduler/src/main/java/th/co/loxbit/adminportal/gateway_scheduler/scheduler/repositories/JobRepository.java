@@ -11,7 +11,7 @@ public interface JobRepository {
 
   Job save(Job job);
 
-  Optional<Job> findById(String id);
+  Optional<Job> findById(String id, boolean compact);
 
   Page<Job> findAll(Pageable pageable);
 

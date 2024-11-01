@@ -88,7 +88,7 @@ public class JobRepositoryQuartz implements JobRepository {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public Optional<Job> findById(String id) {
+  public Optional<Job> findById(String id, boolean compact) {
     try {
       Optional<Trigger> taskCloseTrigger = Optional
           .ofNullable(scheduler.getTrigger(new TriggerKey(TASK_CLOSE_KEY, id)));
@@ -102,12 +102,15 @@ public class JobRepositoryQuartz implements JobRepository {
       Job.JobBuilder builder = Job.builder();
       JobDataMap jobData = scheduler.getJobDetail(taskOpenTrigger.get().getJobKey()).getJobDataMap();
 
-      builder.id(id);
-      builder.start((Instant) jobData.get(JDATA_JOB_START_KEY));
-      builder.end(taskOpenTrigger.get().getStartTime().toInstant());
-      builder.message((String) jobData.get(JDATA_MESSAGE_KEY));
-      builder.initiator((String) jobData.get(JDATA_INITIATOR_KEY));
-      builder.isPartial(taskCloseTrigger.isPresent() ? false : true);
+      builder.id(id)
+          .start((Instant) jobData.get(JDATA_JOB_START_KEY))
+          .end(taskOpenTrigger.get().getStartTime().toInstant())
+          .initiator((String) jobData.get(JDATA_INITIATOR_KEY))
+          .isPartial(taskCloseTrigger.isPresent() ? false : true);
+
+      if (!compact) {
+        builder.message((String) jobData.get(JDATA_MESSAGE_KEY));
+      }
 
       return Optional.of(builder.build());
     } catch (SchedulerException e) {
@@ -135,11 +138,10 @@ public class JobRepositoryQuartz implements JobRepository {
 
       for (int i = startIndex; i < endIndex; i++) {
         String jobId = jobIds.get(i);
-        findById(jobId).ifPresent(jobs::add);
+        findById(jobId, true).ifPresent(jobs::add);
       }
 
       return new PageImpl<>(jobs, pageable, jobCount);
-
     } catch (SchedulerException e) {
       throw new RuntimeException(e);
     }
@@ -149,14 +151,12 @@ public class JobRepositoryQuartz implements JobRepository {
 
   @Override
   public Job delete(Job job) {
+
     String id = job.getId();
 
     try {
-
       scheduler.deleteJob(new JobKey(TASK_CLOSE_KEY, id));
-
       scheduler.deleteJob(new JobKey(TASK_OPEN_KEY, id));
-
       return job;
     } catch (SchedulerException e) {
       throw new RuntimeException(e);
