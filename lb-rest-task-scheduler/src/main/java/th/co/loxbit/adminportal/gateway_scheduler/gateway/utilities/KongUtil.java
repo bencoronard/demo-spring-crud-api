@@ -69,7 +69,7 @@ public class KongUtil {
 
     KongConfigBodyData kongConfigBodyData = KongConfigBodyData.builder()
         .appMaintenance(true)
-        .appMaintenanceMsg(message != null ? message : DEFAULT_MESSAGE)
+        .appMaintenanceMsg(message != null && !message.isBlank() ? message : DEFAULT_MESSAGE)
         .appMaintenanceStart(start)
         .appMaintenanceEnd(end)
         .build();
