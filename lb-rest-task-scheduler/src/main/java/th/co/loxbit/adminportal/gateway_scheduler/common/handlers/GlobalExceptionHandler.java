@@ -65,11 +65,9 @@ public class GlobalExceptionHandler {
     log.error("Trace: " + traceId + " >>> " + debugMsg);
 
     GlobalResponseBody.GlobalResponseBodyBuilder<String> builder = GlobalResponseBody.<String>builder();
-    builder.respCode(exceptionData.getRespCode());
-    if (environment.isDevEnvironment()) {
-      builder.desc(debugMsg);
-    }
-    builder.payload(exceptionData.getRespMsg());
+    builder.respCode(exceptionData.getRespCode())
+        .desc(environment.isDev() ? debugMsg : null)
+        .payload(exceptionData.getRespMsg());
 
     HttpStatus respStatus = EXCEPTION_STATUS_MAP.getOrDefault(exceptionClass, HttpStatus.INTERNAL_SERVER_ERROR);
 
@@ -108,9 +106,6 @@ public class GlobalExceptionHandler {
     builder.respCode(0)
         .desc("Field validation failures")
         .payload(errorList);
-
-    String errorMsg = traceId + " MethodArgumentNotValidException";
-    log.error(errorMsg);
 
     return new ResponseEntity<>(builder.build(), HttpStatus.EXPECTATION_FAILED);
   }
