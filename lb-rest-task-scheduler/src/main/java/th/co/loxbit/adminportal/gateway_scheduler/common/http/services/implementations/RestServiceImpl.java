@@ -96,7 +96,7 @@ public class RestServiceImpl implements RestService {
 
   @Override
   public <T> T get(String path, Class<T> responseType, RetryTemplate withRetry) {
-    return withRetry.execute((context) -> {
+    return withRetry.execute((_) -> {
       return get(path, responseType);
     });
   }
@@ -106,7 +106,7 @@ public class RestServiceImpl implements RestService {
   @Override
   public <T, R> R post(String path, MediaType contentType, T requestBody, Class<R> responseType,
       RetryTemplate withRetry) {
-    return withRetry.execute((context) -> {
+    return withRetry.execute((_) -> {
       return post(path, contentType, requestBody, responseType);
     });
   }
@@ -116,7 +116,7 @@ public class RestServiceImpl implements RestService {
   @Override
   public <T, R> R put(String path, MediaType contentType, T requestBody, Class<R> responseType,
       RetryTemplate withRetry) {
-    return withRetry.execute((context) -> {
+    return withRetry.execute((_) -> {
       return put(path, contentType, requestBody, responseType);
     });
   }
@@ -125,7 +125,7 @@ public class RestServiceImpl implements RestService {
 
   @Override
   public <T> T delete(String path, Class<T> responseType, RetryTemplate withRetry) {
-    return withRetry.execute((context) -> {
+    return withRetry.execute((_) -> {
       return delete(path, responseType);
     });
   }
@@ -135,7 +135,7 @@ public class RestServiceImpl implements RestService {
   @Override
   public <T, R> R patch(String path, MediaType contentType, T requestBody, Class<R> responseType,
       RetryTemplate withRetry) {
-    return withRetry.execute((context) -> {
+    return withRetry.execute((_) -> {
       return patch(path, contentType, requestBody, responseType);
     });
   }
