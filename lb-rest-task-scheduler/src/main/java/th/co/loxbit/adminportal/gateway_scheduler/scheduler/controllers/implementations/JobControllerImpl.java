@@ -40,11 +40,7 @@ public class JobControllerImpl implements JobController {
     Instant start = Instant.ofEpochSecond(requestBody.start());
     Instant end = Instant.ofEpochSecond(requestBody.end());
 
-    Job createdJob = jobService.scheduleJob(
-        start,
-        end,
-        requestBody.message(),
-        userId);
+    Job createdJob = jobService.scheduleJob(start, end, requestBody.message(), userId);
 
     auditRecordService.record(createdJob.getId(), start, end, userId, AuditRecordType.CREATE);
 
@@ -104,9 +100,13 @@ public class JobControllerImpl implements JobController {
   @Override
   public ResponseEntity<GlobalResponseBody<Void>> removeJobWithId(String id, String userId) {
 
-    Job deletedJob = jobService.descheduleJobWithId(userId);
+    Job deletedJob = jobService.descheduleJobWithId(id);
 
-    auditRecordService.record(deletedJob.getId(), deletedJob.getStart(), deletedJob.getEnd(), userId,
+    auditRecordService.record(
+        deletedJob.getId(),
+        deletedJob.getStart(),
+        deletedJob.getEnd(),
+        userId,
         AuditRecordType.DELETE);
 
     GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody("Job deleted", null);
