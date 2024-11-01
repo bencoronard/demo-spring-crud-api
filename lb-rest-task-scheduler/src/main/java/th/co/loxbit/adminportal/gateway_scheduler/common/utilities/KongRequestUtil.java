@@ -2,6 +2,7 @@ package th.co.loxbit.adminportal.gateway_scheduler.common.utilities;
 
 import java.time.Instant;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,8 @@ public class KongRequestUtil {
 
   private final ObjectMapper objectMapper;
 
-  private final String defaultMsg = "ขออภัย! ไม่สามารถทำรายการได้ \n\nเนื่องจากปิดปรับปรุงระบบชั่วคราว\nเพื่อเพิ่มประสิทธิภาพการใช้งาน\nและการให้บริการที่ดีขึ้น\n\nระหว่าง";
+  @Value("${api.external.gateway.properties.default-plugin-message}")
+  private String DEFAULT_MESSAGE;
 
   // ---------------------------------------------------------------------------//
   // Methods
@@ -35,7 +37,7 @@ public class KongRequestUtil {
 
     KongConfigBodyData kongConfigBodyData = KongConfigBodyData.builder()
         .appMaintenance(true)
-        .appMaintenanceMsg(defaultMsg)
+        .appMaintenanceMsg(DEFAULT_MESSAGE)
         .appMaintenanceStart(Instant.ofEpochSecond(0))
         .appMaintenanceEnd(Instant.ofEpochSecond(0))
         .build();
@@ -68,7 +70,7 @@ public class KongRequestUtil {
 
     KongConfigBodyData kongConfigBodyData = KongConfigBodyData.builder()
         .appMaintenance(true)
-        .appMaintenanceMsg(message != null ? message : defaultMsg)
+        .appMaintenanceMsg(message != null ? message : DEFAULT_MESSAGE)
         .appMaintenanceStart(start)
         .appMaintenanceEnd(end)
         .build();
@@ -101,7 +103,7 @@ public class KongRequestUtil {
 
     KongConfigBodyData kongConfigBodyData = KongConfigBodyData.builder()
         .appMaintenance(true)
-        .appMaintenanceMsg(defaultMsg)
+        .appMaintenanceMsg(DEFAULT_MESSAGE)
         .appMaintenanceStart(Instant.now())
         .appMaintenanceEnd(end)
         .build();
@@ -127,9 +129,4 @@ public class KongRequestUtil {
     return requestBody;
   }
 
-  // ---------------------------------------------------------------------------//
-
-  public String getDefaultMessage() {
-    return defaultMsg;
-  }
 }
