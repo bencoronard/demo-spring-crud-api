@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import th.co.loxbit.adminportal.gateway_scheduler.audit.entities.AuditRecordType;
 import th.co.loxbit.adminportal.gateway_scheduler.audit.service.AuditRecordService;
@@ -74,7 +75,7 @@ public class GatewayControllerImpl implements GatewayController {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public ResponseEntity<GlobalResponseBody<Void>> closeGatewayOverride(CloseGatewayRequestInbound request,
+  public ResponseEntity<GlobalResponseBody<Void>> closeGatewayOverride(@Valid CloseGatewayRequestInbound request,
       String userId) {
 
     Instant reopenAt = Instant.ofEpochSecond(request.end());

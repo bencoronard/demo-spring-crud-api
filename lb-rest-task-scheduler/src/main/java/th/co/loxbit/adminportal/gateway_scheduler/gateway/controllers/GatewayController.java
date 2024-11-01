@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.validation.Valid;
 import th.co.loxbit.adminportal.gateway_scheduler.common.http.dtos.responses.GlobalResponseBody;
 import th.co.loxbit.adminportal.gateway_scheduler.gateway.dtos.requests.inbound.CloseGatewayRequestInbound;
 import th.co.loxbit.adminportal.gateway_scheduler.gateway.dtos.responses.outbound.GetGatewayStatusResponseOutbound;
@@ -24,7 +25,7 @@ public interface GatewayController {
 
   @PutMapping("/close")
   ResponseEntity<GlobalResponseBody<Void>> closeGatewayOverride(
-      @RequestBody CloseGatewayRequestInbound request,
+      @Valid @RequestBody CloseGatewayRequestInbound request,
       @RequestAttribute(USER_ID_KEY) String userId);
 
 }
