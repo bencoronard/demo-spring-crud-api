@@ -10,22 +10,22 @@ public class EnvironmentUtil {
   // Fields
   // ---------------------------------------------------------------------------//
 
-  private final boolean isDevEnvironment;
+  private final boolean isDev;
 
   // ---------------------------------------------------------------------------//
   // Constructors
   // ---------------------------------------------------------------------------//
 
   public EnvironmentUtil(@Value("${info.app.environment}") String env) {
-    this.isDevEnvironment = "dev".equalsIgnoreCase(env);
+    this.isDev = "dev".equalsIgnoreCase(env);
   }
 
   // ---------------------------------------------------------------------------//
   // Methods
   // ---------------------------------------------------------------------------//
 
-  public boolean isDevEnvironment() {
-    return this.isDevEnvironment;
+  public boolean isDev() {
+    return this.isDev;
   }
 
 }
