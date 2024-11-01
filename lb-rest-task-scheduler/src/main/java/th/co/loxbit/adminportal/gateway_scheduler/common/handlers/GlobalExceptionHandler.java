@@ -1,9 +1,11 @@
 package th.co.loxbit.adminportal.gateway_scheduler.common.handlers;
 
+import java.util.List;
 import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import th.co.loxbit.adminportal.gateway_scheduler.common.dtos.ExceptionData;
 import th.co.loxbit.adminportal.gateway_scheduler.common.exceptions.WrappingException;
+import th.co.loxbit.adminportal.gateway_scheduler.common.http.dtos.FieldValidationExceptionMap;
 import th.co.loxbit.adminportal.gateway_scheduler.common.http.dtos.responses.GlobalResponseBody;
 import th.co.loxbit.adminportal.gateway_scheduler.common.http.exceptions.HttpServiceException;
 import th.co.loxbit.adminportal.gateway_scheduler.common.http.exceptions.RetryableHttpServiceException;
@@ -84,6 +87,32 @@ public class GlobalExceptionHandler {
         + exceptionData.getDebugMsg();
 
     log.error(errorMsg);
+  }
+
+  // ---------------------------------------------------------------------------//
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<GlobalResponseBody<List<FieldValidationExceptionMap>>> handleFieldValidationException(
+      MethodArgumentNotValidException exception,
+      @RequestAttribute(TRACE_ID_KEY) String traceId) {
+
+    List<FieldValidationExceptionMap> errorList = exception.getBindingResult().getAllErrors().stream()
+        .map((error) -> FieldValidationExceptionMap.builder()
+            .field(((FieldError) error).getField())
+            .message(error.getDefaultMessage())
+            .build())
+        .toList();
+
+    GlobalResponseBody.GlobalResponseBodyBuilder<List<FieldValidationExceptionMap>> builder = GlobalResponseBody
+        .<List<FieldValidationExceptionMap>>builder();
+    builder.respCode(0)
+        .desc("Field validation failures")
+        .payload(errorList);
+
+    String errorMsg = traceId + " MethodArgumentNotValidException";
+    log.error(errorMsg);
+
+    return new ResponseEntity<>(builder.build(), HttpStatus.EXPECTATION_FAILED);
   }
 
 }
