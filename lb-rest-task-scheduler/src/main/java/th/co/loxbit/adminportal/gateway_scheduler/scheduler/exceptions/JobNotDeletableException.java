@@ -8,7 +8,7 @@ public class JobNotDeletableException extends WrappableException {
   // Fields
   // ---------------------------------------------------------------------------//
 
-  private static final int ERROR_CODE = 71;
+  private static final int ERROR_CODE = 72;
   private static final String DEBUG_MSG = "Partial job deletion attempted.";
 
   // ---------------------------------------------------------------------------//
