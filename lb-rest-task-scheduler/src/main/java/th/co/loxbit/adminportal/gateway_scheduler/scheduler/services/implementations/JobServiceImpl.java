@@ -110,8 +110,9 @@ public class JobServiceImpl implements JobService {
       }
 
       Job theJob = existingJob.get();
+      boolean jobIsPartial = theJob.isPartial();
 
-      if (!theJob.isPartial()) {
+      if (!jobIsPartial) {
         if (start.isBefore(Instant.now())) {
           throw new JobArgumentException("The job's start time cannot be in the past.");
         }
@@ -119,17 +120,18 @@ public class JobServiceImpl implements JobService {
           throw new JobArgumentException("The job's end time must be after the start time.");
         }
       }
+
       if (end.isBefore(Instant.now())) {
         throw new JobArgumentException("The job's end time cannot be in the past.");
       }
 
       Job job = Job.builder()
           .id(id)
-          .start(start)
+          .start(jobIsPartial ? theJob.getStart() : start)
           .end(end)
           .message(message != null && !message.isBlank() ? message : DEFAULT_MESSAGE)
           .initiator(initiatedBy)
-          .isPartial(theJob.isPartial())
+          .isPartial(jobIsPartial)
           .build();
 
       return jobRepository.save(job);

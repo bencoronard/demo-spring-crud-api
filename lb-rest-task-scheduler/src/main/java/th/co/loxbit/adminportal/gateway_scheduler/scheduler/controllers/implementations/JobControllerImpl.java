@@ -14,6 +14,7 @@ import th.co.loxbit.adminportal.gateway_scheduler.audit.entities.AuditRecordType
 import th.co.loxbit.adminportal.gateway_scheduler.audit.service.AuditRecordService;
 import th.co.loxbit.adminportal.gateway_scheduler.common.http.dtos.responses.GlobalResponseBody;
 import th.co.loxbit.adminportal.gateway_scheduler.common.http.utilities.ResponseBodyUtils;
+import th.co.loxbit.adminportal.gateway_scheduler.gateway.services.GatewayService;
 import th.co.loxbit.adminportal.gateway_scheduler.scheduler.controllers.JobController;
 import th.co.loxbit.adminportal.gateway_scheduler.scheduler.dtos.requests.ScheduleJobRequest;
 import th.co.loxbit.adminportal.gateway_scheduler.scheduler.entities.Job;
@@ -28,6 +29,7 @@ public class JobControllerImpl implements JobController {
   // ---------------------------------------------------------------------------//
 
   private final JobService jobService;
+  private final GatewayService gatewayService;
   private final AuditRecordService auditRecordService;
 
   // ---------------------------------------------------------------------------//
@@ -83,12 +85,21 @@ public class JobControllerImpl implements JobController {
   public ResponseEntity<GlobalResponseBody<Void>> updateJobWithId(String id, @Valid ScheduleJobRequest requestBody,
       String userId) {
 
-    Instant start = Instant.ofEpochSecond(requestBody.start());
-    Instant end = Instant.ofEpochSecond(requestBody.end());
+    Instant newStart = Instant.ofEpochSecond(requestBody.start());
+    Instant newEnd = Instant.ofEpochSecond(requestBody.end());
+    String newMessage = requestBody.message();
 
-    Job updatedJob = jobService.rescheduleJob(id, start, end, requestBody.message(), userId);
+    Job updatedJob = jobService.rescheduleJob(id, newStart, newEnd, newMessage, userId);
 
-    auditRecordService.record(updatedJob.getId(), start, end, userId, AuditRecordType.EDIT);
+    boolean jobIsPartial = updatedJob.isPartial();
+    Instant oldStart = updatedJob.getStart();
+
+    if (jobIsPartial) {
+      gatewayService.close(newMessage, oldStart, newEnd);
+    }
+
+    auditRecordService.record(updatedJob.getId(), jobIsPartial ? oldStart : newStart, newEnd, userId,
+        AuditRecordType.EDIT);
 
     GlobalResponseBody<Void> responseBody = ResponseBodyUtils.createSuccessResponseBody("Job updated", null);
 
