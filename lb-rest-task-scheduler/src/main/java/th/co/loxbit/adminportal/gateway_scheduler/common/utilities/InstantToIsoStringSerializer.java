@@ -17,7 +17,7 @@ public class InstantToIsoStringSerializer extends StdSerializer<Instant> {
 
   private static final DateTimeFormatter FORMATTER = DateTimeFormatter
       .ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX")
-      .withZone(ZoneId.of("GMT+7"));
+      .withZone(ZoneId.of("UTC+7"));
 
   // ---------------------------------------------------------------------------//
   // Constructors
