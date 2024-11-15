@@ -6,7 +6,7 @@ management:
         exclude: "*"
     web:
       exposure:
-        include: "*"
+        include: "health,info"
   endpoint:
     health:
       enabled: true
