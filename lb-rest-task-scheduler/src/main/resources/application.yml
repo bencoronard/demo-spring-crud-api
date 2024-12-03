@@ -64,6 +64,11 @@ spring:
 
 server:
   port: "${APP_SERVER_PORT}"
+  error:
+    whitelabel:
+      enabled: false
+    include-message: always
+    include-exception: true
 
 logging:
   include-application-name: false
