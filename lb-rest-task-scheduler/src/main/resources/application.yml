@@ -1,0 +1,139 @@
+management:
+  endpoints:
+    jmx:
+      exposure:
+        exclude: "*"
+    web:
+      exposure:
+        include: "*"
+    access:
+      default: NONE
+  endpoint:
+    health:
+      access: READ_ONLY
+      cache:
+        time-to-live: "5s"
+    info:
+      access: READ_ONLY
+      cache:
+        time-to-live: "10s"
+  info:
+    java:
+      enabled: true
+    env:
+      enabled: true
+
+spring:
+
+  threads:
+    virtual:
+      enabled: true
+
+  sql:
+    init:
+      mode: "never"
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: "validate"
+    
+  quartz:
+    job-store-type: "jdbc"
+    jdbc:
+      initialize-schema: "never"
+    properties:
+      org:
+        quartz:
+          threadPool:
+            threadCount: 3
+          jobStore:
+            driverDelegateClass: "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
+            tablePrefix: "admin_portal_quartz.QRTZ_"
+
+  application:
+    name: "${APP_SERVICE_NAME}"
+
+  profiles:
+    active: "${APP_SERVER_MODE}"
+
+  datasource:
+    url: "jdbc:postgresql://${APP_DATABASE_POSTGRES_HOST}:${APP_DATABASE_POSTGRES_PORT}/${APP_DATABASE_POSTGRES_DBNAME}"
+    driver-class-name: "org.postgresql.Driver"
+    username: "${APP_DATABASE_POSTGRES_USERNAME}"
+    password: "${APP_DATABASE_POSTGRES_PASSWORD}"
+
+server:
+  port: "${APP_SERVER_PORT}"
+  error:
+    whitelabel:
+      enabled: false
+    include-message: always
+    include-exception: true
+
+logging:
+  level:
+    root: INFO
+  include-application-name: false
+  file:
+    name: "${APP_LOGGER_LOG_FILE_PATH}"
+
+api:
+  internal:
+    secret:
+      key: "${APP_APP_VALIDATE_X_SECRET_KEY}"
+  external:
+    timeout-in-sec: "${APP_SERVER_TIMEOUT:10}"
+    gateway:
+      uri: "${APP_CLIENTS_GATEWAY_URL_CSV}"
+      status:
+        uri: "${APP_CLIENTS_GATEWAY_STAT_URL}"
+      properties:
+        default-plugin-message: "${APP_CLIENTS_GATEWAY_DEFAULT_MSG}"
+
+---
+# Environment: dev
+spring:
+  config:
+    activate:
+      on-profile: "dev"
+
+  jpa:
+    show-sql: true
+
+info:
+  app:
+    environment: "dev"
+
+---
+# Environment: uat
+spring:
+  config:
+    activate:
+      on-profile: "uat"
+
+info:
+  app:
+    environment: "uat"
+
+---
+# Environment: prod
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+
+  quartz:
+    properties:
+      org:
+        quartz:
+          jobStore:
+            isClustered: true
+            clusterCheckinInterval: 20000
+          scheduler:
+            instanceName: "qrtz-gateway-job-executor"
+            instanceId: "AUTO"
+
+info:
+  app:
+    environment: "prod"
