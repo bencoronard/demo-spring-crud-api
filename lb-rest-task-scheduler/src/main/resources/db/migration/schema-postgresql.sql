@@ -5,21 +5,6 @@ CREATE SCHEMA IF NOT EXISTS admin_portal_quartz;
 
 SET search_path TO admin_portal;
 
-CREATE TABLE IF NOT EXISTS m_user (
-    user_id    VARCHAR(255) NOT NULL,
-    first_name VARCHAR(255),
-    last_name  VARCHAR(255),
-    role       VARCHAR(255) CHECK (role IN ('R1','R2','R3')),
-    PRIMARY KEY (user_id));
-
-CREATE TABLE IF NOT EXISTS t_change_request (
-    change_request_id BIGINT NOT NULL,
-    action            VARCHAR(255) CHECK (action IN ('CREATE','UPDATE','DELETE','ACTIVATE')),
-    target            VARCHAR(255) CHECK (target IN ('SC_GATEWAY_SCHEDULE')),
-    target_id         VARCHAR(255),
-    status            VARCHAR(255) CHECK (status IN ('APPROVED','REJECTED','CANCELLED','REQUESTED')),
-    PRIMARY KEY (change_request_id));
-
 CREATE TABLE IF NOT EXISTS t_gateway_activity (
     job_id        VARCHAR(36) NOT NULL,
     activity_type VARCHAR(15) NOT NULL CHECK (activity_type IN ('SCHEDULED_CLOSE', 'FORCE_CLOSE', 'FORCE_OPEN')),
