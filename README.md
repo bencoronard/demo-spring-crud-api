@@ -6,26 +6,11 @@ Repository for back-end services
 
 `ResponseBody` { respCode: ..., desc: ..., payload: ... }
 
-HTTP 200
-
 - `respCode` (integer):
   - `0` : operation successful
   - `non-zero` : business error occurred
 - `desc` (string): payload description
 - `payload` (any) : requested data if respCode == 0, business error message if respCode != 0
-
-HTTP 4xx
-
-- 401 : invalid access token
-- 403 : unauthorized
-- 400 : requested endpoint exists but request body is not valid
-- etc.
-
-HTTP 5xx
-
-- 500 : unhandled errors
-- 503 : server down
-- etc.
 
 ## Endpoints
 
