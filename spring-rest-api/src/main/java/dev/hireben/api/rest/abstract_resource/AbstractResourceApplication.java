@@ -1,13 +1,13 @@
-package dev.hireben.abstract_resource_rest_api;
+package dev.hireben.api.rest.abstract_resource;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AbstractResourceRestApiApplication {
+public class AbstractResourceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AbstractResourceRestApiApplication.class, args);
+		SpringApplication.run(AbstractResourceApplication.class, args);
 	}
 
 }

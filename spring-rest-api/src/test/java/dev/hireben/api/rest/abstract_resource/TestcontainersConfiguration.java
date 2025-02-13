@@ -1,4 +1,4 @@
-package dev.hireben.abstract_resource_rest_api;
+package dev.hireben.api.rest.abstract_resource;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;

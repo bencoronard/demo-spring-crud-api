@@ -1,8 +1,3 @@
-# Read Me First
-The following was discovered as part of building this project:
-
-* The original package name 'dev.hireben.abstract-resource-rest-api' is invalid and this project uses 'dev.hireben.abstract_resource_rest_api' instead.
-
 # Getting Started
 
 ### Reference Documentation
@@ -18,8 +13,8 @@ For further reference, please consider the following sections:
 * [Spring Data JPA](https://docs.spring.io/spring-boot/3.4.2/reference/data/sql.html#data.sql.jpa-and-spring-data)
 * [Flyway Migration](https://docs.spring.io/spring-boot/3.4.2/how-to/data-initialization.html#howto.data-initialization.migration-tool.flyway)
 * [Validation](https://docs.spring.io/spring-boot/3.4.2/reference/io/validation.html)
-* [Spring Boot Actuator](https://docs.spring.io/spring-boot/3.4.2/reference/actuator/index.html)
 * [Testcontainers](https://java.testcontainers.org/)
+* [Spring Boot Actuator](https://docs.spring.io/spring-boot/3.4.2/reference/actuator/index.html)
 
 ### Guides
 The following guides illustrate how to use some features concretely:
