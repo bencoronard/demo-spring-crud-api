@@ -1,3 +1,115 @@
+server:
+  port: "${APP_SERVER_PORT:8080}"
+  error:
+    whitelabel:
+      enabled: false
+
 spring:
   application:
     name: "resource_rest_api"
+
+  profiles:
+    active: "${DEMO_SERVICE_ENVIRONMENT:dev}"
+
+  threads:
+    virtual:
+      enabled: true
+  
+  sql:
+    init:
+      mode: "never"
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: "validate"
+
+  datasource:
+    url: "jdbc:postgresql://${DEMO_DATABASE_POSTGRES_HOST:127.0.0.1}:${DEMO_DATABASE_POSTGRES_PORT:5432}/${DEMO_DATABASE_POSTGRES_DB:hireben-db}"
+    driver-class-name: "org.postgresql.Driver"
+    username: "${DEMO_DATABASE_POSTGRES_USER:hirebenDemoDbUser}"
+    password: "${DEMO_DATABASE_POSTGRES_PASSWORD:hireBenDemoDbPassword}"
+
+    hikari:
+      maximum-pool-size: "${APP_DATABASE_POOL_CONN_MAX:5}"
+      minimum-idle: "${APP_DATABASE_POOL_CONN_MIN:1}"
+      idle-timeout: 300000
+      connection-timeout: 20000
+      max-lifetime: 1200000
+
+info:
+  api:
+    internal:
+      service-id: "${DEMO_SERVICE_RESOURCE_REST_API_ID:RESOURCE_REST_API}"
+      secret-key: "${DEMO_SERVICE_RESOURCE_REST_API_SECRET_KEY:hireBenDemoSecretKey}"
+
+logging:
+  level:
+    root: info
+  include-application-name: true
+  include-application-group: true
+
+management:
+  endpoints:
+    jmx:
+      exposure:
+        exclude: "*"
+    web:
+      exposure:
+        include: "*"
+    access:
+      default: "NONE"
+  endpoint:
+    health:
+      access: "READ_ONLY"
+      cache:
+        time-to-live: "5s"
+  info:
+    java:
+      enabled: true
+    env:
+      enabled: true
+
+---
+# Environment: dev
+spring:
+  config:
+    activate:
+      on-profile: "dev"
+
+  jpa:
+    show-sql: true
+    # hibernate:
+    #   ddl-auto: "create"
+
+info:
+  app:
+    environment: "dev"
+
+management:
+  endpoint:
+    info:
+      access: "READ_ONLY"
+
+---
+# Environment: staging
+spring:
+  config:
+    activate:
+      on-profile: "staging"
+
+info:
+  app:
+    environment: "staging"
+
+---
+# Environment: prod
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+
+info:
+  app:
+    environment: "prod"
+
