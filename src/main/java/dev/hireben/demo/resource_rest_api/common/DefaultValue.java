@@ -10,7 +10,7 @@ public final class DefaultValue {
   public static final String RESP_CODE_UNKNOWN = "9999";
 
   public static final String DEFAULT_ERR_RESP_MSG = "Internal server error";
-  public static final String DEFAULT_ERR_TRACE_ID = "NULL";
+  public static final String DEFAULT_ERR_TRACE_ID = "null-trx-id";
 
   // ---------------------------------------------------------------------------//
   // Constructors

@@ -14,8 +14,8 @@ public class GlobalResponseBody<T> {
   // Fields
   // ---------------------------------------------------------------------------//
 
-  private final String respCode;
-  private final String respMsg;
-  private final T data;
+  private final String code;
+  private final String message;
+  private final T payload;
 
 }
