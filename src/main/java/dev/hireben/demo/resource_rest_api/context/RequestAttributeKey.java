@@ -7,7 +7,6 @@ public final class RequestAttributeKey {
   // ---------------------------------------------------------------------------//
 
   public static final String TRACE_ID = "TRX_ID";
-  public static final String ORIGIN_ID = "ORG_ID";
 
   public static final String EXCEPTION_RESP_CODE = "ERR_RESP_CODE";
   public static final String EXCEPTION_RESP_MSG = "ERR_RESP_MSG";
