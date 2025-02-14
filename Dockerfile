@@ -26,7 +26,7 @@ ENV TZ=Asia/Bangkok
 
 # Copy the built JAR file from the build stage to the runtime container
 # Set ownership of the JAR file to boot:spring during the copy
-COPY --from=build --chown=boot:spring /app/build/libs/abstract_resource-0.0.1.jar app.jar
+COPY --from=build --chown=boot:spring /app/build/libs/resource_rest_api-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose port 8080 for the application
 EXPOSE 8080
