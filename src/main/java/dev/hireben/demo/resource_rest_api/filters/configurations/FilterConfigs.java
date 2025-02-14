@@ -32,7 +32,7 @@ public class FilterConfigs {
     FilterRegistrationBean<HttpHeaderFilter> filter = new FilterRegistrationBean<>();
     filter.setFilter(new HttpHeaderFilter(API_KEY));
     filter.setOrder(0);
-    filter.addUrlPatterns("/resource/api/v1/*");
+    filter.addUrlPatterns("/api/v1/*");
     return filter;
   }
 

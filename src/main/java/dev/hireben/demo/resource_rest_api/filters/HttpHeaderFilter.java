@@ -41,18 +41,7 @@ public class HttpHeaderFilter extends OncePerRequestFilter {
       return;
     }
 
-    String traceId = extractTraceId(request);
-    if (traceId != null) {
-      request.setAttribute(RequestAttributeKey.TRACE_ID, traceId);
-    }
-
-    String serviceId = extractServiceId(request);
-    if (serviceId == null) {
-      response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Missing or unregistered service ID");
-      return;
-    }
-
-    request.setAttribute(RequestAttributeKey.ORIGIN_ID, serviceId);
+    request.setAttribute(RequestAttributeKey.TRACE_ID, extractTraceId(request));
 
     filterChain.doFilter(request, response);
   }
@@ -71,13 +60,6 @@ public class HttpHeaderFilter extends OncePerRequestFilter {
   private String extractTraceId(HttpServletRequest request) {
     String reqTraceId = request.getHeader(HttpHeaderKey.TRACE_ID);
     return reqTraceId != null && !reqTraceId.isBlank() ? reqTraceId : null;
-  }
-
-  // ---------------------------------------------------------------------------//
-
-  private String extractServiceId(HttpServletRequest request) {
-    String reqServId = request.getHeader(HttpHeaderKey.SERVICE_ID);
-    return reqServId != null && !reqServId.isBlank() ? reqServId : null;
   }
 
 }
