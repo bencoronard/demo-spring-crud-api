@@ -1,4 +1,4 @@
-package dev.hireben.demo.resource_rest_api.exceptions.configurations;
+package dev.hireben.demo.resource_rest_api.anOldStruct.exceptions.configurations;
 
 import java.util.Map;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
@@ -14,8 +14,6 @@ import dev.hireben.demo.resource_rest_api.anOldStruct.common.dtos.GlobalResponse
 import dev.hireben.demo.resource_rest_api.anOldStruct.utilities.EnvironmentUtil;
 import dev.hireben.demo.resource_rest_api.anOldStruct.utilities.ExceptionUtil;
 import dev.hireben.demo.resource_rest_api.anOldStruct.utilities.RequestUtil;
-import dev.hireben.demo.resource_rest_api.context.RequestAttributeKey;
-import dev.hireben.demo.resource_rest_api.exceptions.SeverityLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package dev.hireben.demo.resource_rest_api.context;
+package dev.hireben.demo.resource_rest_api.anOldStruct.context;
 
 public final class RequestAttributeKey {
 

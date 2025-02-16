@@ -1,11 +1,9 @@
-package dev.hireben.demo.resource_rest_api.filters;
+package dev.hireben.demo.resource_rest_api.anOldStruct.filters;
 
 import java.io.IOException;
 import org.springframework.lang.NonNull;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import dev.hireben.demo.resource_rest_api.context.HttpHeaderKey;
-import dev.hireben.demo.resource_rest_api.context.RequestAttributeKey;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,6 +1,5 @@
 package dev.hireben.demo.resource_rest_api.anOldStruct.utilities;
 
-import dev.hireben.demo.resource_rest_api.exceptions.SeverityLevel;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

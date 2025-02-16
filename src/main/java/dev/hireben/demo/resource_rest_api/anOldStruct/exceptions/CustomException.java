@@ -1,4 +1,4 @@
-package dev.hireben.demo.resource_rest_api.exceptions;
+package dev.hireben.demo.resource_rest_api.anOldStruct.exceptions;
 
 import lombok.Getter;
 

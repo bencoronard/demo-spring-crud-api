@@ -1,4 +1,4 @@
-package dev.hireben.demo.resource_rest_api.core.dtos;
+package dev.hireben.demo.resource_rest_api.anOldStruct.core.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 

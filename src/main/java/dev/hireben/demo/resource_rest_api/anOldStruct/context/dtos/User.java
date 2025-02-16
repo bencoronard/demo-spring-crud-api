@@ -1,4 +1,4 @@
-package dev.hireben.demo.resource_rest_api.context.dtos;
+package dev.hireben.demo.resource_rest_api.anOldStruct.context.dtos;
 
 import dev.hireben.demo.resource_rest_api.domain.entity.Resource;
 

@@ -1,4 +1,4 @@
-package dev.hireben.demo.resource_rest_api.exceptions.handlers;
+package dev.hireben.demo.resource_rest_api.anOldStruct.exceptions.handlers;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,9 +17,6 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import dev.hireben.demo.resource_rest_api.anOldStruct.common.DefaultValue;
 import dev.hireben.demo.resource_rest_api.anOldStruct.common.dtos.FieldValidationExceptionMap;
-import dev.hireben.demo.resource_rest_api.context.RequestAttributeKey;
-import dev.hireben.demo.resource_rest_api.exceptions.CustomException;
-import dev.hireben.demo.resource_rest_api.exceptions.SeverityLevel;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolation;

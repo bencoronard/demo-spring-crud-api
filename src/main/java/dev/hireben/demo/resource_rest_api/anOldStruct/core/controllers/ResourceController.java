@@ -1,4 +1,4 @@
-package dev.hireben.demo.resource_rest_api.core.controllers;
+package dev.hireben.demo.resource_rest_api.anOldStruct.core.controllers;
 
 import java.util.Collection;
 
@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import dev.hireben.demo.resource_rest_api.anOldStruct.common.dtos.GlobalResponseBody;
-import dev.hireben.demo.resource_rest_api.context.dtos.User;
-import dev.hireben.demo.resource_rest_api.core.dtos.CreateResourceDTO;
-import dev.hireben.demo.resource_rest_api.core.dtos.UpdateResourceDTO;
 import dev.hireben.demo.resource_rest_api.domain.entity.Resource;
 import jakarta.validation.Valid;
 
