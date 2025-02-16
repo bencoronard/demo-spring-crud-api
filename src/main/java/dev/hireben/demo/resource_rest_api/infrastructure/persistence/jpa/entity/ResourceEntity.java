@@ -1,5 +1,7 @@
 package dev.hireben.demo.resource_rest_api.infrastructure.persistence.jpa.entity;
 
+import java.time.Instant;
+
 import dev.hireben.demo.resource_rest_api.domain.entity.Resource;
 import dev.hireben.demo.resource_rest_api.domain.model.Tenant;
 import jakarta.persistence.Column;
@@ -41,12 +43,15 @@ public class ResourceEntity {
   @Column(name = "field_3", nullable = false)
   private String field3;
 
-  @Column(name = "created_by", updatable = false, nullable = false)
-  private String createdBy;
-
   @Enumerated(EnumType.STRING)
   @Column(name = "tenant", length = 12, updatable = false, nullable = false)
   private Tenant tenant;
+
+  @Column(name = "created_by", updatable = false, nullable = false)
+  private String createdBy;
+
+  @Column(name = "created_at", updatable = false, nullable = false)
+  private Instant createdAt;
 
   // ---------------------------------------------------------------------------//
   // Methods
@@ -58,8 +63,9 @@ public class ResourceEntity {
         .field1(resource.getField1())
         .field2(resource.getField2())
         .field3(resource.getField3())
-        .createdBy(resource.getCreatedBy())
         .tenant(resource.getTenant())
+        .createdBy(resource.getCreatedBy())
+        .createdAt(resource.getCreatedAt())
         .build();
   }
 
@@ -69,8 +75,9 @@ public class ResourceEntity {
         .field1(this.field1)
         .field2(this.field2)
         .field3(this.field3)
-        .createdBy(this.createdBy)
         .tenant(this.tenant)
+        .createdBy(this.createdBy)
+        .createdAt(this.createdAt)
         .build();
   }
 
