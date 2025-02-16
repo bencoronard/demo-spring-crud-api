@@ -1,5 +1,7 @@
 package dev.hireben.demo.resource_rest_api.domain.entity;
 
+import java.time.Instant;
+
 import dev.hireben.demo.resource_rest_api.domain.model.Tenant;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +18,8 @@ public class Resource {
   private String field1;
   private String field2;
   private String field3;
-  private String createdBy;
   private Tenant tenant;
+  private String createdBy;
+  private Instant createdAt;
 
 }
