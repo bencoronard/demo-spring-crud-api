@@ -1,9 +1,8 @@
 package dev.hireben.demo.rest.resource.infrastructure.persistence;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -51,13 +50,15 @@ public class ResourceRepositoryImpl implements ResourceRepository {
   @Override
   public Paginated<Resource> findAllByTenant(Tenant tenant, Paginable paginable) {
 
-    Pageable pageable = PageRequest.of(paginable.getPageNumber(), paginable.getPageSize(),
-        Sort.by(paginable.isDescending() ? Order.desc(paginable.getSortBy()) : Order.asc(paginable.getSortBy())));
+    List<Order> orders = paginable.getSortFieldsDesc().entrySet().stream()
+        .map(entry -> entry.getValue() ? Order.desc(entry.getKey()) : Order.asc(entry.getKey()))
+        .toList();
+
+    Pageable pageable = PageRequest.of(paginable.getPageNumber(), paginable.getPageSize(), Sort.by(orders));
 
     Page<ResourceEntity> page = repository.findAllByTenant(tenant, pageable);
 
-    Collection<Resource> resources = page.getContent().stream().map(ResourceEntity::toDomain)
-        .collect(Collectors.toList());
+    Collection<Resource> resources = page.getContent().stream().map(ResourceEntity::toDomain).toList();
 
     return Paginated.<Resource>builder()
         .content(resources)
