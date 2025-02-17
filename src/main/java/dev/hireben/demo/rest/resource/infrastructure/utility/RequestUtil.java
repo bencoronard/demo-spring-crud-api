@@ -1,4 +1,4 @@
-package dev.hireben.demo.old.utilities;
+package dev.hireben.demo.rest.resource.infrastructure.utility;
 
 import java.util.Optional;
 

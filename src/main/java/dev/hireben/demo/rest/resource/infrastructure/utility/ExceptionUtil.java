@@ -1,5 +1,6 @@
-package dev.hireben.demo.old.utilities;
+package dev.hireben.demo.rest.resource.infrastructure.utility;
 
+import dev.hireben.demo.rest.resource.infrastructure.constant.SeverityLevel;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

@@ -1,4 +1,4 @@
-package dev.hireben.demo.old.utilities;
+package dev.hireben.demo.rest.resource.infrastructure.utility;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
