@@ -1,6 +1,6 @@
 services:
   resource:
-    image: bencoronard/resource-rest-api:v1
+    image: bencoronard/rest-resource:v1
     build:
       context: .
     ports:
