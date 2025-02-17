@@ -2,7 +2,7 @@ package dev.hireben.demo.rest.resource.infrastructure.dto;
 
 import org.springframework.lang.Nullable;
 
-public record UpdateResourceDTO(
+public record UpdateResourceRequest(
     @Nullable String field1,
     @Nullable String field2,
     @Nullable String field3) {

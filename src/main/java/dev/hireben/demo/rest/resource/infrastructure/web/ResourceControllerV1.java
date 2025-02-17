@@ -5,13 +5,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.hireben.demo.rest.resource.application.dto.CreateResourceDTO;
 import dev.hireben.demo.rest.resource.application.dto.ResourceDTO;
+import dev.hireben.demo.rest.resource.application.dto.UpdateResourceDTO;
 import dev.hireben.demo.rest.resource.application.dto.UserDTO;
 import dev.hireben.demo.rest.resource.application.usecase.CreateResourceUseCase;
 import dev.hireben.demo.rest.resource.application.usecase.DeleteResourceUseCase;
@@ -21,7 +27,10 @@ import dev.hireben.demo.rest.resource.domain.dto.Paginable;
 import dev.hireben.demo.rest.resource.domain.dto.Paginated;
 import dev.hireben.demo.rest.resource.infrastructure.annotation.UserInfo;
 import dev.hireben.demo.rest.resource.infrastructure.constant.DefaultValue;
+import dev.hireben.demo.rest.resource.infrastructure.dto.CreateResourceRequest;
 import dev.hireben.demo.rest.resource.infrastructure.dto.GlobalResponseBody;
+import dev.hireben.demo.rest.resource.infrastructure.dto.UpdateResourceRequest;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -88,6 +97,73 @@ public class ResourceControllerV1 {
         .code(DefaultValue.RESP_CODE_SUCCESS)
         .message("resource " + id)
         .payload(payload)
+        .build();
+
+    return ResponseEntity.ok(body);
+  }
+
+  // ---------------------------------------------------------------------------//
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<GlobalResponseBody<Void>> deleteResource(
+      @PathVariable Long id,
+      @UserInfo UserDTO user) {
+
+    deleteResourceUseCase.deleteResource(id, user);
+
+    GlobalResponseBody<Void> body = GlobalResponseBody.<Void>builder()
+        .code(DefaultValue.RESP_CODE_SUCCESS)
+        .message("resource " + id)
+        .payload(null)
+        .build();
+
+    return ResponseEntity.ok(body);
+  }
+
+  // ---------------------------------------------------------------------------//
+
+  @PostMapping
+  public ResponseEntity<GlobalResponseBody<ResourceDTO>> createResource(
+      @RequestBody @Valid CreateResourceRequest data,
+      @UserInfo UserDTO user) {
+
+    CreateResourceDTO dto = CreateResourceDTO.builder()
+        .field1(data.field1())
+        .field2(data.field2())
+        .field3(data.field3())
+        .build();
+
+    ResourceDTO createdResource = createResourceUseCase.createResource(dto, user);
+
+    GlobalResponseBody<ResourceDTO> body = GlobalResponseBody.<ResourceDTO>builder()
+        .code(DefaultValue.RESP_CODE_SUCCESS)
+        .message("resource created")
+        .payload(createdResource)
+        .build();
+
+    return ResponseEntity.ok(body);
+  }
+
+  // ---------------------------------------------------------------------------//
+
+  @PutMapping("/{id}")
+  public ResponseEntity<GlobalResponseBody<ResourceDTO>> updateResource(
+      @PathVariable Long id,
+      @RequestBody @Valid UpdateResourceRequest data,
+      @UserInfo UserDTO user) {
+
+    UpdateResourceDTO dto = UpdateResourceDTO.builder()
+        .field1(data.field1())
+        .field2(data.field2())
+        .field3(data.field3())
+        .build();
+
+    ResourceDTO updatedResource = updateResourceUseCase.updateResource(id, dto, user);
+
+    GlobalResponseBody<ResourceDTO> body = GlobalResponseBody.<ResourceDTO>builder()
+        .code(DefaultValue.RESP_CODE_SUCCESS)
+        .message("resource updated")
+        .payload(updatedResource)
         .build();
 
     return ResponseEntity.ok(body);

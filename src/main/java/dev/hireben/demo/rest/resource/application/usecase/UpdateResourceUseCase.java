@@ -2,6 +2,7 @@ package dev.hireben.demo.rest.resource.application.usecase;
 
 import java.util.Optional;
 
+import dev.hireben.demo.rest.resource.application.dto.ResourceDTO;
 import dev.hireben.demo.rest.resource.application.dto.UpdateResourceDTO;
 import dev.hireben.demo.rest.resource.application.dto.UserDTO;
 import dev.hireben.demo.rest.resource.application.exception.ResourceNotFoundException;
@@ -22,7 +23,7 @@ public class UpdateResourceUseCase {
   // Methods
   // ---------------------------------------------------------------------------//
 
-  public void updateResource(Long id, UpdateResourceDTO dto, UserDTO user) {
+  public ResourceDTO updateResource(Long id, UpdateResourceDTO dto, UserDTO user) {
 
     Resource foundResource = repository.findByIdAndTenant(id, user.getTenant())
         .orElseThrow(() -> new ResourceNotFoundException(String.format("Failed to update: resource %s not found", id)));
@@ -31,7 +32,15 @@ public class UpdateResourceUseCase {
     Optional.ofNullable(dto.getField2()).ifPresent(foundResource::setField2);
     Optional.ofNullable(dto.getField3()).ifPresent(foundResource::setField3);
 
-    repository.save(foundResource);
+    Resource updatedResource = repository.save(foundResource);
+
+    return ResourceDTO.builder()
+        .id(updatedResource.getId())
+        .field1(updatedResource.getField1())
+        .field2(updatedResource.getField2())
+        .field3(updatedResource.getField3())
+        .createdBy(updatedResource.getCreatedBy())
+        .build();
   }
 
 }
