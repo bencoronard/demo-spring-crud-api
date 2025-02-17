@@ -8,7 +8,7 @@ import lombok.Getter;
 @Builder
 @Getter
 @JsonPropertyOrder({ "field", "message" })
-public class FieldValidationExceptionMap {
+public class FieldValidationErrorMap {
 
   // ---------------------------------------------------------------------------//
   // Fields
