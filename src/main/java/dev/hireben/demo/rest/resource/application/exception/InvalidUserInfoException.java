@@ -1,4 +1,4 @@
-package dev.hireben.demo.rest.resource.infrastructure.exception;
+package dev.hireben.demo.rest.resource.application.exception;
 
 public class InvalidUserInfoException extends RuntimeException {
 
