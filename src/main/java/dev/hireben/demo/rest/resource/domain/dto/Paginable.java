@@ -1,5 +1,7 @@
 package dev.hireben.demo.rest.resource.domain.dto;
 
+import java.util.Map;
+
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,15 +15,6 @@ public class Paginable {
 
   private final int pageNumber;
   private final int pageSize;
-  private final String sortBy;
-  private final String sortOrder;
-
-  // ---------------------------------------------------------------------------//
-  // Methods
-  // ---------------------------------------------------------------------------//
-
-  public boolean isDescending() {
-    return "desc".equalsIgnoreCase(sortOrder);
-  }
+  private final Map<String, Boolean> sortFieldsDesc;
 
 }
