@@ -42,8 +42,8 @@ public class ResourceRepositoryImpl implements ResourceRepository {
   // ---------------------------------------------------------------------------//
 
   @Override
-  public void deleteByIdAndTenant(Long id, Tenant tenant) {
-    repository.deleteByIdAndTenant(id, tenant);
+  public void delete(Resource resource) {
+    repository.delete(ResourceEntity.fromDomain(resource));
   }
 
   // ---------------------------------------------------------------------------//

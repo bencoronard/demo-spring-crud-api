@@ -11,7 +11,7 @@ public interface ResourceRepository {
 
   Resource save(Resource resource);
 
-  void deleteByIdAndTenant(Long id, Tenant tenant);
+  void delete(Resource resource);
 
   Paginated<Resource> findAllByTenant(Tenant tenant, Paginable paginable);
 
