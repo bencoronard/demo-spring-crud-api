@@ -12,7 +12,7 @@ import dev.hireben.demo.rest.resource.domain.repository.ResourceRepository;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class ReadResourceUseCase {
+public class RetrieveResourceUseCase {
 
   // ---------------------------------------------------------------------------//
   // Dependencies
@@ -27,7 +27,7 @@ public class ReadResourceUseCase {
   public ResourceDTO findResource(Long id, UserDTO user) {
 
     Resource foundResource = repository.findByIdAndTenant(id, user.getTenant())
-        .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+        .orElseThrow(() -> new ResourceNotFoundException(String.format("Resource %s not found", id)));
 
     return ResourceDTO.builder()
         .id(foundResource.getId())

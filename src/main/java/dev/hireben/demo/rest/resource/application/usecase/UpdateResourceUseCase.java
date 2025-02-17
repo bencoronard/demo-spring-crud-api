@@ -25,7 +25,7 @@ public class UpdateResourceUseCase {
   public void updateResource(Long id, UpdateResourceDTO dto, UserDTO user) {
 
     Resource foundResource = repository.findByIdAndTenant(id, user.getTenant())
-        .orElseThrow(() -> new ResourceNotFoundException("Resource to update not found"));
+        .orElseThrow(() -> new ResourceNotFoundException(String.format("Failed to update: resource %s not found", id)));
 
     Optional.ofNullable(dto.getField1()).ifPresent(foundResource::setField1);
     Optional.ofNullable(dto.getField2()).ifPresent(foundResource::setField2);

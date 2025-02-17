@@ -22,7 +22,7 @@ public class DeleteResourceUseCase {
   public void deleteResource(Long id, UserDTO user) {
 
     Resource foundResource = repository.findByIdAndTenant(id, user.getTenant())
-        .orElseThrow(() -> new ResourceNotFoundException("Resource to delete not found"));
+        .orElseThrow(() -> new ResourceNotFoundException(String.format("Failed to delete: resource %s not found", id)));
 
     repository.delete(foundResource);
   }
