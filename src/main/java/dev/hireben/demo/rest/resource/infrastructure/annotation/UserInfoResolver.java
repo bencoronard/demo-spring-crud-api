@@ -11,9 +11,9 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import dev.hireben.demo.rest.resource.application.dto.UserDTO;
+import dev.hireben.demo.rest.resource.application.exception.InvalidUserInfoException;
 import dev.hireben.demo.rest.resource.domain.model.Tenant;
 import dev.hireben.demo.rest.resource.infrastructure.constant.HttpHeaderKey;
-import dev.hireben.demo.rest.resource.infrastructure.exception.InvalidUserInfoException;
 
 @Component
 public class UserInfoResolver implements HandlerMethodArgumentResolver {

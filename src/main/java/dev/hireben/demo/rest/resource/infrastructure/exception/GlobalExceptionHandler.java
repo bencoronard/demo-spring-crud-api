@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import dev.hireben.demo.rest.resource.application.exception.InvalidUserInfoException;
 import dev.hireben.demo.rest.resource.application.exception.ResourceNotFoundException;
 import dev.hireben.demo.rest.resource.infrastructure.constant.DefaultValue;
 import dev.hireben.demo.rest.resource.infrastructure.constant.RequestAttributeKey;
 import dev.hireben.demo.rest.resource.infrastructure.constant.SeverityLevel;
-import dev.hireben.demo.rest.resource.infrastructure.dto.FieldValidationExceptionMap;
+import dev.hireben.demo.rest.resource.infrastructure.dto.FieldValidationErrorMap;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolation;
@@ -92,8 +93,8 @@ public class GlobalExceptionHandler {
 
     Collection<ObjectError> validationErrors = exception.getBindingResult().getAllErrors();
 
-    Collection<FieldValidationExceptionMap> validationErrorMaps = validationErrors.stream()
-        .map(validationError -> FieldValidationExceptionMap.builder()
+    Collection<FieldValidationErrorMap> validationErrorMaps = validationErrors.stream()
+        .map(validationError -> FieldValidationErrorMap.builder()
             .field(((FieldError) validationError).getField())
             .message(validationError.getDefaultMessage())
             .build())
@@ -115,8 +116,8 @@ public class GlobalExceptionHandler {
 
     Collection<ConstraintViolation<?>> violationErrors = exception.getConstraintViolations();
 
-    Collection<FieldValidationExceptionMap> violationErrorMaps = violationErrors.stream()
-        .map(violationError -> FieldValidationExceptionMap.builder()
+    Collection<FieldValidationErrorMap> violationErrorMaps = violationErrors.stream()
+        .map(violationError -> FieldValidationErrorMap.builder()
             .field(violationError.getPropertyPath().toString())
             .message(violationError.getMessage())
             .build())
