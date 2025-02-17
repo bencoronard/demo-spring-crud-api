@@ -1,6 +1,8 @@
 package dev.hireben.demo.rest.resource.application.usecase;
 
 import dev.hireben.demo.rest.resource.application.dto.UserDTO;
+import dev.hireben.demo.rest.resource.application.exception.ResourceNotFoundException;
+import dev.hireben.demo.rest.resource.domain.entity.Resource;
 import dev.hireben.demo.rest.resource.domain.repository.ResourceRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +20,11 @@ public class DeleteResourceUseCase {
   // ---------------------------------------------------------------------------//
 
   public void deleteResource(Long id, UserDTO user) {
-    repository.deleteByIdAndTenant(id, user.getTenant());
+
+    Resource foundResource = repository.findByIdAndTenant(id, user.getTenant())
+        .orElseThrow(() -> new ResourceNotFoundException("Resource to delete not found"));
+
+    repository.delete(foundResource);
   }
 
 }

@@ -3,6 +3,7 @@ package dev.hireben.demo.rest.resource.application.usecase;
 import java.time.Instant;
 
 import dev.hireben.demo.rest.resource.application.dto.CreateResourceDTO;
+import dev.hireben.demo.rest.resource.application.dto.ResourceDTO;
 import dev.hireben.demo.rest.resource.application.dto.UserDTO;
 import dev.hireben.demo.rest.resource.domain.entity.Resource;
 import dev.hireben.demo.rest.resource.domain.repository.ResourceRepository;
@@ -21,7 +22,7 @@ public class CreateResourceUseCase {
   // Methods
   // ---------------------------------------------------------------------------//
 
-  public Resource createResource(CreateResourceDTO dto, UserDTO user) {
+  public ResourceDTO createResource(CreateResourceDTO dto, UserDTO user) {
 
     Resource resource = Resource.builder()
         .field1(dto.getField1())
@@ -32,7 +33,15 @@ public class CreateResourceUseCase {
         .createdAt(Instant.now())
         .build();
 
-    return repository.save(resource);
+    Resource savedResource = repository.save(resource);
+
+    return ResourceDTO.builder()
+        .id(savedResource.getId())
+        .field1(savedResource.getField1())
+        .field2(savedResource.getField2())
+        .field3(savedResource.getField3())
+        .createdBy(savedResource.getCreatedBy())
+        .build();
   }
 
 }
