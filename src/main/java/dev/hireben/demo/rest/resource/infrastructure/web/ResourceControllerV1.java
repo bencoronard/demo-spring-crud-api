@@ -77,7 +77,7 @@ public class ResourceControllerV1 {
 
     GlobalResponseBody<Paginated<ResourceDTO>> body = GlobalResponseBody.<Paginated<ResourceDTO>>builder()
         .code(DefaultValue.RESP_CODE_SUCCESS)
-        .message("resources")
+        .message("Resources")
         .payload(payload)
         .build();
 
@@ -95,7 +95,7 @@ public class ResourceControllerV1 {
 
     GlobalResponseBody<ResourceDTO> body = GlobalResponseBody.<ResourceDTO>builder()
         .code(DefaultValue.RESP_CODE_SUCCESS)
-        .message("resource " + id)
+        .message(String.format("Resource %s", id))
         .payload(payload)
         .build();
 
@@ -113,7 +113,7 @@ public class ResourceControllerV1 {
 
     GlobalResponseBody<Void> body = GlobalResponseBody.<Void>builder()
         .code(DefaultValue.RESP_CODE_SUCCESS)
-        .message("resource " + id)
+        .message(String.format("Resource %s deleted", id))
         .payload(null)
         .build();
 
@@ -137,7 +137,7 @@ public class ResourceControllerV1 {
 
     GlobalResponseBody<ResourceDTO> body = GlobalResponseBody.<ResourceDTO>builder()
         .code(DefaultValue.RESP_CODE_SUCCESS)
-        .message("resource created")
+        .message("Resource created")
         .payload(createdResource)
         .build();
 
@@ -162,7 +162,7 @@ public class ResourceControllerV1 {
 
     GlobalResponseBody<ResourceDTO> body = GlobalResponseBody.<ResourceDTO>builder()
         .code(DefaultValue.RESP_CODE_SUCCESS)
-        .message("resource updated")
+        .message(String.format("Resource %s updated", id))
         .payload(updatedResource)
         .build();
 
