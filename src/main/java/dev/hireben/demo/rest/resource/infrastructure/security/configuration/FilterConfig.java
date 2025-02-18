@@ -28,7 +28,7 @@ public class FilterConfig {
     FilterRegistrationBean<HttpHeaderFilter> filter = new FilterRegistrationBean<>();
     filter.setFilter(new HttpHeaderFilter(API_KEY));
     filter.setOrder(0);
-    filter.addUrlPatterns("/api/v1/*");
+    filter.addUrlPatterns("/api/*");
     return filter;
   }
 
