@@ -1,6 +1,7 @@
 package dev.hireben.demo.rest.resource.presentation.configuration;
 
 import java.util.Map;
+
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.stereotype.Component;
@@ -39,7 +40,10 @@ public class ErrorAttributesConfig extends DefaultErrorAttributes {
   public Map<String, Object> getErrorAttributes(WebRequest webRequest, ErrorAttributeOptions options) {
 
     Throwable error = super.getError(webRequest);
-    String errorMsg = super.getMessage(webRequest, error);
+    String errorMsg = (error != null && super.getMessage(webRequest, error) != null)
+        ? super.getMessage(webRequest, error)
+        : "Unknown error occurred";
+    String errorClass = (error != null) ? error.getClass().getName() : "UnknownException";
 
     String traceId = RequestUtil.getAttribute(webRequest, RequestAttributeKey.TRACE_ID, String.class)
         .orElse(DefaultValue.TRACE_ID_UNKNOWN);
@@ -50,11 +54,11 @@ public class ErrorAttributesConfig extends DefaultErrorAttributes {
     Object exceptionData = RequestUtil.getAttribute(webRequest, RequestAttributeKey.ERR_RESP_DATA, Object.class)
         .orElse(null);
     SeverityLevel severity = RequestUtil
-        .getAttribute(webRequest, RequestAttributeKey.ERR_RESP_DATA, SeverityLevel.class)
+        .getAttribute(webRequest, RequestAttributeKey.ERR_SEVERITY, SeverityLevel.class)
         .orElse(SeverityLevel.LOW);
 
     String logString = ExceptionUtil.formatTraceLog(traceId,
-        ExceptionUtil.formatDebugString(error.getClass(), respCode, severity, errorMsg));
+        ExceptionUtil.formatDebugString(errorClass, respCode, severity, errorMsg));
 
     switch (severity) {
       case HIGH:
