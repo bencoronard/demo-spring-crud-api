@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
       InvalidUserInfoException.class,
       MissingRequestHeaderException.class })
   public void handleMvcException(
-      RuntimeException exception,
+      Exception exception,
       HttpServletRequest request,
       HttpServletResponse response) throws IOException {
 
