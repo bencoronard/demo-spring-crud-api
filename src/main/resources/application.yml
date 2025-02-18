@@ -30,12 +30,12 @@ spring:
     username: "${DEMO_DATABASE_POSTGRES_USER:hirebenDemoDbUser}"
     password: "${DEMO_DATABASE_POSTGRES_PASSWORD:hireBenDemoDbPassword}"
 
-    hikari:
-      maximum-pool-size: "${APP_DATABASE_POOL_CONN_MAX:5}"
-      minimum-idle: "${APP_DATABASE_POOL_CONN_MIN:1}"
-      idle-timeout: 300000
-      connection-timeout: 20000
-      max-lifetime: 1200000
+    # hikari:
+    #   maximum-pool-size: "${APP_DATABASE_POOL_CONN_MAX:5}"
+    #   minimum-idle: "${APP_DATABASE_POOL_CONN_MIN:1}"
+    #   idle-timeout: 300000
+    #   connection-timeout: 20000
+    #   max-lifetime: 1200000
 
 info:
   api:
