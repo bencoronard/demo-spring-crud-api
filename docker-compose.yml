@@ -1,6 +1,6 @@
 services:
   resource:
-    image: bencoronard/resource-rest-api:v1
+    image: rest-resource:v1
     build:
       context: .
     ports:
@@ -14,7 +14,7 @@ services:
     environment:
       APP_SERVER_PORT: 8080
       DEMO_SERVICE_ENVIRONMENT: dev
-      DEMO_SERVICE_RESOURCE_REST_API_ID: RESOURCE_REST_API
+      DEMO_SERVICE_RESOURCE_REST_API_ID: REST_RESOURCE
       DEMO_SERVICE_RESOURCE_REST_API_SECRET_KEY: hireBenDemoSecretKey
       DEMO_DATABASE_POSTGRES_HOST: postgres
       DEMO_DATABASE_POSTGRES_PORT: 5432
@@ -24,7 +24,6 @@ services:
       APP_DATABASE_POOL_CONN_MAX: 5
       APP_DATABASE_POOL_CONN_MIN: 1
       
-
   postgres:
     image: postgres:alpine
     ports:
@@ -36,10 +35,12 @@ services:
       POSTGRES_USER: hirebenDemoDbUser
       POSTGRES_PASSWORD: hireBenDemoDbPassword
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "hirebenDemoDbUser"]
+      test: ["CMD", "pg_isready", "-U", "hirebenDemoDbUser", "-d", "hireben-db"]
       interval: 5s
-      retries: 3
+      timeout: 3s
+      retries: 1
       start_period: 5s
+      start_interval: 10s
 
 volumes:
   hireben_db_data:
