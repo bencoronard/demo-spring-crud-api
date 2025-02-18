@@ -42,15 +42,19 @@ public class UserInfoResolver implements HandlerMethodArgumentResolver {
     String userId = webRequest.getHeader(HttpHeaderKey.USER_ID);
     String tenantStr = webRequest.getHeader(HttpHeaderKey.USER_TENANT);
 
-    if (userId == null || tenantStr == null) {
-      throw new MissingRequestHeaderException("User info is missing or incomplete", parameter);
+    if (userId == null) {
+      throw new MissingRequestHeaderException(HttpHeaderKey.USER_ID, parameter);
+    }
+
+    if (tenantStr == null) {
+      throw new MissingRequestHeaderException(HttpHeaderKey.USER_TENANT, parameter);
     }
 
     Tenant tenant;
     try {
       tenant = Tenant.valueOf(tenantStr.toUpperCase());
     } catch (IllegalArgumentException e) {
-      throw new InvalidUserInfoException("Invalid tenant value: " + tenantStr);
+      throw new InvalidUserInfoException(String.format("Invalid tenant value: %s", tenantStr));
     }
 
     return UserDTO.builder()
