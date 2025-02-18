@@ -1,4 +1,4 @@
-package dev.hireben.demo.rest.resource.infrastructure.persistence.jpa;
+package dev.hireben.demo.rest.resource.infrastructure.persistence.jpa.repository;
 
 import java.util.Optional;
 

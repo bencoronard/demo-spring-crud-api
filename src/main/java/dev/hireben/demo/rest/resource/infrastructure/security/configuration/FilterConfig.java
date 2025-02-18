@@ -1,11 +1,11 @@
-package dev.hireben.demo.rest.resource.infrastructure.configuration;
+package dev.hireben.demo.rest.resource.infrastructure.security.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import dev.hireben.demo.rest.resource.infrastructure.filters.HttpHeaderFilter;
+import dev.hireben.demo.rest.resource.infrastructure.security.filter.HttpHeaderFilter;
 import lombok.RequiredArgsConstructor;
 
 @Configuration

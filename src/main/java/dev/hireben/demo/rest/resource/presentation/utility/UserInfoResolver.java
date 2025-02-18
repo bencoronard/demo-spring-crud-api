@@ -1,4 +1,4 @@
-package dev.hireben.demo.rest.resource.infrastructure.annotation;
+package dev.hireben.demo.rest.resource.presentation.utility;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.NonNull;
@@ -13,7 +13,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import dev.hireben.demo.rest.resource.application.dto.UserDTO;
 import dev.hireben.demo.rest.resource.application.exception.InvalidUserInfoException;
 import dev.hireben.demo.rest.resource.domain.model.Tenant;
-import dev.hireben.demo.rest.resource.infrastructure.constant.HttpHeaderKey;
+import dev.hireben.demo.rest.resource.presentation.model.HttpHeaderKey;
+import dev.hireben.demo.rest.resource.presentation.utility.annotation.UserInfo;
 
 @Component
 public class UserInfoResolver implements HandlerMethodArgumentResolver {

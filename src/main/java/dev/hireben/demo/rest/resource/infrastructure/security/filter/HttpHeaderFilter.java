@@ -1,11 +1,11 @@
-package dev.hireben.demo.rest.resource.infrastructure.filters;
+package dev.hireben.demo.rest.resource.infrastructure.security.filter;
 
 import java.io.IOException;
 import org.springframework.lang.NonNull;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import dev.hireben.demo.rest.resource.infrastructure.constant.HttpHeaderKey;
-import dev.hireben.demo.rest.resource.infrastructure.constant.RequestAttributeKey;
+import dev.hireben.demo.rest.resource.presentation.model.HttpHeaderKey;
+import dev.hireben.demo.rest.resource.presentation.model.RequestAttributeKey;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,10 +14,6 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class HttpHeaderFilter extends OncePerRequestFilter {
-
-  // ---------------------------------------------------------------------------//
-  // Dependencies
-  // ---------------------------------------------------------------------------//
 
   // ---------------------------------------------------------------------------//
   // Fields

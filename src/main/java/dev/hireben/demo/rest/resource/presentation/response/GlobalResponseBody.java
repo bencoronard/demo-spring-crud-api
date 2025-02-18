@@ -1,4 +1,4 @@
-package dev.hireben.demo.rest.resource.infrastructure.dto;
+package dev.hireben.demo.rest.resource.presentation.response;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 

@@ -1,4 +1,4 @@
-package dev.hireben.demo.rest.resource.infrastructure.web;
+package dev.hireben.demo.rest.resource.presentation.controller;
 
 import java.util.Collection;
 import java.util.Map;
@@ -25,16 +25,14 @@ import dev.hireben.demo.rest.resource.application.usecase.RetrieveResourceUseCas
 import dev.hireben.demo.rest.resource.application.usecase.UpdateResourceUseCase;
 import dev.hireben.demo.rest.resource.domain.dto.Paginable;
 import dev.hireben.demo.rest.resource.domain.dto.Paginated;
-import dev.hireben.demo.rest.resource.infrastructure.annotation.UserInfo;
-import dev.hireben.demo.rest.resource.infrastructure.constant.DefaultValue;
-import dev.hireben.demo.rest.resource.infrastructure.dto.CreateResourceRequest;
-import dev.hireben.demo.rest.resource.infrastructure.dto.GlobalResponseBody;
-import dev.hireben.demo.rest.resource.infrastructure.dto.UpdateResourceRequest;
+import dev.hireben.demo.rest.resource.presentation.model.DefaultValue;
+import dev.hireben.demo.rest.resource.presentation.request.CreateResourceRequest;
+import dev.hireben.demo.rest.resource.presentation.request.UpdateResourceRequest;
+import dev.hireben.demo.rest.resource.presentation.response.GlobalResponseBody;
+import dev.hireben.demo.rest.resource.presentation.utility.annotation.UserInfo;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@Getter
 @RestController
 @RequestMapping("/api/v1/resources")
 @RequiredArgsConstructor

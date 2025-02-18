@@ -1,4 +1,4 @@
-package dev.hireben.demo.rest.resource.infrastructure.exception;
+package dev.hireben.demo.rest.resource.presentation.exception.controller;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -16,10 +16,10 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import dev.hireben.demo.rest.resource.application.exception.InvalidUserInfoException;
 import dev.hireben.demo.rest.resource.application.exception.ResourceNotFoundException;
-import dev.hireben.demo.rest.resource.infrastructure.constant.DefaultValue;
-import dev.hireben.demo.rest.resource.infrastructure.constant.RequestAttributeKey;
-import dev.hireben.demo.rest.resource.infrastructure.constant.SeverityLevel;
-import dev.hireben.demo.rest.resource.infrastructure.dto.FieldValidationErrorMap;
+import dev.hireben.demo.rest.resource.presentation.exception.model.SeverityLevel;
+import dev.hireben.demo.rest.resource.presentation.model.DefaultValue;
+import dev.hireben.demo.rest.resource.presentation.model.RequestAttributeKey;
+import dev.hireben.demo.rest.resource.presentation.response.FieldValidationErrorMap;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolation;

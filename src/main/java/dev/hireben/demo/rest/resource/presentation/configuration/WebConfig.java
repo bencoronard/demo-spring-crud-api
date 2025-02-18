@@ -1,4 +1,4 @@
-package dev.hireben.demo.rest.resource.infrastructure.configuration;
+package dev.hireben.demo.rest.resource.presentation.configuration;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import dev.hireben.demo.rest.resource.infrastructure.annotation.UserInfoResolver;
+import dev.hireben.demo.rest.resource.presentation.utility.UserInfoResolver;
 import lombok.RequiredArgsConstructor;
 
 @Configuration

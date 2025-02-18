@@ -1,4 +1,4 @@
-package dev.hireben.demo.rest.resource.infrastructure.persistence;
+package dev.hireben.demo.rest.resource.infrastructure.persistence.repository;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,13 +15,13 @@ import dev.hireben.demo.rest.resource.domain.dto.Paginated;
 import dev.hireben.demo.rest.resource.domain.entity.Resource;
 import dev.hireben.demo.rest.resource.domain.model.Tenant;
 import dev.hireben.demo.rest.resource.domain.repository.ResourceRepository;
-import dev.hireben.demo.rest.resource.infrastructure.persistence.jpa.JpaResourceRepository;
 import dev.hireben.demo.rest.resource.infrastructure.persistence.jpa.entity.ResourceEntity;
+import dev.hireben.demo.rest.resource.infrastructure.persistence.jpa.repository.JpaResourceRepository;
 import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class ResourceRepositoryImpl implements ResourceRepository {
+public class ResourceRepositoryJpa implements ResourceRepository {
 
   // ---------------------------------------------------------------------------//
   // Dependencies

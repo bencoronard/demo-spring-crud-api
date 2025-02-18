@@ -1,4 +1,4 @@
-package dev.hireben.demo.rest.resource.infrastructure.constant;
+package dev.hireben.demo.rest.resource.presentation.model;
 
 import lombok.experimental.UtilityClass;
 

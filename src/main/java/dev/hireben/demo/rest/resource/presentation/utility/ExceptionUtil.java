@@ -1,6 +1,6 @@
-package dev.hireben.demo.rest.resource.infrastructure.utility;
+package dev.hireben.demo.rest.resource.presentation.utility;
 
-import dev.hireben.demo.rest.resource.infrastructure.constant.SeverityLevel;
+import dev.hireben.demo.rest.resource.presentation.exception.model.SeverityLevel;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

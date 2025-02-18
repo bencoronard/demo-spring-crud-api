@@ -1,4 +1,4 @@
-package dev.hireben.demo.rest.resource.infrastructure.exception;
+package dev.hireben.demo.rest.resource.presentation.configuration;
 
 import java.util.Map;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
@@ -9,20 +9,20 @@ import org.springframework.web.context.request.WebRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import dev.hireben.demo.rest.resource.infrastructure.constant.DefaultValue;
-import dev.hireben.demo.rest.resource.infrastructure.constant.RequestAttributeKey;
-import dev.hireben.demo.rest.resource.infrastructure.constant.SeverityLevel;
-import dev.hireben.demo.rest.resource.infrastructure.dto.GlobalResponseBody;
 import dev.hireben.demo.rest.resource.infrastructure.utility.EnvironmentUtil;
-import dev.hireben.demo.rest.resource.infrastructure.utility.ExceptionUtil;
-import dev.hireben.demo.rest.resource.infrastructure.utility.RequestUtil;
+import dev.hireben.demo.rest.resource.presentation.exception.model.SeverityLevel;
+import dev.hireben.demo.rest.resource.presentation.model.DefaultValue;
+import dev.hireben.demo.rest.resource.presentation.model.RequestAttributeKey;
+import dev.hireben.demo.rest.resource.presentation.response.GlobalResponseBody;
+import dev.hireben.demo.rest.resource.presentation.utility.ExceptionUtil;
+import dev.hireben.demo.rest.resource.presentation.utility.RequestUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class GlobalErrorAttributes extends DefaultErrorAttributes {
+public class ErrorAttributesConfig extends DefaultErrorAttributes {
 
   // ---------------------------------------------------------------------------//
   // Dependencies
