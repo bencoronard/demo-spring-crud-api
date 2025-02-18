@@ -6,7 +6,7 @@ server:
 
 spring:
   application:
-    name: "resource_rest_api"
+    name: "${DEMO_SERVICE_RESOURCE_REST_API_ID:REST_RESOURCE}"
 
   profiles:
     active: "${DEMO_SERVICE_ENVIRONMENT:dev}"
@@ -40,7 +40,7 @@ spring:
 info:
   api:
     internal:
-      service-id: "${DEMO_SERVICE_RESOURCE_REST_API_ID:RESOURCE_REST_API}"
+      service-id: "${DEMO_SERVICE_RESOURCE_REST_API_ID:REST_RESOURCE}"
       secret-key: "${DEMO_SERVICE_RESOURCE_REST_API_SECRET_KEY:hireBenDemoSecretKey}"
 
 logging:
@@ -79,8 +79,8 @@ spring:
 
   jpa:
     show-sql: true
-    # hibernate:
-    #   ddl-auto: "create"
+    hibernate:
+      ddl-auto: "create"
 
 info:
   app:
