@@ -9,7 +9,6 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -34,22 +33,17 @@ public class GlobalExceptionHandler {
 
   private static final Map<Class<? extends Throwable>, HttpStatus> EXCEPTION_STATUS_MAP = Map.of(
       ResourceNotFoundException.class, HttpStatus.NOT_FOUND,
-      InvalidUserInfoException.class, HttpStatus.BAD_REQUEST,
-      MissingRequestHeaderException.class, HttpStatus.BAD_REQUEST);
+      InvalidUserInfoException.class, HttpStatus.BAD_REQUEST);
 
   private static final Map<Class<? extends Throwable>, String> EXCEPTION_CODE_MAP = Map.of(
-      ResourceNotFoundException.class, "4004",
-      InvalidUserInfoException.class, "4000",
-      MissingRequestHeaderException.class, "4014");
+      ResourceNotFoundException.class, "1404",
+      InvalidUserInfoException.class, "2401");
 
   // ---------------------------------------------------------------------------//
   // Methods
   // ---------------------------------------------------------------------------//
 
-  @ExceptionHandler({
-      ResourceNotFoundException.class,
-      InvalidUserInfoException.class,
-      MissingRequestHeaderException.class })
+  @ExceptionHandler({ ResourceNotFoundException.class, InvalidUserInfoException.class })
   public void handleMvcException(
       Exception exception,
       HttpServletRequest request,
@@ -76,7 +70,7 @@ public class GlobalExceptionHandler {
       HttpServletRequest request,
       HttpServletResponse response) throws IOException {
 
-    request.setAttribute(RequestAttributeKey.ERR_RESP_CODE, "4009");
+    request.setAttribute(RequestAttributeKey.ERR_RESP_CODE, "3001");
     request.setAttribute(RequestAttributeKey.ERR_RESP_MSG, "Data integrity violation");
     request.setAttribute(RequestAttributeKey.ERR_SEVERITY, SeverityLevel.LOW);
 
@@ -100,7 +94,7 @@ public class GlobalExceptionHandler {
             .build())
         .toList();
 
-    request.setAttribute(RequestAttributeKey.ERR_RESP_CODE, "4010");
+    request.setAttribute(RequestAttributeKey.ERR_RESP_CODE, "4000");
     request.setAttribute(RequestAttributeKey.ERR_RESP_MSG, "Field validation errors");
     request.setAttribute(RequestAttributeKey.ERR_RESP_DATA, validationErrorMaps);
     request.setAttribute(RequestAttributeKey.ERR_SEVERITY, SeverityLevel.LOW);
@@ -123,7 +117,7 @@ public class GlobalExceptionHandler {
             .build())
         .toList();
 
-    request.setAttribute(RequestAttributeKey.ERR_RESP_CODE, "4011");
+    request.setAttribute(RequestAttributeKey.ERR_RESP_CODE, "4001");
     request.setAttribute(RequestAttributeKey.ERR_RESP_MSG, "Constraint violation errors");
     request.setAttribute(RequestAttributeKey.ERR_RESP_DATA, violationErrorMaps);
     request.setAttribute(RequestAttributeKey.ERR_SEVERITY, SeverityLevel.LOW);

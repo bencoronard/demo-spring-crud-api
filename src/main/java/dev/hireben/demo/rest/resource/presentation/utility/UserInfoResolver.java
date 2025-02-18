@@ -4,7 +4,6 @@ import org.springframework.core.MethodParameter;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -43,11 +42,11 @@ public class UserInfoResolver implements HandlerMethodArgumentResolver {
     String tenantStr = webRequest.getHeader(HttpHeaderKey.USER_TENANT);
 
     if (userId == null) {
-      throw new MissingRequestHeaderException(HttpHeaderKey.USER_ID, parameter);
+      throw new InvalidUserInfoException(String.format("Missing %s header", HttpHeaderKey.USER_ID));
     }
 
     if (tenantStr == null) {
-      throw new MissingRequestHeaderException(HttpHeaderKey.USER_TENANT, parameter);
+      throw new InvalidUserInfoException(String.format("Missing %s header", HttpHeaderKey.USER_TENANT));
     }
 
     Tenant tenant;
