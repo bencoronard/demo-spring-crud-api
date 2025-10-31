@@ -1,6 +1,46 @@
 server:
   port: "${APP_LISTEN_PORT:8080}"
+  error:
+    whitelabel:
+      enabled: false
 
 spring:
   application:
     name: crud-api
+  profiles:
+    active: "${APP_ENVIRONMENT:local}"
+  threads:
+    virtual:
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - health
+        - info
+        - metrics
+  info:
+    env:
+      enabled: true
+
+internal:
+  api:
+    key: "${CRUD_API_SECRET_KEY:unset}"
+  http:
+    client:
+      timeout:
+        connect-in-sec: 5
+        read-in-sec: 20
+
+---
+# Environment: LOCAL
+spring:
+  config:
+    activate:
+      on-profile: local
+
+logging:
+  level:
+    root: debug
