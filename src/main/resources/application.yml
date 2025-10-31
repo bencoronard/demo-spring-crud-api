@@ -28,6 +28,8 @@ management:
 internal:
   api:
     key: "${CRUD_API_SECRET_KEY:unset}"
+  jwt:
+    verify-key-path: "${APP_PUBLIC_KEY_PATH}"
   http:
     client:
       timeout:
