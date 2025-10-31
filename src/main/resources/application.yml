@@ -33,6 +33,7 @@ internal:
       timeout:
         connect-in-sec: 5
         read-in-sec: 20
+        conn-req-in-sec: 300
 
 ---
 # Environment: LOCAL
