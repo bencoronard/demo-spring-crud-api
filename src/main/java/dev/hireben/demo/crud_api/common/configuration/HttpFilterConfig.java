@@ -9,7 +9,7 @@ import dev.hireben.demo.common_libs.filter.audit.HttpApiAccessLogFilter;
 import dev.hireben.demo.common_libs.filter.authorization.HttpApiKeyFilter;
 
 @Configuration
-class FilterConfig {
+class HttpFilterConfig {
 
   @Bean
   FilterRegistrationBean<HttpApiAccessLogFilter> apiAccessLogFilter() {
