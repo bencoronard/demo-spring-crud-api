@@ -5,16 +5,16 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import dev.hireben.demo.common_libs.http.filter.ApiAccessLogFilter;
-import dev.hireben.demo.common_libs.http.filter.ApiKeyFilter;
+import dev.hireben.demo.common_libs.filter.audit.HttpApiAccessLogFilter;
+import dev.hireben.demo.common_libs.filter.authorization.HttpApiKeyFilter;
 
 @Configuration
 class FilterConfig {
 
   @Bean
-  FilterRegistrationBean<ApiAccessLogFilter> apiAccessLogFilter() {
-    FilterRegistrationBean<ApiAccessLogFilter> registration = new FilterRegistrationBean<>();
-    registration.setFilter(new ApiAccessLogFilter());
+  FilterRegistrationBean<HttpApiAccessLogFilter> apiAccessLogFilter() {
+    FilterRegistrationBean<HttpApiAccessLogFilter> registration = new FilterRegistrationBean<>();
+    registration.setFilter(new HttpApiAccessLogFilter());
     registration.setOrder(0);
     registration.addUrlPatterns("/api/*");
     return registration;
@@ -23,10 +23,10 @@ class FilterConfig {
   // -----------------------------------------------------------------------------
 
   @Bean
-  FilterRegistrationBean<ApiKeyFilter> apiKeyFilter(
+  FilterRegistrationBean<HttpApiKeyFilter> apiKeyFilter(
       @Value("${internal.api.key}") String apiKey) {
-    FilterRegistrationBean<ApiKeyFilter> registration = new FilterRegistrationBean<>();
-    registration.setFilter(new ApiKeyFilter(apiKey));
+    FilterRegistrationBean<HttpApiKeyFilter> registration = new FilterRegistrationBean<>();
+    registration.setFilter(new HttpApiKeyFilter(apiKey));
     registration.setOrder(1);
     registration.addUrlPatterns("/api/*");
     return registration;
