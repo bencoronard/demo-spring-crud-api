@@ -21,15 +21,12 @@ spring:
     username: "${CRUD_API_DB_PG_USR}"
     password: "${CRUD_API_DB_PG_PSW}"
     hikari:
-      pool-name: crud-api-hikaricp
+      pool-name: CrudApiHikariCP
       maximum-pool-size: "${CRUD_API_DB_CP_CAP}"
       minimum-idle: "${CRUD_API_DB_CP_IDLE_MIN}"
       idle-timeout: "${CRUD_API_DB_CP_IDLE_TIMEOUT}"
       connection-timeout: "${CRUD_API_DB_CP_CONN_TIMEOUT}"
       max-lifetime: "${CRUD_API_DB_CP_CONN_TTL}"
-  h2:
-    console:
-      enabled: true
 
 management:
   endpoints:
@@ -63,14 +60,16 @@ spring:
       on-profile: local
   jpa:
     show-sql: true
-  datasource:
-    url: jdbc:h2:mem:localdb
-    username: sa
-    password:
 
 logging:
   level:
     root: debug
+
+management:
+  otlp:
+    metrics:
+      export:
+        enabled: false
 
 ---
 # Environment: TEST
