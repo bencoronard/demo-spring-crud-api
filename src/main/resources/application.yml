@@ -71,3 +71,14 @@ spring:
 logging:
   level:
     root: debug
+
+---
+# Environment: TEST
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:h2:mem:localdb
+    username: sa
+    password:
