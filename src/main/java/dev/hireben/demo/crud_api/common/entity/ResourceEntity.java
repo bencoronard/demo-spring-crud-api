@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Version;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,6 +27,10 @@ public abstract class ResourceEntity {
   @EqualsAndHashCode.Include
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @Version
+  @Column(nullable = false)
+  private Long version;
 
   @Column(updatable = false, nullable = false)
   private Instant createdAt;
