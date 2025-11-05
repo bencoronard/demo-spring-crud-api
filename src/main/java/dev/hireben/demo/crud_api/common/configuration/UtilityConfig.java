@@ -12,13 +12,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
 
-import dev.hireben.demo.common_libs.utility.http.RestClients;
-import dev.hireben.demo.common_libs.utility.jwt.JwtClients;
-import dev.hireben.demo.common_libs.utility.jwt.api.JwtVerifier;
-import dev.hireben.demo.common_libs.utility.reader.KeyReader;
+import dev.hireben.demo.common_libs.crypto.utility.KeyReader;
+import dev.hireben.demo.common_libs.http.utility.RestClients;
+import dev.hireben.demo.common_libs.jwt.JwtVerifier;
+import dev.hireben.demo.common_libs.jwt.utility.JwtClients;
 
 @Configuration
-class UtilityClientConfig {
+class UtilityConfig {
 
   @Bean
   RestClient restClient(

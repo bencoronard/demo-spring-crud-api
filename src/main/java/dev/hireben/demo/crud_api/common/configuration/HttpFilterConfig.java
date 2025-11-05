@@ -5,8 +5,8 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import dev.hireben.demo.common_libs.filter.audit.HttpApiAccessLogFilter;
-import dev.hireben.demo.common_libs.filter.authorization.HttpApiKeyFilter;
+import dev.hireben.demo.common_libs.http.filter.HttpApiAccessLogFilter;
+import dev.hireben.demo.common_libs.http.filter.HttpApiKeyFilter;
 
 @Configuration
 class HttpFilterConfig {
