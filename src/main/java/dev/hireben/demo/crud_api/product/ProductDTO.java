@@ -14,5 +14,5 @@ public class ProductDTO {
   String description;
   BigDecimal price;
   BigDecimal cost;
-  Collection<String> category;
+  Collection<Long> categories;
 }

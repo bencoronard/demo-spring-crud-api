@@ -1,8 +1,7 @@
 package dev.hireben.demo.crud_api.product;
 
 import java.math.BigDecimal;
-import java.util.Set;
-
+import java.util.Collection;
 import dev.hireben.demo.crud_api.common.entity.ResourceEntity;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
@@ -30,5 +29,5 @@ public final class Product extends ResourceEntity {
 
   private Long tenantId;
 
-  private Set<ProductCategory> category;
+  private Collection<ProductCategory> categories;
 }

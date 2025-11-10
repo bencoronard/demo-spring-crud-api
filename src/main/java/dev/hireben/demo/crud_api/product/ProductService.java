@@ -14,7 +14,7 @@ public interface ProductService {
 
   Slice<ProductDTO> retrieveAll(Claims authorization, Pageable pageable);
 
-  void update(Claims authorization, Long productId, ProductDTO product);
+  Long update(Claims authorization, Long productId, ProductDTO product);
 
   void deleteById(Claims authorization, Long productId);
 
