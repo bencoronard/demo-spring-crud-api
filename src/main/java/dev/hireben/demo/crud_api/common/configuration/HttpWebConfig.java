@@ -3,7 +3,6 @@ package dev.hireben.demo.crud_api.common.configuration;
 import java.util.List;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.lang.NonNull;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -19,7 +18,7 @@ class HttpWebConfig implements WebMvcConfigurer {
   // =============================================================================
 
   @Override
-  public void addArgumentResolvers(@NonNull List<HandlerMethodArgumentResolver> resolvers) {
+  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
     resolvers.add(authHeaderResolver);
   }
 
