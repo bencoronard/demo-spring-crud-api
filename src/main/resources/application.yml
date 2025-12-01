@@ -9,6 +9,15 @@ spring:
   threads:
     virtual:
       enabled: true
+  cloud:
+    vault:
+      uri: "${VAULT_URI}"
+      token: "${CRUD_API_VAULT_TOKEN}"
+      fail-fast: false
+      kv:
+        profiles: "${spring.profiles.active}"
+  config:
+    import: vault://
   sql:
     init:
       mode: never
@@ -18,10 +27,14 @@ spring:
       ddl-auto: validate
   flyway:
     enabled: false
+  data:
+    web:
+      pageable:
+        max-page-size: "${CRUD_API_PAGINATION_MAX_SIZE}"
   datasource:
-    url: "jdbc:postgresql://${DB_POSTGRES_HOST}:${DB_POSTGRES_PORT}/${CRUD_API_DB_PG_NAME}"
-    username: "${CRUD_API_DB_PG_USR}"
-    password: "${CRUD_API_DB_PG_PSW}"
+    url: "jdbc:postgresql://${pg.host}:${pg.port}/${pg.dbname}"
+    username: "${pg.user}"
+    password: "${pg.pass}"
     hikari:
       pool-name: CrudApiHikariCP
       maximum-pool-size: "${CRUD_API_DB_CP_CAP}"
@@ -37,23 +50,29 @@ management:
         include:
         - health
         - info
-        - metrics
   info:
     env:
       enabled: true
+  otlp:
+    metrics:
+      export:
+        url: "${OTLP_METRICS_ENDPOINT}"
+        step: "${METRICS_SAMPLING_FREQ_IN_MIN}"
+  tracing:
+    sampling:
+      probability: "${TRACES_SAMPLING_PROBABILITY}"
+  zipkin:
+    tracing:
+      export:
+        enabled: true
+      endpoint: "${ZIPKIN_TRACES_ENDPOINT}"
 
 internal:
   api:
     key: "${CRUD_API_SECRET_KEY}"
   jwt:
     verify-key-path: "${APP_PUBLIC_KEY_PATH}"
-  http:
-    client:
-      timeout:
-        connect-in-sec: 5
-        read-in-sec: 20
-        conn-req-in-sec: 300
-
+    
 ---
 # Environment: LOCAL
 spring:
@@ -62,14 +81,23 @@ spring:
       on-profile: local
   jpa:
     show-sql: true
-
-logging:
-  level:
-    root: debug
-
+  flyway:
+    enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      
 management:
   otlp:
     metrics:
+      export:
+        enabled: false
+  zipkin:
+    tracing:
       export:
         enabled: false
 
@@ -79,7 +107,9 @@ spring:
   config:
     activate:
       on-profile: test
+  flyway:
+    enabled: true
   datasource:
-    url: jdbc:h2:mem:localdb
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;
     username: sa
     password:

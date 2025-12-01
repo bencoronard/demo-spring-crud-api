@@ -1,4 +1,4 @@
-package dev.hireben.demo.crud_api.product;
+package dev.hireben.demo.crud_api.product.dto;
 
 import java.math.BigDecimal;
 import java.util.Collection;

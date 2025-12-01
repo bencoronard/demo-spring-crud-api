@@ -1,4 +1,4 @@
-package dev.hireben.demo.crud_api.product;
+package dev.hireben.demo.crud_api.product.repository;
 
 import java.util.Collection;
 
@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import dev.hireben.demo.crud_api.product.entity.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {

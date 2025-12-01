@@ -1,4 +1,4 @@
-package dev.hireben.demo.crud_api.product;
+package dev.hireben.demo.crud_api.product.entity;
 
 import dev.hireben.demo.crud_api.common.entity.ResourceEntity;
 import jakarta.persistence.Entity;

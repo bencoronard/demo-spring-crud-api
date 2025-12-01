@@ -1,9 +1,10 @@
-package dev.hireben.demo.crud_api.product;
+package dev.hireben.demo.crud_api.product.service;
 
 import java.util.Collection;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
+import dev.hireben.demo.crud_api.product.dto.ProductDTO;
 import io.jsonwebtoken.Claims;
 
 public interface ProductService {

@@ -1,12 +1,17 @@
-package dev.hireben.demo.crud_api.product;
+package dev.hireben.demo.crud_api.product.service;
 
 import java.util.Collection;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
-import dev.hireben.demo.common_libs.constant.AuthClaimKey;
 import dev.hireben.demo.common_libs.exception.InsufficientPermissionException;
+import dev.hireben.demo.crud_api.product.dto.ProductDTO;
+import dev.hireben.demo.crud_api.product.entity.Product;
+import dev.hireben.demo.crud_api.product.entity.ProductCategory;
+import dev.hireben.demo.crud_api.product.exception.ProductNotFoundException;
+import dev.hireben.demo.crud_api.product.repository.ProductCategoryRepository;
+import dev.hireben.demo.crud_api.product.repository.ProductRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 
@@ -36,7 +41,7 @@ final class ProductServiceImpl implements ProductService {
         .description(product.getDescription())
         .price(product.getPrice())
         .cost(product.getCost())
-        .tenantId(authorization.get(AuthClaimKey.TENANT, Long.class))
+        .tenantId(Long.parseLong(authorization.getSubject()))
         .categories(categories)
         .build();
 
@@ -53,8 +58,7 @@ final class ProductServiceImpl implements ProductService {
       throw new InsufficientPermissionException("Not allowed to retrieve product");
     }
 
-    Product entity = productRepository.findByIdAndTenantId(productId,
-        authorization.get(AuthClaimKey.TENANT, Long.class));
+    Product entity = productRepository.findByIdAndTenantId(productId, Long.parseLong(authorization.getSubject()));
     if (entity == null) {
       throw new ProductNotFoundException(String.format("Product %s not found", productId));
     }
@@ -75,7 +79,7 @@ final class ProductServiceImpl implements ProductService {
   public Slice<ProductDTO> retrieveAll(Claims authorization, Pageable pageable) {
 
     Slice<Product> entitySlice = productRepository.findAllByTenantId(pageable,
-        authorization.get(AuthClaimKey.TENANT, Long.class));
+        Long.parseLong(authorization.getSubject()));
 
     Collection<ProductDTO> dto = entitySlice.getContent().stream()
         .map(entity -> ProductDTO.builder()
@@ -103,8 +107,7 @@ final class ProductServiceImpl implements ProductService {
       throw new InsufficientPermissionException("Not allowed to update products");
     }
 
-    Product entity = productRepository.findByIdAndTenantId(productId,
-        authorization.get(AuthClaimKey.TENANT, Long.class));
+    Product entity = productRepository.findByIdAndTenantId(productId, Long.parseLong(authorization.getSubject()));
     if (entity == null) {
       return create(authorization, product);
     }
@@ -135,7 +138,7 @@ final class ProductServiceImpl implements ProductService {
       throw new InsufficientPermissionException("Not allowed to delete products");
     }
 
-    productRepository.deleteByIdAndTenantId(productId, authorization.get(AuthClaimKey.TENANT, Long.class));
+    productRepository.deleteByIdAndTenantId(productId, Long.parseLong(authorization.getSubject()));
   }
 
   // -----------------------------------------------------------------------------
@@ -148,7 +151,7 @@ final class ProductServiceImpl implements ProductService {
       throw new InsufficientPermissionException("Not allowed to delete products");
     }
 
-    productRepository.deleteAllByIdAndTenantId(productIdList, authorization.get(AuthClaimKey.TENANT, Long.class));
+    productRepository.deleteAllByIdAndTenantId(productIdList, Long.parseLong(authorization.getSubject()));
   }
 
 }

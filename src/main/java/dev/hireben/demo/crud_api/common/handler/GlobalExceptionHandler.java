@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import dev.hireben.demo.common_libs.http.handler.HttpGlobalExceptionHandler;
-import dev.hireben.demo.crud_api.product.ProductNotFoundException;
+import dev.hireben.demo.crud_api.product.exception.ProductNotFoundException;
 import io.micrometer.tracing.Tracer;
 
 @RestControllerAdvice
