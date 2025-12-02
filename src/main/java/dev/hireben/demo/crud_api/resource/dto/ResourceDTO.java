@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 public record ResourceDTO(
 		Long id,
 		Long version,
-		@NotBlank String textField,
-		@NotNull Integer numberField,
-		@NotNull Boolean booleanField) {
+		@NotBlank(message = "textField cannot be blank") String textField,
+		@NotNull(message = "numberField cannot be null") Integer numberField,
+		@NotNull(message = "booleanField cannot be null") Boolean booleanField) {
 }
