@@ -12,12 +12,12 @@ spring:
   cloud:
     vault:
       uri: "${VAULT_URI}"
-      token: "${CRUD_API_VAULT_TOKEN}"
-      fail-fast: false
+      token: "${VAULT_TOKEN}"
       kv:
         profiles: "${spring.profiles.active}"
   config:
-    import: vault://
+    import:
+      - vault://
   sql:
     init:
       mode: never
@@ -27,16 +27,12 @@ spring:
       ddl-auto: validate
   flyway:
     enabled: false
-  data:
-    web:
-      pageable:
-        max-page-size: "${CRUD_API_PAGINATION_MAX_SIZE}"
   datasource:
     url: "jdbc:postgresql://${pg.host}:${pg.port}/${pg.dbname}"
     username: "${pg.user}"
     password: "${pg.pass}"
     hikari:
-      pool-name: CrudApiHikariCP
+      pool-name: "${spring.application.name}-${spring.profiles.active}-hikari-cp"
       maximum-pool-size: "${CRUD_API_DB_CP_CAP}"
       minimum-idle: "${CRUD_API_DB_CP_IDLE_MIN}"
       idle-timeout: "${CRUD_API_DB_CP_IDLE_TIMEOUT}"
@@ -53,63 +49,70 @@ management:
   info:
     env:
       enabled: true
+  observations:
+    annotations:
+      enabled: true
   otlp:
     metrics:
       export:
-        url: "${OTLP_METRICS_ENDPOINT}"
-        step: "${METRICS_SAMPLING_FREQ_IN_MIN}"
+        url: "${OTEL_COL_METRICS_ENDPOINT}"
+        step: "${OTEL_METRICS_SAMPLING_FREQ_IN_MIN}"
   tracing:
     sampling:
-      probability: "${TRACES_SAMPLING_PROBABILITY}"
-  zipkin:
+      probability: "${OTEL_TRACES_SAMPLING_PROBABILITY}"
+  opentelemetry:
     tracing:
       export:
-        enabled: true
-      endpoint: "${ZIPKIN_TRACES_ENDPOINT}"
+        otlp:
+          endpoint: "${OTEL_COL_TRACES_ENDPOINT}"
+    logging:
+      export:
+        otlp:
+          endpoint: "${OTEL_COL_LOGS_ENDPOINT}"
 
 internal:
   api:
-    key: "${CRUD_API_SECRET_KEY}"
+    key: "${api.key}"
   jwt:
     verify-key-path: "${APP_PUBLIC_KEY_PATH}"
-    
+
 ---
-# Environment: LOCAL
+# Environment: test, local
+spring:
+  config:
+    activate:
+      on-profile:
+        - test
+        - local
+  flyway:
+    enabled: true
+  datasource:
+    url: jdbc:h2:mem:localdb;MODE=PostgreSQL;
+    username: sa
+    password:
+
+internal:
+  api:
+    key: "aVeryVeryVeryVerySecretSecretKey"
+
+---
+# Environment: local
 spring:
   config:
     activate:
       on-profile: local
   jpa:
     show-sql: true
-  flyway:
-    enabled: true
-  datasource:
-    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
-      
-management:
-  otlp:
-    metrics:
-      export:
-        enabled: false
-  zipkin:
-    tracing:
-      export:
-        enabled: false
 
----
-# Environment: TEST
-spring:
-  config:
-    activate:
-      on-profile: test
-  flyway:
-    enabled: true
-  datasource:
-    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;
-    username: sa
-    password:
+management:
+  metrics:
+    enable:
+      all: false
+  tracing:
+    export:
+      otlp:
+        enabled: false
+  logging:
+    export:
+      otlp:
+        enabled: false

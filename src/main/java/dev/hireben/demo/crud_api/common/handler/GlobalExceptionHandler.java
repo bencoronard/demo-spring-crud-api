@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import dev.hireben.demo.common_libs.http.handler.HttpGlobalExceptionHandler;
-import dev.hireben.demo.crud_api.product.exception.ProductNotFoundException;
+import dev.hireben.demo.crud_api.resource.exception.ResourceNotFoundException;
 import io.micrometer.tracing.Tracer;
 
 @RestControllerAdvice
@@ -28,7 +28,7 @@ final class GlobalExceptionHandler extends HttpGlobalExceptionHandler {
   // =============================================================================
 
   private static final Map<Class<? extends Throwable>, HttpStatus> statusMap = Map.of(
-      ProductNotFoundException.class, HttpStatus.NOT_FOUND);
+      ResourceNotFoundException.class, HttpStatus.NOT_FOUND);
 
   // =============================================================================
 

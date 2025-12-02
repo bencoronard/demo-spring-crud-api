@@ -1,30 +1,31 @@
-package dev.hireben.demo.crud_api.common.entity;
+package dev.hireben.demo.crud_api.resource.entity;
 
 import java.time.Instant;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
+@Entity
 @Data
-@SuperBuilder
-@MappedSuperclass
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class ResourceEntity {
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "resources", schema = "public")
+public class Resource {
 
   @Id
-  @EqualsAndHashCode.Include
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
@@ -33,10 +34,19 @@ public abstract class ResourceEntity {
   private Long version;
 
   @Column(updatable = false, nullable = false)
+  private Long createdBy;
+
+  @Column(updatable = false, nullable = false)
   private Instant createdAt;
 
   @Column(nullable = false)
   private Instant lastUpdated;
+
+  private String textField;
+
+  private Integer numberField;
+
+  private Boolean booleanField;
 
   // =============================================================================
 

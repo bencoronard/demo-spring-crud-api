@@ -40,7 +40,6 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-opentelemetry'
   implementation 'org.springframework.boot:spring-boot-starter-validation'
   implementation 'org.springframework.boot:spring-boot-starter-webmvc'
-  implementation 'io.micrometer:micrometer-tracing-bridge-brave'
   implementation 'org.flywaydb:flyway-database-postgresql'
   implementation 'org.springframework.cloud:spring-cloud-starter-vault-config'
   runtimeOnly 'com.h2database:h2'
