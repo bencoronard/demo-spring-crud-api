@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import dev.hireben.demo.common_libs.http.resolver.HttpAuthorizationHeaderResolver;
-import dev.hireben.demo.common_libs.jwt.JwtVerifier;
+import dev.hireben.demo.common_libs.jwt.api.JwtVerifier;
 
 @Configuration
 class ResolverConfig {
