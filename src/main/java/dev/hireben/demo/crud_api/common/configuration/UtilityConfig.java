@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import dev.hireben.demo.common_libs.crypto.KeyReader;
 import dev.hireben.demo.common_libs.jwt.JwtClients;
 import dev.hireben.demo.common_libs.jwt.api.JwtVerifier;
+import dev.hireben.demo.common_libs.reader.KeyReader;
 
 @Configuration
 class UtilityConfig {
