@@ -2,13 +2,13 @@ package dev.hireben.demo.crud_api.resource.entity;
 
 import java.time.Instant;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AccessLevel;
@@ -36,9 +36,11 @@ public class Resource {
   @Column(updatable = false, nullable = false)
   private Long createdBy;
 
+  @CreationTimestamp
   @Column(updatable = false, nullable = false)
   private Instant createdAt;
 
+  @UpdateTimestamp
   @Column(nullable = false)
   private Instant lastUpdated;
 
@@ -47,21 +49,5 @@ public class Resource {
   private Integer numberField;
 
   private Boolean booleanField;
-
-  // =============================================================================
-
-  @PrePersist
-  protected final void onCreate() {
-    Instant now = Instant.now();
-    createdAt = now;
-    lastUpdated = now;
-  }
-
-  // -----------------------------------------------------------------------------
-
-  @PreUpdate
-  protected final void onUpdate() {
-    lastUpdated = Instant.now();
-  }
 
 }
