@@ -38,7 +38,7 @@ final class ResourceController {
   @GetMapping
   ResponseEntity<Slice<ResourceDTO>> listResources(
       @HttpAuthorizationHeader Claims authClaims,
-      @PageableDefault(page = 0, size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+      @PageableDefault(page = 0, size = 20) Pageable pageable) {
 
     Slice<Resource> resources = resourceService.listResources(pageable, authClaims);
 
