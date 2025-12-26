@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import dev.hireben.demo.common_libs.http.resolver.HttpAuthorizationHeaderResolver;
 import dev.hireben.demo.common_libs.jwt.JwtClients;
 import dev.hireben.demo.common_libs.jwt.api.JwtVerifier;
 import dev.hireben.demo.common_libs.reader.KeyReader;
@@ -28,6 +29,13 @@ class UtilityConfig {
     PublicKey publicKey = KeyReader.readRsaPublicKeyX509(keyBase64);
 
     return JwtClients.newVerifierWithPublicKey(publicKey);
+  }
+
+  // -----------------------------------------------------------------------------
+
+  @Bean
+  HttpAuthorizationHeaderResolver httpAuthorizationHeaderResolver(JwtVerifier verifier) {
+    return new HttpAuthorizationHeaderResolver(verifier);
   }
 
 }
